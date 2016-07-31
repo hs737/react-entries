@@ -8,7 +8,6 @@ var controllers = {
     profile: require('../controllers/profileController')
 }
 
-
 var router = express.Router();
 
 router.use(function(req, res, next) {
@@ -41,9 +40,58 @@ router.get('/:resource', function(req, res, next) {
         })
     }
 
-    res.json({
-        code: CONSTANTS.RETURN_CODES.SUCCESS,
-        message: CONSTANTS.RETURN_MESSAGES.SUCCESS
+    controller.read(req.query, false, function(err, docs) {
+        if (err) {
+            logger.error("Controller returned error", err)
+
+            res.json({
+                code: CONSTANTS.RETURN_CODES.FUNCTION_EXECUTION_FAILED,
+                message: err
+            })
+
+            return
+        }
+
+        res.json({
+            code: CONSTANTS.RETURN_CODES.SUCCESS,
+            message: CONSTANTS.RETURN_MESSAGES.SUCCESS,
+            result: docs
+        })
+    })
+});
+
+
+router.post('/:resource', function(req, res, next) {
+    var resource = req.params.resource
+
+    var controller = controllers[resource]
+    if (controller == null) {
+        var errorMessage = "Resource '" + resource + "' not recognized"
+        logger.error(errorMessage)
+
+        res.json({
+            code: CONSTANTS.RETURN_CODES.INVALID_INPUT_ERROR,
+            message: errorMessage
+        })
+    }
+
+    controller.create(req.body, false, function(err, docs) {
+        if (err) {
+            logger.error("Controller returned error", err)
+
+            res.json({
+                code: CONSTANTS.RETURN_CODES.FUNCTION_EXECUTION_FAILED,
+                message: err
+            })
+
+            return
+        }
+
+        res.json({
+            code: CONSTANTS.RETURN_CODES.SUCCESS,
+            message: CONSTANTS.RETURN_MESSAGES.SUCCESS,
+            result: docs
+        })
     })
 });
 

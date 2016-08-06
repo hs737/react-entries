@@ -2,6 +2,8 @@
   "name": "relationships",
   "version": "0.0.0",
   "private": true,
+  "license": "MIT",
+  "description": "Basic entry project",
   "scripts": {
     "start": "node ./bin/www"
   },

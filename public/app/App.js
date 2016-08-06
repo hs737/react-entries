@@ -1,14 +1,9 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import { Router, browserHistory } from 'react-router'
 
-import Main from './components/Main'
+import routes from './routes'
 
-class App extends Component {
-    render() {
-        return (
-            <Main />
-        )
-    }
-}
+const router = <Router routes={routes} history={browserHistory} />
 
-ReactDOM.render(<App />, document.getElementById('app'))
+ReactDOM.render(router, document.getElementById('app'))

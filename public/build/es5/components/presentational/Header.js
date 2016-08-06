@@ -13,24 +13,24 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
-var Main = (function (Component) {
-    function Main() {
-        _classCallCheck(this, Main);
+var Header = (function (Component) {
+    function Header() {
+        _classCallCheck(this, Header);
 
         if (Component != null) {
             Component.apply(this, arguments);
         }
     }
 
-    _inherits(Main, Component);
+    _inherits(Header, Component);
 
-    _prototypeProperties(Main, null, {
+    _prototypeProperties(Header, null, {
         render: {
             value: function render() {
                 return React.createElement(
                     "div",
                     null,
-                    this.props.children
+                    "header"
                 );
             },
             writable: true,
@@ -38,7 +38,7 @@ var Main = (function (Component) {
         }
     });
 
-    return Main;
+    return Header;
 })(Component);
 
-module.exports = Main;
+module.exports = Header;

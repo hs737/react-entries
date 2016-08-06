@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 import Main from './components/Main'
 
-class App extends Component {
+class ServerApp extends Component {
     render() {
         return (
             <Main />
@@ -11,4 +11,4 @@ class App extends Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'))
+export default ServerApp

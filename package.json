@@ -5,7 +5,9 @@
   "license": "MIT",
   "description": "Basic entry project",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "nodemon": "nodemon bin/www --exec babel-node --presets es2015",
+    "lint": "eslint app.js"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -23,7 +25,10 @@
     "winston": "^2.2.0"
   },
   "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.11.4",
     "babel-core": "^6.11.4",
+    "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",

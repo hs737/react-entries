@@ -11,7 +11,7 @@ require('node-jsx').install({extension: '.js'})
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    html = reactDomServer.renderToString(react.createElement(ServerApp))
+    var html = reactDomServer.renderToString(react.createElement(ServerApp))
     res.render('index', {
         title: 'Express',
         react: html

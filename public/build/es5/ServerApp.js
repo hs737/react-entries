@@ -31,7 +31,7 @@ var ServerApp = (function (Component) {
     _prototypeProperties(ServerApp, null, {
         render: {
             value: function render() {
-                return React.createElement(Main, null);
+                return React.createElement(Main, this.props);
             },
             writable: true,
             configurable: true

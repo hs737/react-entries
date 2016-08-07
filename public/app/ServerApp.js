@@ -6,7 +6,7 @@ import Main from './components/Main'
 class ServerApp extends Component {
     render() {
         return (
-            <Main />
+            <Main {...this.props} />
         )
     }
 }

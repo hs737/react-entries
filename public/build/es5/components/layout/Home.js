@@ -13,6 +13,8 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
+var Entry = _interopRequire(require("../presentational/Entry"));
+
 var Home = (function (Component) {
     function Home() {
         _classCallCheck(this, Home);
@@ -30,7 +32,8 @@ var Home = (function (Component) {
                 return React.createElement(
                     "div",
                     null,
-                    "home"
+                    "home",
+                    React.createElement(Entry, null)
                 );
             },
             writable: true,

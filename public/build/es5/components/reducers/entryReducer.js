@@ -13,7 +13,7 @@ function myReducer(_x, someAction) {
     var previousState = arguments[0] === undefined ? initialState : arguments[0];
 
 
-    switch (action.type) {
+    switch (someAction.type) {
         case CONSTANTS.ACTIONS.GET_ENTRIES:
             console.log("GET_ENTRIES", JSON.stringify(someAction));
 

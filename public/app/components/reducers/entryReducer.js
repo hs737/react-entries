@@ -6,7 +6,7 @@ var initialState = {
 
 export default function myReducer(previousState = initialState, someAction){
 
-    switch(action.type) {
+    switch(someAction.type) {
         case CONSTANTS.ACTIONS.GET_ENTRIES:
             console.log('GET_ENTRIES', JSON.stringify(someAction))
 

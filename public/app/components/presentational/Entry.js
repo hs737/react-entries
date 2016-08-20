@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import store from '../stores/store'
 import CONSTANTS from '../constants/constants'
 import actions from '../actions/actions'
-import api from '../utils/APIManager'
+import {post} from '../utils/APIManager'
 
 class Entry extends Component {
     constructor(props, context, updater) {
@@ -13,7 +13,8 @@ class Entry extends Component {
 
         super(props, context, updater)
 
-        this.updateCurrentEntry = this.updateCurrentEntry.bind(this)
+        this.updateCurrentStateEntry = this.updateCurrentStateEntry.bind(this)
+        this.addEntry = this.addEntry.bind(this)
 
         this.state = {
             currentEntry: '',
@@ -21,8 +22,8 @@ class Entry extends Component {
         }
     }
 
-    updateCurrentEntry(event) {
-        var functionName = "updateCurrentEntry"
+    updateCurrentStateEntry(event) {
+        var functionName = "updateCurrentStateEntry"
         console.log(functionName + " called", event.target.name, event.target.value)
 
         var newState = Object.assign({}, this.state)
@@ -31,21 +32,39 @@ class Entry extends Component {
         this.setState(newState)
     }
 
+    addEntry(event) {
+        var functionName = "addEntry"
+        console.log(functionName + " called", event.target.name, event.target.value)
+
+        post("/api/entry", this.state.currentEntry, function(err, document) {
+            if (err) {
+                console.log(functionName, "Error:", err)
+                return
+            }
+
+            store.dispatch(actions.addEntry(document))
+        })
+    }
+
     render() {
         var functionName = "render"
         console.log(functionName + " called")
+        console.log('this.props', JSON.stringify(this.props.entries))
         return (
             <div>
-                <textarea placeholder="Enter text here" onChange={this.updateCurrentEntry} value = {this.state.currentEntry} />
+                <textarea placeholder="Enter text here" onChange={this.updateCurrentStateEntry} value = {this.state.currentEntry} />
+                <button type="submit" onClick={this.addEntry}>Submit</button>
             </div>
         )
     }
 }
 
 var mapStateToProps = function(state) {
+    console.log("mapStateToProps", JSON.stringify(state))
     return {
         entries: state.entryReducer.entriesList
     }
 }
 
-export default Entry
+export default connect(mapStateToProps)(Entry)
+// export default Entry

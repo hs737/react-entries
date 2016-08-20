@@ -22,8 +22,7 @@ var CONSTANTS = _interopRequire(require("../constants/constants"));
 
 var actions = _interopRequire(require("../actions/actions"));
 
-var api = _interopRequire(require("../utils/APIManager"));
-
+var post = require("../utils/APIManager").post;
 var Entry = (function (Component) {
     function Entry(props, context, updater) {
         _classCallCheck(this, Entry);
@@ -33,7 +32,8 @@ var Entry = (function (Component) {
 
         _get(Object.getPrototypeOf(Entry.prototype), "constructor", this).call(this, props, context, updater);
 
-        this.updateCurrentEntry = this.updateCurrentEntry.bind(this);
+        this.updateCurrentStateEntry = this.updateCurrentStateEntry.bind(this);
+        this.addEntry = this.addEntry.bind(this);
 
         this.state = {
             currentEntry: "",
@@ -44,9 +44,9 @@ var Entry = (function (Component) {
     _inherits(Entry, Component);
 
     _prototypeProperties(Entry, null, {
-        updateCurrentEntry: {
-            value: function updateCurrentEntry(event) {
-                var functionName = "updateCurrentEntry";
+        updateCurrentStateEntry: {
+            value: function updateCurrentStateEntry(event) {
+                var functionName = "updateCurrentStateEntry";
                 console.log(functionName + " called", event.target.name, event.target.value);
 
                 var newState = Object.assign({}, this.state);
@@ -57,14 +57,37 @@ var Entry = (function (Component) {
             writable: true,
             configurable: true
         },
+        addEntry: {
+            value: function addEntry(event) {
+                var functionName = "addEntry";
+                console.log(functionName + " called", event.target.name, event.target.value);
+
+                post("/api/entry", this.state.currentEntry, function (err, document) {
+                    if (err) {
+                        console.log(functionName, "Error:", err);
+                        return;
+                    }
+
+                    store.dispatch(actions.addEntry(document));
+                });
+            },
+            writable: true,
+            configurable: true
+        },
         render: {
             value: function render() {
                 var functionName = "render";
                 console.log(functionName + " called");
+                console.log("this.props", JSON.stringify(this.props.entries));
                 return React.createElement(
                     "div",
                     null,
-                    React.createElement("textarea", { placeholder: "Enter text here", onChange: this.updateCurrentEntry, value: this.state.currentEntry })
+                    React.createElement("textarea", { placeholder: "Enter text here", onChange: this.updateCurrentStateEntry, value: this.state.currentEntry }),
+                    React.createElement(
+                        "button",
+                        { type: "submit", onClick: this.addEntry },
+                        "Submit"
+                    )
                 );
             },
             writable: true,
@@ -76,9 +99,12 @@ var Entry = (function (Component) {
 })(Component);
 
 var mapStateToProps = function (state) {
+    console.log("mapStateToProps", JSON.stringify(state));
     return {
         entries: state.entryReducer.entriesList
     };
 };
 
-module.exports = Entry;
+module.exports = connect(mapStateToProps)(Entry)
+// export default Entry
+;

@@ -59,10 +59,10 @@ class Entry extends Component {
     }
 }
 
-var mapStateToProps = function(state) {
-    console.log("mapStateToProps", JSON.stringify(state))
+var mapStateToProps = function(storesState) {
+    console.log("mapStateToProps", JSON.stringify(storesState))
     return {
-        entries: state.entryReducer.entriesList
+        entries: storesState.entryReducer.entriesList
     }
 }
 

@@ -36,13 +36,20 @@ class Entry extends Component {
         var functionName = "addEntry"
         console.log(functionName + " called", event.target.name, event.target.value)
 
-        post("/api/entry", this.state.currentEntry, function(err, document) {
+        var _this = this
+
+        post("/api/entry", {"text": this.state.currentEntry}, function(err, document) {
             if (err) {
                 console.log(functionName, "Error:", err)
                 return
             }
 
-            store.dispatch(actions.addEntry(document))
+            store.dispatch(actions.addEntry(document.result))
+
+            var newState = Object.assign({}, _this.state)
+            newState.currentEntry = ""
+
+            _this.setState(newState)
         })
     }
 
@@ -50,10 +57,18 @@ class Entry extends Component {
         var functionName = "render"
         console.log(functionName + " called")
         console.log('this.props', JSON.stringify(this.props.entries))
+        var entryTags = this.props.entries.map(function(elem, index) {
+            return (
+                <div key = {index}>
+                    {elem.text}
+                </div>
+            )
+        })
         return (
             <div>
                 <textarea placeholder="Enter text here" onChange={this.updateCurrentStateEntry} value = {this.state.currentEntry} />
                 <button type="submit" onClick={this.addEntry}>Submit</button>
+                {entryTags}
             </div>
         )
     }

@@ -44,7 +44,7 @@ class Entry extends Component {
                 return
             }
 
-            store.dispatch(actions.addEntry(document.result))
+            store.currentStore().dispatch(actions.addEntry(document.result))
 
             var newState = Object.assign({}, _this.state)
             newState.currentEntry = ""

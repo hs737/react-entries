@@ -9,7 +9,7 @@ import routes from './routes'
 // const initialState = window.__PRELOADED_STATE__
 
 const router = (
-    <Provider store={store}>
+    <Provider store={store.createStore()}>
         <Router routes={routes} history={browserHistory} />
     </Provider>
 )

@@ -3,12 +3,21 @@ import thunk from 'redux-thunk'
 
 import entryReducer from '../reducers/entryReducer'
 
-// Combine reducers
-var reducers = combineReducers({
-    entryReducer: entryReducer
-})
+var currentStore
 
-// Initialize store
-var store = createStore(reducers, applyMiddleware(thunk))
+export default {
+    createStore: function(initialState) {
+        // Combine reducers
+        var reducers = combineReducers({
+            entryReducer: entryReducer
+        })
 
-export default store
+        // Initialize store
+        currentStore = createStore(reducers, initialState, applyMiddleware(thunk))
+        return currentStore
+    },
+    currentStore: function() {
+        return currentStore
+    }
+
+}

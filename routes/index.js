@@ -7,6 +7,7 @@ var logger = require('../utils/logger')
 var ServerApp = require('../public/build/es5/ServerApp')
 var Main = require('../public/build/es5/components/Main')
 var Home = require('../public/build/es5/components/layout/Home')
+var store = require('../public/build/es5/components/stores/store')
 
 var router = express.Router();
 require('node-jsx').install({extension: '.js'})
@@ -23,9 +24,16 @@ router.use(function(req, res, next) {
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
+
+    var reducers = {
+        entriesReducer: {}
+    }
+    var initialStore = store.createStore(reducers)
+
     var routes = {
         path: '/',
         component: ServerApp,
+        initial: initialStore,
         indexRoute: {
             component: Home
         }

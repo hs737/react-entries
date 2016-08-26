@@ -8,7 +8,7 @@ import Main from './components/Main'
 class ServerApp extends Component {
     render() {
         return (
-            <Provider store={store}>
+            <Provider store={this.props.route.initial}>
                 <Main {...this.props} />
             </Provider>
         )

@@ -9,6 +9,11 @@ var Main = require('../public/build/es5/components/Main')
 var Home = require('../public/build/es5/components/layout/Home')
 var store = require('../public/build/es5/components/stores/store')
 
+var controllers = {
+    entry: require('../controllers/entryController'),
+    profile: require('../controllers/profileController')
+}
+
 var router = express.Router();
 require('node-jsx').install({extension: '.js'})
 
@@ -23,38 +28,60 @@ router.use(function(req, res, next) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    controllers.entry.read(null, false, function(err, docs) {
+        if (err) {
+            logger.error("Controller returned error", err)
 
+            res.json({
+                code: CONSTANTS.RETURN_CODES.FUNCTION_EXECUTION_FAILED,
+                message: err
+            })
 
-    var reducers = {
-        entriesReducer: {}
-    }
-    var initialStore = store.createStore(reducers)
-
-    var routes = {
-        path: '/',
-        component: ServerApp,
-        initial: initialStore,
-        indexRoute: {
-            component: Home
-        }
-    }
-
-    reactRouter.match({routes: routes, location: req.url}, function(error, redirectLocation, renderProps) {
-        if (error){
-            logger.error('ReactRouter - ERROR: '+error)
             return
-        }
-        if (redirectLocation){
-            logger.debug('ReactRouter - redirectLocation: '+redirectLocation)
-            return
+        } else {
+            logger.debug("Controller returned success", docs)
         }
 
-        logger.debug('ReactRouter - renderProps: '+JSON.stringify(renderProps))
-        var html = reactDomServer.renderToString(react.createElement(reactRouter.RouterContext, renderProps))
-        res.render('index', {
-            title: 'Express',
-            react: html
-        });
+        // res.json({
+        //     code: CONSTANTS.RETURN_CODES.SUCCESS,
+        //     message: CONSTANTS.RETURN_MESSAGES.SUCCESS,
+        //     result: docs
+        // })
+
+        var reducers = {
+            entryReducer: {
+                entriesList: docs
+            }
+        }
+        var initialStore = store.createStore(reducers)
+
+        var routes = {
+            path: '/',
+            component: ServerApp,
+            initial: initialStore,
+            indexRoute: {
+                component: Home
+            }
+        }
+
+        reactRouter.match({routes: routes, location: req.url}, function(error, redirectLocation, renderProps) {
+            if (error){
+                logger.error('ReactRouter - ERROR: '+error)
+                return
+            }
+            if (redirectLocation){
+                logger.debug('ReactRouter - redirectLocation: '+redirectLocation)
+                return
+            }
+
+            logger.debug('ReactRouter - renderProps: '+JSON.stringify(renderProps))
+            var html = reactDomServer.renderToString(react.createElement(reactRouter.RouterContext, renderProps))
+            res.render('index', {
+                title: 'Express',
+                react: html,
+                preloadedState: JSON.stringify(initialStore.getState())
+            });
+        })
     })
 });
 

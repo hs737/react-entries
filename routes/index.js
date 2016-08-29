@@ -4,14 +4,14 @@ var reactRouter = require('react-router')
 var reactDomServer = require('react-dom/server')
 
 var logger = require('../utils/logger')
+var Entry = require('../models/entry')
 var ServerApp = require('../public/build/es5/ServerApp')
 var Main = require('../public/build/es5/components/Main')
 var Home = require('../public/build/es5/components/layout/Home')
 var store = require('../public/build/es5/components/stores/store')
 
 var controllers = {
-    entry: require('../controllers/entryController'),
-    profile: require('../controllers/profileController')
+    entry: require('../controllers/genericModelController')(Entry),
 }
 
 var router = express.Router();

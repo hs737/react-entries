@@ -2,10 +2,12 @@ var express = require('express');
 
 var logger = require('../utils/logger')
 var CONSTANTS = require('../utils/constants')
+var Entry = require('../models/entry')
+var RelationshipProfile = require('../models/relationshipProfile')
 
 var controllers = {
-    entry: require('../controllers/entryController'),
-    profile: require('../controllers/profileController')
+    entry: require('../controllers/genericModelController')(Entry),
+    relationshipProfile: require('../controllers/genericModelController')(RelationshipProfile)
 }
 
 var router = express.Router();

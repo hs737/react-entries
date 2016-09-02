@@ -7,7 +7,7 @@ var RelationshipProfile = require('../models/relationshipProfile')
 
 var controllers = {
     entry: require('../controllers/genericModelController')(Entry),
-    relationshipProfile: require('../controllers/genericModelController')(RelationshipProfile)
+    profile: require('../controllers/genericModelController')(RelationshipProfile)
 }
 
 var router = express.Router();

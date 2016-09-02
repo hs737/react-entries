@@ -4,7 +4,7 @@ var initialState = {
     entriesList: []
 }
 
-export default function myReducer(previousState = initialState, someAction){
+export default function (previousState = initialState, someAction){
 
     switch(someAction.type) {
         case CONSTANTS.ACTIONS.GET_ENTRIES:
@@ -25,7 +25,6 @@ export default function myReducer(previousState = initialState, someAction){
             nextState['entriesList'] = entriesList
 
             return nextState
-
 
         default:
             return previousState

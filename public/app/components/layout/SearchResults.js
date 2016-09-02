@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 
-import Entry from '../presentational/Entry'
 import Search from '../presentational/Search'
 
-class Home extends Component {
+class SearchResults extends Component {
     render() {
         return (
             <div>
@@ -14,4 +13,4 @@ class Home extends Component {
     }
 }
 
-export default Home
+export default SearchResults

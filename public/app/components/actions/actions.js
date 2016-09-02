@@ -15,5 +15,13 @@ export default {
             type: CONSTANTS.ACTIONS.GET_ENTRIES,
             entries: entriesList
         }
+    },
+
+    updateProfile: function(profileId) {
+        console.log("updateProfile called", JSON.stringify(profileId))
+        return {
+            type: CONSTANTS.ACTIONS.UPDATE_PROFILE,
+            profileId: profileId
+        }
     }
 }

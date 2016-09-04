@@ -38,8 +38,8 @@ class Search extends Component {
         console.log(functionName + " called", event.target.name, this.state.searchQuery)
 
         // browserHistory.push('/search?query=' + this.state.searchQuery)
-        console.log(functionName, this.props.router)
-        this.props.router.push('/search?query=' + this.state.searchQuery)
+        console.log(functionName + " this.props.router", this.props.router)
+        this.props.router.push('/search?q=' + this.state.searchQuery)
         //.transitionTo('/search?query=' + this.state.searchQuery)
         // get("/api/profile", {name: this.state.searchQuery}, function(err, docs) {
         //     if (err) {

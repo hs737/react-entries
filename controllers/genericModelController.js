@@ -8,6 +8,7 @@ module.exports = function(model) {
     logger.debug(moduleNameForLogger, "Created controller for model")
 
     return {
+        controllerName: MODULE_NAME,
         create: function(docs, isRaw, callback) {
             const FUNCTION_NAME = 'create'
             logger.debug(moduleNameForLogger + " " + FUNCTION_NAME + " called", docs, isRaw)

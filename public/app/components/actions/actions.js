@@ -23,5 +23,13 @@ export default {
             type: CONSTANTS.ACTIONS.UPDATE_CURRENT_PROFILE,
             profileId: profileId
         }
+    },
+
+    search: function(searchResults) {
+        console.log("search called", JSON.stringify(searchResults))
+        return {
+            type: CONSTANTS.ACTIONS.SEARCH,
+            results: searchResults
+        }
     }
 }

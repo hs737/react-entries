@@ -44,24 +44,14 @@ router.get('/:resource', function(req, res, next) {
         })
     }
 
-    controller.read(req.query, false, function(err, docs) {
-        if (err) {
-            logger.error("Controller returned error", err)
-
-            res.json({
-                code: CONSTANTS.RETURN_CODES.FUNCTION_EXECUTION_FAILED,
-                message: err
-            })
-
+    switch(controller.controllerName) {
+        case 'genericModelController':
+            controller.read(req.query, false, genericControllerCallback(res))
+            return;
+        case 'searchController':
+            controller.search(req.query, false, genericControllerCallback(res))
             return
-        }
-
-        res.json({
-            code: CONSTANTS.RETURN_CODES.SUCCESS,
-            message: CONSTANTS.RETURN_MESSAGES.SUCCESS,
-            result: docs
-        })
-    })
+    }
 });
 
 
@@ -79,7 +69,11 @@ router.post('/:resource', function(req, res, next) {
         })
     }
 
-    controller.create(req.body, false, function(err, docs) {
+    controller.create(req.body, false, genericControllerCallback(res))
+});
+
+var genericControllerCallback = function (res) {
+    return function(err, docs) {
         if (err) {
             logger.error("Controller returned error", err)
 
@@ -96,7 +90,7 @@ router.post('/:resource', function(req, res, next) {
             message: CONSTANTS.RETURN_MESSAGES.SUCCESS,
             result: docs
         })
-    })
-});
+    }
+}
 
 module.exports = router;

@@ -14,8 +14,4 @@ const router = (
     </Provider>
 )
 
-// const router = (
-//     <Router routes={routes} history={browserHistory} />
-// )
-
 ReactDOM.render(router, document.getElementById('app'))

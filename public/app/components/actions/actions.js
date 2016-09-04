@@ -17,10 +17,10 @@ export default {
         }
     },
 
-    updateProfile: function(profileId) {
-        console.log("updateProfile called", JSON.stringify(profileId))
+    updateCurrentProfile: function(profileId) {
+        console.log("updateCurrentProfile called", JSON.stringify(profileId))
         return {
-            type: CONSTANTS.ACTIONS.UPDATE_PROFILE,
+            type: CONSTANTS.ACTIONS.UPDATE_CURRENT_PROFILE,
             profileId: profileId
         }
     }

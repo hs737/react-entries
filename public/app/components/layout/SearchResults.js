@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 
-import Search from '../presentational/Search'
+// import Search from '../presentational/Search'
 
 class SearchResults extends Component {
     render() {
         return (
             <div>
-                home
-                <Search />
+                searchResults
             </div>
         )
     }

@@ -4,7 +4,10 @@ var initialState = {
     entriesList: []
 }
 
+var moduleName = "entryReducer"
+
 export default function (previousState = initialState, someAction){
+    console.log(moduleName + " called", previousState, someAction)
 
     switch(someAction.type) {
         case CONSTANTS.ACTIONS.GET_ENTRIES:

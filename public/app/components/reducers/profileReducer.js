@@ -4,7 +4,10 @@ var initialState = {
     currentProfile: null
 }
 
+var moduleName = "profileReducer"
+
 export default function (previousState = initialState, someAction) {
+    console.log(moduleName + " called", previousState, someAction)
 
     switch(someAction.type) {
         case CONSTANTS.UPDATE_PROFILE:

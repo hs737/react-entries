@@ -9,7 +9,7 @@ var Entry = require('../models/entry')
 var ServerApp = require('../public/build/es5/ServerApp')
 var Main = require('../public/build/es5/components/Main')
 var Home = require('../public/build/es5/components/layout/Home')
-var SearchResults = require('../public/build/es5/components/layout/SearchResults')
+var Search = require('../public/build/es5/components/layout/Search')
 var store = require('../public/build/es5/components/stores/store')
 
 var controllers = {
@@ -76,7 +76,7 @@ router.get('/:page', function(req, res, next) {
             component: Home
         },
         childRoutes: [
-            {path: 'search', component: SearchResults}
+            {path: 'search', component: Search}
         ]
     }
 

@@ -94,7 +94,7 @@ class SearchResults extends Component {
         } else {
             console.log("Search results for some results found")
             resultsContent = <ol>{this.props.searchResults.map(function(elem, idx) {
-                return <li key={idx}><Link to="/">{elem.name}</Link></li>
+                return <li key={idx}><Link to={"/profile/" + elem.name}>{elem.name}</Link></li>
             })}</ol>
         }
 

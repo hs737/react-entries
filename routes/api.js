@@ -13,12 +13,13 @@ var controllers = {
 }
 
 var router = express.Router();
+const MODULE_NAME = 'api.js'
 
 router.use(function(req, res, next) {
     var params = req.params
     var query = req.query
 
-    logger.debug(req.path, "called", req.method, params, query)
+    logger.debug(MODULE_NAME, req.path, "called", req.method, params, query)
 
     next()
 })

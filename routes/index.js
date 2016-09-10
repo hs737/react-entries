@@ -37,7 +37,7 @@ router.get('/', function(req, res, next) {
             component: Home
         },
         childRoutes: [
-            {path: 'search', component: SearchResults}
+            {path: 'search', component: Search}
         ]
     }
 

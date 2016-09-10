@@ -1,7 +1,7 @@
 import CONSTANTS from '../constants/constants'
 
 var initialState = {
-    entriesList: []
+    entriesList: null
 }
 
 var moduleName = "entryReducer"

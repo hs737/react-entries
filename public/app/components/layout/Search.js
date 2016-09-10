@@ -19,7 +19,7 @@ class Search extends Component {
         super(props, context, updater)
 
         this.state = {
-            searchResults: []
+            searchResults: null
         }
     }
 
@@ -43,7 +43,38 @@ class Search extends Component {
             console.log(functionName, "Search results", searchResults)
             store.currentStore().dispatch(actions.search(searchResults))
         })
+    }
 
+    componentDidMount() {
+        var functionName = "componentDidMount"
+        console.log(functionName + " called")
+    }
+
+    componentWillUnmount() {
+        var functionName = "componentWillUnmount"
+        console.log(functionName + " called")
+    }
+
+    componentWillReceiveProps(nextProps) {
+        var functionName = "componentWillReceiveProps"
+        console.log(functionName + " called", nextProps)
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        var functionName = "shouldComponentUpdate"
+        console.log(functionName + " called", nextProps, nextState)
+
+        return true
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        var functionName = "componentWillUpdate"
+        console.log(functionName + " called", nextProps, nextState)
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        var functionName = "componentDidUpdate"
+        console.log(functionName + " called", prevProps, prevState)
     }
 
     render() {

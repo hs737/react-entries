@@ -1,12 +1,11 @@
 import React, {Component} from 'react'
-import { connect } from 'react-redux'
+import { Link } from 'react-router'
 
 import store from '../stores/store'
-import CONSTANTS from '../constants/constants'
 import actions from '../actions/actions'
 import {post} from '../utils/APIManager'
 
-class Entry extends Component {
+class EntryText extends Component {
     constructor(props, context, updater) {
         var functionName = "constructor"
         console.log(functionName + " called")
@@ -91,32 +90,14 @@ class Entry extends Component {
     }
 
     render() {
-        var functionName = "render"
-        console.log(functionName + " called")
-        console.log('this.props', JSON.stringify(this.props.entries))
-        var entryTags = this.props.entries.map(function(elem, index) {
-            return (
-                <div key = {index}>
-                    {elem.text}
-                </div>
-            )
-        })
         return (
             <div>
+                <h1>Entry Text</h1>
                 <textarea placeholder="Enter text here" onChange={this.updateCurrentStateEntry} value = {this.state.currentEntry} />
                 <button type="submit" onClick={this.addEntry}>Submit</button>
-                {entryTags}
             </div>
         )
     }
 }
 
-var mapStateToProps = function(storesState) {
-    console.log("mapStateToProps", JSON.stringify(storesState))
-    return {
-        entries: storesState.entryReducer.entriesList
-    }
-}
-
-export default connect(mapStateToProps)(Entry)
-// export default Entry
+export default EntryText

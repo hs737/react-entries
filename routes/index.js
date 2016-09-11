@@ -121,17 +121,15 @@ router.get('/:page/:slug', function(req, res, next) {
         return
     }
 
-    // var initialStatePerReducer = {
-    //     profileReducer: {
-    //         currentProfile: null
-    //     }
-    // }
-    // var initialStore = store.createStore(initialStatePerReducer)
+    var initialStatePerReducer = {
+        profileReducer: {}
+    }
+    var initialStore = store.createStore(initialStatePerReducer)
 
     var routes = {
         path: '/',
         component: ServerApp,
-        // initial: initialStore,
+        initial: initialStore,
         indexRoute: {
             component: Home
         },
@@ -155,7 +153,7 @@ router.get('/:page/:slug', function(req, res, next) {
         res.render('index', {
             title: 'Express',
             react: html,
-            // preloadedState: JSON.stringify(initialStore.getState())
+            preloadedState: JSON.stringify(initialStore.getState())
         });
     })
 });

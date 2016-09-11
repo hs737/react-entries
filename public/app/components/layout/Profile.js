@@ -1,5 +1,9 @@
 import React, {Component} from 'react'
 import { Link } from 'react-router'
+import { connect } from 'react-redux'
+
+import EntryText from '../presentational/EntryText'
+import Entries from '../presentational/Entries'
 
 class Profile extends Component {
     componentWillMount() {
@@ -42,10 +46,20 @@ class Profile extends Component {
     render() {
         return (
             <div>
-                <h1>Profile</h1>
+                Profile
+                <EntryText />
+                <Entries entries={this.props.entries} />
             </div>
         )
     }
 }
 
-export default Profile
+var mapStateToProps = function(storesState) {
+    console.log("mapStateToProps", JSON.stringify(storesState))
+    return {
+        entries: storesState.entryReducer.entriesList
+    }
+}
+
+export default connect(mapStateToProps)(Profile)
+// export default Profile

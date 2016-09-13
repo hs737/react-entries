@@ -1,22 +1,9 @@
 import React, {Component} from 'react'
 import { Link } from 'react-router'
-import { connect } from 'react-redux'
 
-import EntryText from '../presentational/EntryText'
-import Entries from '../presentational/Entries'
+var MODULE_NAME = "Entry"
 
-var MODULE_NAME = "Profile"
-
-class Profile extends Component {
-    constructor(props, context, updater) {
-        var functionName = "constructor"
-        console.log(MODULE_NAME, functionName + " called")
-
-        super(props, context, updater)
-
-        console.log(MODULE_NAME, functionName, "props", this.props.params)
-    }
-
+class Entry extends Component {
     componentWillMount() {
         var functionName = "componentWillMount"
         console.log(MODULE_NAME, functionName + " called")
@@ -55,22 +42,16 @@ class Profile extends Component {
     }
 
     render() {
+        var functionName = "render"
+        console.log(MODULE_NAME, functionName + " called", this.props)
+
         return (
             <div>
-                Profile
-                <EntryText id={this.props.params.id} />
-                <Entries entries={this.props.entries} />
+                <h1>Entry</h1>
+                <p>{this.props.text}</p>
             </div>
         )
     }
 }
 
-var mapStateToProps = function(storesState) {
-    console.log("mapStateToProps", JSON.stringify(storesState))
-    return {
-        entries: storesState.entryReducer.entriesList
-    }
-}
-
-export default connect(mapStateToProps)(Profile)
-// export default Profile
+export default Entry

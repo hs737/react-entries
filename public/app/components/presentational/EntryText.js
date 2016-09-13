@@ -5,10 +5,12 @@ import store from '../stores/store'
 import actions from '../actions/actions'
 import {post} from '../utils/APIManager'
 
+var MODULE_NAME = "EntryText"
+
 class EntryText extends Component {
     constructor(props, context, updater) {
         var functionName = "constructor"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
 
         super(props, context, updater)
 
@@ -23,7 +25,7 @@ class EntryText extends Component {
 
     updateCurrentStateEntry(event) {
         var functionName = "updateCurrentStateEntry"
-        console.log(functionName + " called", event.target.name, event.target.value)
+        console.log(MODULE_NAME, functionName + " called", event.target.name, event.target.value)
 
         var newState = Object.assign({}, this.state)
         newState.currentEntry = event.target.value
@@ -33,13 +35,17 @@ class EntryText extends Component {
 
     addEntry(event) {
         var functionName = "addEntry"
-        console.log(functionName + " called", event.target.name, event.target.value)
+        console.log(MODULE_NAME, functionName + " called", event.target.name, event.target.value)
 
         var _this = this
+        var newDocument = {
+            profile: this.props.id,
+            text: this.state.currentEntry
+        }
 
-        post("/api/entry", {"text": this.state.currentEntry}, function(err, document) {
+        post("/api/entry", newDocument, function(err, document) {
             if (err) {
-                console.log(functionName, "Error:", err)
+                console.log(MODULE_NAME, functionName, "Error:", err)
                 return
             }
 
@@ -54,39 +60,39 @@ class EntryText extends Component {
 
     componentWillMount() {
         var functionName = "componentWillMount"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
     }
 
     componentDidMount() {
         var functionName = "componentDidMount"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
     }
 
     componentWillUnmount() {
         var functionName = "componentWillUnmount"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
     }
 
     componentWillReceiveProps(nextProps) {
         var functionName = "componentWillReceiveProps"
-        console.log(functionName + " called", nextProps)
+        console.log(MODULE_NAME, functionName + " called", nextProps)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         var functionName = "shouldComponentUpdate"
-        console.log(functionName + " called", nextProps, nextState)
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
 
         return true
     }
 
     componentWillUpdate(nextProps, nextState) {
         var functionName = "componentWillUpdate"
-        console.log(functionName + " called", nextProps, nextState)
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
     }
 
     componentDidUpdate(prevProps, prevState) {
         var functionName = "componentDidUpdate"
-        console.log(functionName + " called", prevProps, prevState)
+        console.log(MODULE_NAME, functionName + " called", prevProps, prevState)
     }
 
     render() {

@@ -9,12 +9,12 @@ import CONSTANTS from '../constants/constants'
 import actions from '../actions/actions'
 import {get, post} from '../utils/APIManager'
 
-var moduleName = "Search"
+var MODULE_NAME = "Search"
 
 class Search extends Component {
     constructor(props, context, updater) {
         var functionName = "constructor"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
 
         super(props, context, updater)
 
@@ -25,7 +25,7 @@ class Search extends Component {
 
     componentWillMount() {
         var functionName = "componentWillMount"
-        console.log(functionName + " called", this.props.location.query)
+        console.log(MODULE_NAME, functionName + " called", this.props.location.query)
 
         var query = {
             text: this.props.location.query.q
@@ -35,51 +35,51 @@ class Search extends Component {
 
         get("/api/search", query, function(err, results) {
             if (err) {
-                console.log(functionName, "Error:", err)
+                console.log(MODULE_NAME, functionName, "Error:", err)
                 return
             }
 
             var searchResults = results.result;
-            console.log(functionName, "Search results", searchResults)
+            console.log(MODULE_NAME, functionName, "Search results", searchResults)
             store.currentStore().dispatch(actions.search(searchResults))
         })
     }
 
     componentDidMount() {
         var functionName = "componentDidMount"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
     }
 
     componentWillUnmount() {
         var functionName = "componentWillUnmount"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
     }
 
     componentWillReceiveProps(nextProps) {
         var functionName = "componentWillReceiveProps"
-        console.log(functionName + " called", nextProps)
+        console.log(MODULE_NAME, functionName + " called", nextProps)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         var functionName = "shouldComponentUpdate"
-        console.log(functionName + " called", nextProps, nextState)
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
 
         return true
     }
 
     componentWillUpdate(nextProps, nextState) {
         var functionName = "componentWillUpdate"
-        console.log(functionName + " called", nextProps, nextState)
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
     }
 
     componentDidUpdate(prevProps, prevState) {
         var functionName = "componentDidUpdate"
-        console.log(functionName + " called", prevProps, prevState)
+        console.log(MODULE_NAME, functionName + " called", prevProps, prevState)
     }
 
     render() {
         var functionName = "render"
-        console.log(functionName + " called", this.props.location.query.q, this.props.searchResults)
+        console.log(MODULE_NAME, functionName + " called", this.props.location.query.q, this.props.searchResults)
 
         var resultsContent = null;
         if (this.props.searchResults != null) {

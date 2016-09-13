@@ -1,13 +1,17 @@
 import React, {Component} from 'react'
 
+import Entry from './Entry'
+
 import store from '../stores/store'
 import actions from '../actions/actions'
 import {post} from '../utils/APIManager'
 
+var MODULE_NAME = "Entries"
+
 class Entries extends Component {
     // constructor(props, context, updater) {
     //     var functionName = "constructor"
-    //     console.log(functionName + " called")
+    //     console.log(MODULE_NAME, functionName + " called")
 
     //     super(props, context, updater)
 
@@ -22,54 +26,55 @@ class Entries extends Component {
 
     componentWillMount() {
         var functionName = "componentWillMount"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
     }
 
     componentDidMount() {
         var functionName = "componentDidMount"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
     }
 
     componentWillUnmount() {
         var functionName = "componentWillUnmount"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
     }
 
     componentWillReceiveProps(nextProps) {
         var functionName = "componentWillReceiveProps"
-        console.log(functionName + " called", nextProps)
+        console.log(MODULE_NAME, functionName + " called", nextProps)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         var functionName = "shouldComponentUpdate"
-        console.log(functionName + " called", nextProps, nextState)
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
 
         return true
     }
 
     componentWillUpdate(nextProps, nextState) {
         var functionName = "componentWillUpdate"
-        console.log(functionName + " called", nextProps, nextState)
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
     }
 
     componentDidUpdate(prevProps, prevState) {
         var functionName = "componentDidUpdate"
-        console.log(functionName + " called", prevProps, prevState)
+        console.log(MODULE_NAME, functionName + " called", prevProps, prevState)
     }
 
     render() {
         var functionName = "render"
-        console.log(functionName + " called", this.props.entries)
+        console.log(MODULE_NAME, functionName + " called", this.props.entries)
 
         if (this.props.entries == null) {
             var entryTags = null
         } else {
             entryTags = this.props.entries.map(function(elem, index) {
-                return (
-                    <div key = {index}>
-                        {elem.text}
-                    </div>
-                )
+                return <Entry key = {index} text={elem.text} />
+                // return (
+                //     <div key = {index}>
+                //         <Entry text={elem.text} />
+                //     </div>
+                // )
             })
         }
 

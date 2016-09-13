@@ -9,10 +9,12 @@ import CONSTANTS from '../constants/constants'
 import actions from '../actions/actions'
 import {get, post} from '../utils/APIManager'
 
+var MODULE_NAME = "SearchResults"
+
 class SearchResults extends Component {
     constructor(props, context, updater) {
         var functionName = "constructor"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
 
         super(props, context, updater)
 
@@ -25,17 +27,17 @@ class SearchResults extends Component {
 
     createProfileHandler() {
         var functionName = "createProfileHandler"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
 
         post("/api/profile", {name: this.props.queryText}, function(err, result) {
             if (err) {
-                console.log(functionName, "Error:", err)
+                console.log(MODULE_NAME, functionName, "Error:", err)
                 // TODO do not call profile page if current profile isn't loaded
                 return
             }
 
             var profile = result.result
-            console.log(functionName, profile)
+            console.log(MODULE_NAME, functionName, profile)
 
             store.currentStore().dispatch(actions.updateCurrentProfile(profile._id))
         })
@@ -43,44 +45,44 @@ class SearchResults extends Component {
 
     componentWillMount() {
         var functionName = "componentWillMount"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
     }
 
     componentDidMount() {
         var functionName = "componentDidMount"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
     }
 
     componentWillUnmount() {
         var functionName = "componentWillUnmount"
-        console.log(functionName + " called")
+        console.log(MODULE_NAME, functionName + " called")
     }
 
     componentWillReceiveProps(nextProps) {
         var functionName = "componentWillReceiveProps"
-        console.log(functionName + " called", nextProps)
+        console.log(MODULE_NAME, functionName + " called", nextProps)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         var functionName = "shouldComponentUpdate"
-        console.log(functionName + " called", nextProps, nextState)
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
 
         return true
     }
 
     componentWillUpdate(nextProps, nextState) {
         var functionName = "componentWillUpdate"
-        console.log(functionName + " called", nextProps, nextState)
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
     }
 
     componentDidUpdate(prevProps, prevState) {
         var functionName = "componentDidUpdate"
-        console.log(functionName + " called", prevProps, prevState)
+        console.log(MODULE_NAME, functionName + " called", prevProps, prevState)
     }
 
     render() {
         var functionName = "render"
-        console.log(functionName + " called", this.props.searchResults)
+        console.log(MODULE_NAME, functionName + " called", this.props.searchResults)
 
         var resultsContent = null;
         if (!this.props.searchResults || this.props.searchResults.length === 0) {
@@ -94,7 +96,7 @@ class SearchResults extends Component {
         } else {
             console.log("Search results for some results found")
             resultsContent = <ol>{this.props.searchResults.map(function(elem, idx) {
-                return <li key={idx}><Link to={"/profile/" + elem.name}>{elem.name}</Link></li>
+                return <li key={idx}><Link to={"/profile/" + elem._id}>{elem.name}</Link></li>
             })}</ol>
         }
 

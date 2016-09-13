@@ -2,6 +2,7 @@ var mongoose = require('mongoose')
 
 var entrySchema = new mongoose.Schema({
     text: {type: String, trim: true, default: ''},
+    profile: {type: mongoose.Schema.Types.ObjectId, ref: 'RelationshipProfile', required: true},
     timestamp:{type:Date, default:Date.now}
 })
 

@@ -55,7 +55,6 @@ router.get('/:resource', function(req, res, next) {
     }
 });
 
-
 router.post('/:resource', function(req, res, next) {
     var resource = req.params.resource
 
@@ -71,6 +70,24 @@ router.post('/:resource', function(req, res, next) {
     }
 
     controller.create(req.body, false, genericControllerCallback(res))
+});
+
+router.put('/:resource/:id', function(req, res, next) {
+    var resource = req.params.resource
+
+    var controller = controllers[resource]
+    if (controller == null) {
+        var errorMessage = "Resource '" + resource + "' not recognized"
+        logger.error(errorMessage)
+
+        res.json({
+            code: CONSTANTS.RETURN_CODES.INVALID_INPUT_ERROR,
+            message: errorMessage
+        })
+    }
+
+    var id = req.params.id
+    controller.update(id, req.body, false, genericControllerCallback(res))
 });
 
 var genericControllerCallback = function (res) {

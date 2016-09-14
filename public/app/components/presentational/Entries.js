@@ -69,7 +69,7 @@ class Entries extends Component {
             var entryTags = null
         } else {
             entryTags = this.props.entries.map(function(elem, index) {
-                return <Entry key = {index} text={elem.text} />
+                return <Entry key = {index} details={elem} />
                 // return (
                 //     <div key = {index}>
                 //         <Entry text={elem.text} />

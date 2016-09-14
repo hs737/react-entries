@@ -13,30 +13,32 @@ module.exports = function(model) {
             const FUNCTION_NAME = 'create'
             logger.debug(moduleNameForLogger + " " + FUNCTION_NAME + " called", docs, isRaw)
 
-            model.create(docs, function(err, docs) {
-                if (err) {
-                    logger.error(moduleNameForLogger + " " + FUNCTION_NAME, err)
-                    callback(err, null)
-                } else {
-                    callback(null, docs)
-                }
-            })
+            model.create(docs, genericModelCallback(moduleNameForLogger, FUNCTION_NAME, callback))
         },
 
         read: function(params, isRaw, callback) {
             const FUNCTION_NAME = 'read'
             logger.debug(moduleNameForLogger + " " + FUNCTION_NAME + " called", params, isRaw)
 
-            model.find(params, function(err, docs) {
-                if (err) {
-                    logger.error(moduleNameForLogger + " " + FUNCTION_NAME, err)
-                    callback(err, null)
-                } else {
-                    callback(null, docs)
-                }
-            })
+            model.find(params, genericModelCallback(moduleNameForLogger, FUNCTION_NAME, callback))
+        },
+        update: function(id, params, isRaw, callback) {
+            const FUNCTION_NAME = 'update'
+            logger.debug(moduleNameForLogger + " " + FUNCTION_NAME + " called", id, params, isRaw)
+
+            model.findByIdAndUpdate(id, params, {new: true}, genericModelCallback(moduleNameForLogger, FUNCTION_NAME, callback))
         }
-        // update: function(params, isRaw, callback) {},
         // delete: function(params, isRaw, callback) {}
+    }
+}
+
+var genericModelCallback = function (moduleNameForLogger, functionName, callback) {
+    return function(err, docs) {
+        if (err) {
+            logger.error(moduleNameForLogger + " " + functionName, err)
+            callback(err, null)
+        } else {
+            callback(null, docs)
+        }
     }
 }

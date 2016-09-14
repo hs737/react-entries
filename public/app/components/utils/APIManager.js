@@ -41,3 +41,24 @@ export function post(endpoint, params, callback) {
                 }
               })
 }
+
+export function put(endpoint, params, callback) {
+    console.log("put called", endpoint, params)
+
+    superagent.put(endpoint)
+              .send(params)
+              .set('Accept', 'application/json')
+              .end(function(err, response) {
+                if (err) {
+                    console.log("Error", JSON.stringify(err))
+                }
+
+                if (callback) {
+                    if (err) {
+                        callback(err, null)
+                    } else {
+                        callback(null, response.body)
+                    }
+                }
+              })
+}

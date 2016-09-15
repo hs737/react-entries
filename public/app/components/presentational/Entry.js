@@ -12,6 +12,8 @@ class Entry extends Component {
 
         super(props, context, updater)
 
+        console.log(MODULE_NAME, functionName, "Props", this.props)
+
         this.submitEntryUpdate = this.submitEntryUpdate.bind(this)
         this.updateEntryText = this.updateEntryText.bind(this)
 

@@ -19,6 +19,7 @@ class SearchResults extends Component {
         super(props, context, updater)
 
         this.createProfileHandler = this.createProfileHandler.bind(this)
+        this.getProfileEntries = this.getProfileEntries.bind(this)
 
         this.state = {
             searchResults: []
@@ -41,6 +42,35 @@ class SearchResults extends Component {
 
             store.currentStore().dispatch(actions.updateCurrentProfile(profile._id))
         })
+    }
+
+    getProfileEntries(elem) {
+        var functionName = "getProfileEntries"
+        console.log(MODULE_NAME, functionName + " called", elem)
+
+        get("/api/entry", {profile: elem._id}, function(err, results) {
+            if (err) {
+                console.log(MODULE_NAME, functionName, "Error:", err)
+                // TODO do not call profile page if current profile isn't loaded
+                return
+            }
+
+            store.currentStore().dispatch(actions.getEntries(results.result));
+        })
+
+
+        // controllers['entry'].read({profile: req.params.slug}, false, function(error, docs) {
+        //     if (error) {
+        //         logger.error('ReactRouter - ERROR: ' + error)
+        //         // TODO render page not found
+        //         return
+        //     }
+
+        //     var initialStatePerReducer = {
+        //         entryReducer: {
+        //             entriesList: docs
+        //         }
+        //     }
     }
 
     componentWillMount() {
@@ -95,8 +125,9 @@ class SearchResults extends Component {
             )
         } else {
             console.log("Search results for some results found")
+            var _this = this
             resultsContent = <ol>{this.props.searchResults.map(function(elem, idx) {
-                return <li key={idx}><Link to={"/profile/" + elem._id}>{elem.name}</Link></li>
+                return <li key={idx}><Link onClick={() => _this.getProfileEntries(elem)} to={"/profile/" + elem._id}>{elem.name}</Link></li>
             })}</ol>
         }
 

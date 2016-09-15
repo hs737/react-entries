@@ -36,9 +36,14 @@ router.use(function(req, res, next) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+
+    var initialStatePerReducer = {}
+    var initialStore = store.createStore(initialStatePerReducer)
+
     var routes = {
         path: '/',
         component: ServerApp,
+        initial: initialStore,
         indexRoute: {
             component: Home
         },
@@ -62,7 +67,8 @@ router.get('/', function(req, res, next) {
         var html = reactDomServer.renderToString(react.createElement(reactRouter.RouterContext, renderProps))
         res.render('index', {
             title: 'Express',
-            react: html
+            react: html,
+            preloadedState: JSON.stringify(initialStore.getState())
         });
     })
 });
@@ -105,7 +111,7 @@ router.get('/:page', function(req, res, next) {
             return
         }
 
-        logger.debug('ReactRouter - renderProps: ' + renderProps)
+        logger.debug('ReactRouter - renderProps: ' + JSON.stringify(renderProps))
         var html = reactDomServer.renderToString(react.createElement(reactRouter.RouterContext, renderProps))
         res.render('index', {
             title: 'Express',

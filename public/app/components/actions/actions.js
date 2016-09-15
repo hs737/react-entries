@@ -9,6 +9,14 @@ export default {
         }
     },
 
+    removeEntry: function(entryDetails) {
+        console.log("removeEntry called", JSON.stringify(entryDetails))
+        return {
+            type: CONSTANTS.ACTIONS.REMOVE_ENTRY,
+            entry: entryDetails
+        }
+    },
+
     getEntries: function(entriesList) {
         console.log("getEntries called", JSON.stringify(entriesList))
         return {

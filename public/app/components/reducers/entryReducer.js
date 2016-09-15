@@ -29,6 +29,17 @@ export default function (previousState = initialState, someAction){
 
             return nextState
 
+        case CONSTANTS.ACTIONS.REMOVE_ENTRY:
+            console.log('REMOVE_ENTRY', JSON.stringify(someAction))
+
+            var nextState = Object.assign({}, previousState)
+            var entriesList = Object.assign([], nextState.entriesList)
+
+            entriesList = entriesList.filter(element => element._id !== someAction.entry._id)
+            nextState['entriesList'] = entriesList
+
+            return nextState
+
         default:
             return previousState
     }

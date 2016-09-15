@@ -27,8 +27,13 @@ module.exports = function(model) {
             logger.debug(moduleNameForLogger + " " + FUNCTION_NAME + " called", id, params, isRaw)
 
             model.findByIdAndUpdate(id, params, {new: true}, genericModelCallback(moduleNameForLogger, FUNCTION_NAME, callback))
+        },
+        deleteById: function(id, isRaw, callback) {
+            const FUNCTION_NAME = 'del'
+            logger.debug(moduleNameForLogger + " " + FUNCTION_NAME + " called", id, isRaw)
+
+            model.findByIdAndRemove(id, genericModelCallback(moduleNameForLogger, FUNCTION_NAME, callback))
         }
-        // delete: function(params, isRaw, callback) {}
     }
 }
 

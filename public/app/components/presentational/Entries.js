@@ -9,20 +9,14 @@ import {post} from '../utils/APIManager'
 var MODULE_NAME = "Entries"
 
 class Entries extends Component {
-    // constructor(props, context, updater) {
-    //     var functionName = "constructor"
-    //     console.log(MODULE_NAME, functionName + " called")
+    constructor(props, context, updater) {
+        var functionName = "constructor"
+        console.log(MODULE_NAME, functionName + " called")
 
-    //     super(props, context, updater)
+        super(props, context, updater)
 
-    //     this.updateCurrentStateEntry = this.updateCurrentStateEntry.bind(this)
-    //     this.addEntry = this.addEntry.bind(this)
-
-    //     this.state = {
-    //         currentEntry: '',
-    //         entriesList: []
-    //     }
-    // }
+        console.log(MODULE_NAME, functionName, "props", this.props.params)
+    }
 
     componentWillMount() {
         var functionName = "componentWillMount"

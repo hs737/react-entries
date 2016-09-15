@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import { Link } from 'react-router'
 
-import { put } from '../utils/APIManager'
+import store from '../stores/store'
+import actions from '../actions/actions'
+import { put, del } from '../utils/APIManager'
 
 var MODULE_NAME = "Entry"
 
@@ -15,6 +17,7 @@ class Entry extends Component {
         console.log(MODULE_NAME, functionName, "Props", this.props)
 
         this.submitEntryUpdate = this.submitEntryUpdate.bind(this)
+        this.submitEntryDelete = this.submitEntryDelete.bind(this)
         this.updateEntryText = this.updateEntryText.bind(this)
 
         this.state = {
@@ -49,6 +52,23 @@ class Entry extends Component {
         })
     }
 
+    submitEntryDelete(event) {
+        var functionName = "submitEntryDelete"
+        console.log(MODULE_NAME, functionName + " called", event.target.name, event.target.value)
+        console.log(MODULE_NAME, functionName, "this.props.details", this.props.details)
+
+        var _this = this
+        del("/api/entry/" + this.props.details._id, null, function(err, result) {
+            if (err) {
+                console.log(MODULE_NAME, functionName, "Error:", err)
+                // TODO post that error happened
+                return
+            }
+
+            store.currentStore().dispatch(actions.removeEntry(_this.props.details))
+        })
+    }
+
     componentWillMount() {
         var functionName = "componentWillMount"
         console.log(MODULE_NAME, functionName + " called")
@@ -67,6 +87,11 @@ class Entry extends Component {
     componentWillReceiveProps(nextProps) {
         var functionName = "componentWillReceiveProps"
         console.log(MODULE_NAME, functionName + " called", nextProps)
+
+        var newState = Object.assign({}, this.state)
+        newState.entryText = nextProps.details.text
+
+        this.setState(newState)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -94,7 +119,7 @@ class Entry extends Component {
             <div>
                 <textarea value={this.state.entryText} onChange={this.updateEntryText} />
                 <button type="submit" onClick={this.submitEntryUpdate}>Update</button>
-                <button type="submit">Delete</button>
+                <button type="submit" onClick={this.submitEntryDelete}>Delete</button>
             </div>
         )
     }

@@ -18,8 +18,9 @@ const MODULE_NAME = 'api.js'
 router.use(function(req, res, next) {
     var params = req.params
     var query = req.query
+    var body = req.body
 
-    logger.debug(MODULE_NAME, req.path, "called", req.method, params, query)
+    logger.debug(MODULE_NAME, req.path, "called", req.method, params, query, body)
 
     next()
 })
@@ -88,6 +89,23 @@ router.put('/:resource/:id', function(req, res, next) {
 
     var id = req.params.id
     controller.update(id, req.body, false, genericControllerCallback(res))
+});
+
+router.delete('/:resource/:id', function(req, res, next) {
+    var resource = req.params.resource
+
+    var controller = controllers[resource]
+    if (controller == null) {
+        var errorMessage = "Resource '" + resource + "' not recognized"
+        logger.error(errorMessage)
+
+        res.json({
+            code: CONSTANTS.RETURN_CODES.INVALID_INPUT_ERROR,
+            message: errorMessage
+        })
+    }
+
+    controller.deleteById(req.params.id, false, genericControllerCallback(res))
 });
 
 var genericControllerCallback = function (res) {

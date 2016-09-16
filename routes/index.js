@@ -29,7 +29,9 @@ router.use(function(req, res, next) {
     var params = req.params
     var query = req.query
 
-    logger.debug(MODULE_NAME, req.path, "called", req.method, params, query)
+    logger.debug(MODULE_NAME, req.path, "called", req.method)
+    logger.debug(MODULE_NAME, req.path, req.method, "params", params)
+    logger.debug(MODULE_NAME, req.path, req.method, "query", query)
 
     next()
 })
@@ -130,7 +132,7 @@ router.get('/:page/:slug', function(req, res, next) {
         return
     }
 
-    controllers['entry'].read({profile: req.params.slug}, false, function(error, docs) {
+    controllers['entry'].read({profile: req.params.slug}, {sort: {timestamp: -1}}, false, function(error, docs) {
         if (error) {
             logger.error('ReactRouter - ERROR: ' + error)
             // TODO render page not found

@@ -24,7 +24,7 @@ export default function (previousState = initialState, someAction){
             var nextState = Object.assign({}, previousState)
             var entriesList = Object.assign([], nextState.entriesList)
 
-            entriesList.push(someAction.entry)
+            entriesList.unshift(someAction.entry)
             nextState['entriesList'] = entriesList
 
             return nextState

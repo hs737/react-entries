@@ -20,7 +20,10 @@ router.use(function(req, res, next) {
     var query = req.query
     var body = req.body
 
-    logger.debug(MODULE_NAME, req.path, "called", req.method, params, query, body)
+    logger.debug(MODULE_NAME, req.path, "called", req.method)
+    logger.debug(MODULE_NAME, req.path, req.method, "params", params)
+    logger.debug(MODULE_NAME, req.path, req.method, "query", query)
+    logger.debug(MODULE_NAME, req.path, req.method, "body", body)
 
     next()
 })
@@ -34,58 +37,31 @@ router.get('/', function(req, res, next) {
 
 router.get('/:resource', function(req, res, next) {
     var resource = req.params.resource
+    var controller = getController(res, resource)
 
-    var controller = controllers[resource]
-    if (controller == null) {
-        var errorMessage = "Resource '" + resource + "' not recognized"
-        logger.error(errorMessage)
-
-        res.json({
-            code: CONSTANTS.RETURN_CODES.INVALID_INPUT_ERROR,
-            message: errorMessage
-        })
-    }
+    var constraints = req.query.constraints
+    var options = req.query.options
 
     switch(controller.controllerName) {
         case 'genericModelController':
-            controller.read(req.query, false, genericControllerCallback(res))
+            controller.read(constraints, options, false, genericControllerCallback(res))
             return;
         case 'searchController':
-            controller.search(req.query, false, genericControllerCallback(res))
+            controller.search(constraints, false, genericControllerCallback(res))
             return
     }
 });
 
 router.post('/:resource', function(req, res, next) {
     var resource = req.params.resource
-
-    var controller = controllers[resource]
-    if (controller == null) {
-        var errorMessage = "Resource '" + resource + "' not recognized"
-        logger.error(errorMessage)
-
-        res.json({
-            code: CONSTANTS.RETURN_CODES.INVALID_INPUT_ERROR,
-            message: errorMessage
-        })
-    }
+    var controller = getController(res, resource)
 
     controller.create(req.body, false, genericControllerCallback(res))
 });
 
 router.put('/:resource/:id', function(req, res, next) {
     var resource = req.params.resource
-
-    var controller = controllers[resource]
-    if (controller == null) {
-        var errorMessage = "Resource '" + resource + "' not recognized"
-        logger.error(errorMessage)
-
-        res.json({
-            code: CONSTANTS.RETURN_CODES.INVALID_INPUT_ERROR,
-            message: errorMessage
-        })
-    }
+    var controller = getController(res, resource)
 
     var id = req.params.id
     controller.update(id, req.body, false, genericControllerCallback(res))
@@ -93,7 +69,12 @@ router.put('/:resource/:id', function(req, res, next) {
 
 router.delete('/:resource/:id', function(req, res, next) {
     var resource = req.params.resource
+    var controller = getController(res, resource)
 
+    controller.deleteById(req.params.id, false, genericControllerCallback(res))
+});
+
+var getController = function (res, resource) {
     var controller = controllers[resource]
     if (controller == null) {
         var errorMessage = "Resource '" + resource + "' not recognized"
@@ -103,10 +84,10 @@ router.delete('/:resource/:id', function(req, res, next) {
             code: CONSTANTS.RETURN_CODES.INVALID_INPUT_ERROR,
             message: errorMessage
         })
+    } else {
+        return controller
     }
-
-    controller.deleteById(req.params.id, false, genericControllerCallback(res))
-});
+}
 
 var genericControllerCallback = function (res) {
     return function(err, docs) {

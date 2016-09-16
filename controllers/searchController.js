@@ -18,11 +18,12 @@ module.exports['search'] = function(params, isRaw, callback) {
         name: params.text
     }
 
-    controllers.profile.read(searchParams, false, function(err, profiles) {
+    controllers.profile.read(searchParams, null, false, function(err, profiles) {
         if (err) {
             logger.error(FUNCTION_NAME, err)
             callback(err, null)
         } else {
+            logger.debug(FUNCTION_NAME, "Docs", JSON.stringify(profiles))
             callback(null, profiles)
         }
     })

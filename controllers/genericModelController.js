@@ -16,11 +16,11 @@ module.exports = function(model) {
             model.create(docs, genericModelCallback(moduleNameForLogger, FUNCTION_NAME, callback))
         },
 
-        read: function(params, isRaw, callback) {
+        read: function(query, options, isRaw, callback) {
             const FUNCTION_NAME = 'read'
-            logger.debug(moduleNameForLogger + " " + FUNCTION_NAME + " called", params, isRaw)
+            logger.debug(moduleNameForLogger + " " + FUNCTION_NAME + " called", query, options, isRaw)
 
-            model.find(params, genericModelCallback(moduleNameForLogger, FUNCTION_NAME, callback))
+            model.find(query, genericModelCallback(moduleNameForLogger, FUNCTION_NAME, callback)).setOptions(options)
         },
         update: function(id, params, isRaw, callback) {
             const FUNCTION_NAME = 'update'
@@ -39,10 +39,12 @@ module.exports = function(model) {
 
 var genericModelCallback = function (moduleNameForLogger, functionName, callback) {
     return function(err, docs) {
+        var logPrefix = moduleNameForLogger + " " + functionName
         if (err) {
-            logger.error(moduleNameForLogger + " " + functionName, err)
+            logger.error(logPrefix, err)
             callback(err, null)
         } else {
+            logger.debug(logPrefix, "Docs", JSON.stringify(docs))
             callback(null, docs)
         }
     }

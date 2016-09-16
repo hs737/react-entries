@@ -28,7 +28,10 @@ class Search extends Component {
         console.log(MODULE_NAME, functionName + " called", this.props.location.query)
 
         var query = {
-            text: this.props.location.query.q
+            constraints: {
+                text: this.props.location.query.q
+            },
+            options: {}
         }
 
         var _this = this

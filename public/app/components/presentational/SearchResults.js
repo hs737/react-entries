@@ -48,7 +48,18 @@ class SearchResults extends Component {
         var functionName = "getProfileEntries"
         console.log(MODULE_NAME, functionName + " called", elem)
 
-        get("/api/entry", {profile: elem._id}, function(err, results) {
+        var query = {
+            constraints: {
+                profile: elem._id
+            },
+            options: {
+                sort: {
+                    timestamp: -1
+                }
+            }
+        }
+
+        get("/api/entry", query, function(err, results) {
             if (err) {
                 console.log(MODULE_NAME, functionName, "Error:", err)
                 // TODO do not call profile page if current profile isn't loaded

@@ -31,3 +31,9 @@ public/build/*
 
 # Debug log from npm
 npm-debug.log
+
+# Mac files
+.DS_Store
+
+# Back up files
+*~

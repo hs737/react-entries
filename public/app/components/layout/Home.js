@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import SearchBar from '../presentational/SearchBar'
+import NavBar from '../presentational/NavBar'
 
 var MODULE_NAME = "Home"
 
@@ -45,7 +46,7 @@ class Home extends Component {
     render() {
         return (
             <div>
-                home
+                <NavBar />
                 <SearchBar />
             </div>
         )

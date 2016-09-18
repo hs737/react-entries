@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
 import SearchResults from '../presentational/SearchResults'
+import NavBar from '../presentational/NavBar'
 
 import store from '../stores/store'
 import CONSTANTS from '../constants/constants'
@@ -91,8 +92,7 @@ class Search extends Component {
 
         return (
             <div>
-                search<br />
-
+                <NavBar />
                 {resultsContent}
             </div>
         )

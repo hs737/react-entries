@@ -5,6 +5,9 @@ import { connect } from 'react-redux'
 import EntryText from '../presentational/EntryText'
 import Entries from '../presentational/Entries'
 import NavBar from '../presentational/NavBar'
+import PageHeader from '../presentational/PageHeader'
+import SideBar from '../presentational/SideBar'
+import EntriesPanel from '../presentational/EntriesPanel'
 
 var MODULE_NAME = "Profile"
 
@@ -56,9 +59,21 @@ class Profile extends Component {
     }
 
     render() {
+        var functionName = "render"
+        console.log(MODULE_NAME, functionName + " called", this.props)
+
         return (
             <div>
                 <NavBar />
+                <PageHeader />
+                <div className="page-container">
+                    <div className="page-content">
+                        <SideBar />
+                        <div className="content-wrapper">
+                            <EntriesPanel />
+                        </div>
+                    </div>
+                </div>
                 <EntryText id={this.props.params.id} />
                 <Entries entries={this.props.entries} />
             </div>

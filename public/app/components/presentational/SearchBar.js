@@ -8,6 +8,11 @@ import {get} from '../utils/APIManager'
 
 var MODULE_NAME = "SearchBar"
 
+const INPUT_CLASS = {
+    ON_FOCUS: "form-control bg-primary",
+    ON_BLUR: "form-control"
+}
+
 class Search extends Component {
     constructor(props, context, updater) {
         var functionName = "constructor"
@@ -17,12 +22,35 @@ class Search extends Component {
 
         this.handleSearchTextChange = this.handleSearchTextChange.bind(this)
         this.handleSearchSubmit = this.handleSearchSubmit.bind(this)
+        // this.handleOnBlur = this.handleOnBlur.bind(this)
+        // this.handleOnFocus = this.handleOnFocus.bind(this)
 
         this.context = context
         this.state = {
-            searchQuery: ''
+            searchQuery: '',
+            classForInput: INPUT_CLASS.ON_BLUR
         }
     }
+
+    // handleOnBlur(event) {
+    //     var functionName = "handleOnBlur"
+    //     console.log(MODULE_NAME, functionName + " called", event.target.name, event.target.value)
+
+    //     var newState = Object.assign({}, this.state)
+    //     newState.classForInput = INPUT_CLASS.ON_BLUR
+
+    //     this.setState(newState)
+    // }
+
+    // handleOnFocus(event) {
+    //     var functionName = "handleOnFocus"
+    //     console.log(MODULE_NAME, functionName + " called", event.target.name, event.target.value)
+
+    //     var newState = Object.assign({}, this.state)
+    //     newState.classForInput = INPUT_CLASS.ON_FOCUS
+
+    //     this.setState(newState)
+    // }
 
     handleSearchTextChange(event) {
         var functionName = "handleSearchTextChange"
@@ -86,11 +114,15 @@ class Search extends Component {
     }
 
     render() {
+        var functionName = "render"
+        console.log(MODULE_NAME, functionName + " called", this.props)
+
         return (
             <div>
                 {/*<input name="searchInput" placeholder="Enter user name" type="search" onChange={this.handleSearchTextChange}></input>
                 <button type="submit" onClick={this.handleSearchSubmit}>Submit</button>*/}
-                <input type="searchInput" className="form-control" onChange={this.handleSearchTextChange} />
+                <input type="searchInput" className={this.state.classForInput} onChange={this.handleSearchTextChange} />
+                {/*<input type="searchInput" className={this.state.classForInput} onChange={this.handleSearchTextChange} *onFocus={this.handleOnFocus} onBlur={this.handleOnBlur} />*/}
                 <div className="form-control-feedback">
                     <i className="icon-search4 text-muted text-size-base"></i>
                 </div>

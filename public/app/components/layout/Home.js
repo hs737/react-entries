@@ -47,7 +47,7 @@ class Home extends Component {
         return (
             <div>
                 <NavBar />
-                <SearchBar />
+                {/*<SearchBar />*/}
             </div>
         )
     }

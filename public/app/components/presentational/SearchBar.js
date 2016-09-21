@@ -38,6 +38,10 @@ class Search extends Component {
         var functionName = "handleSearchSubmit"
         console.log(MODULE_NAME, functionName + " called", event.target.name, this.state.searchQuery)
 
+        event.preventDefault();
+
+        // TODO Handle submitting empty text
+
         store.currentStore().dispatch(actions.search(null))
 
         console.log(MODULE_NAME, functionName + " this.props.router", this.props.router)
@@ -84,8 +88,15 @@ class Search extends Component {
     render() {
         return (
             <div>
-                <input name="searchInput" placeholder="Enter user name" type="search" onChange={this.handleSearchTextChange}></input>
-                <button type="submit" onClick={this.handleSearchSubmit}>Submit</button>
+                {/*<input name="searchInput" placeholder="Enter user name" type="search" onChange={this.handleSearchTextChange}></input>
+                <button type="submit" onClick={this.handleSearchSubmit}>Submit</button>*/}
+                <input type="searchInput" className="form-control" onChange={this.handleSearchTextChange} />
+                <div className="form-control-feedback">
+                    <i className="icon-search4 text-muted text-size-base"></i>
+                </div>
+                <div className="input-group-btn">
+                    <button type="submit" className="btn btn-link" onClick={this.handleSearchSubmit}>Search</button>
+                </div>
             </div>
         )
     }

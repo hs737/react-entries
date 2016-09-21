@@ -45,6 +45,7 @@ class Search extends Component {
 
             var searchResults = results.result;
             console.log(MODULE_NAME, functionName, "Search results", searchResults)
+
             store.currentStore().dispatch(actions.search(searchResults))
         })
     }

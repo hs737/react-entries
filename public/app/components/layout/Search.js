@@ -94,7 +94,15 @@ class Search extends Component {
         return (
             <div>
                 <NavBar />
-                {resultsContent}
+                <div className="page-container">
+                    <div className="page-content">
+                        <div className="content-wrapper">
+                            <div className="content">
+                                {resultsContent}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

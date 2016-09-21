@@ -138,15 +138,52 @@ class SearchResults extends Component {
             console.log("Search results for some results found")
             var _this = this
             resultsContent = <ol>{this.props.searchResults.map(function(elem, idx) {
-                return <li key={idx}><Link onClick={() => _this.getProfileEntries(elem)} to={"/profile/" + elem._id}>{elem.name}</Link></li>
+                // return <li key={idx}><Link onClick={() => _this.getProfileEntries(elem)} to={"/profile/" + elem._id}>{elem.name}</Link></li>
+                return (
+                    <li key={idx} className="media">
+                        <div className="media-left media-middle">
+                            <Link onClick={() => _this.getProfileEntries(elem)} to={"/profile/" + elem._id}>
+                                <img src="assets/images/demo/users/face1.jpg" className="img-circle" alt="" />
+                            </Link>
+                        </div>
+
+                        <div className="media-body">
+                            <div className="media-heading text-semibold"><Link onClick={() => _this.getProfileEntries(elem)} to={"/profile/" + elem._id}>{elem.name}</Link></div>
+                            {/*<span className="text-muted">Development</span>*/}
+                        </div>
+
+                        <div className="media-right media-middle">
+                            <ul className="icons-list text-nowrap">
+                                <li className="dropdown">
+                                    <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i className="icon-menu9"></i></a>
+
+                                    <ul className="dropdown-menu dropdown-menu-right">
+                                        <li><a href="#"><i className="icon-comment-discussion pull-right"></i> Start chat</a></li>
+                                        <li><a href="#"><i className="icon-phone2 pull-right"></i> Make a call</a></li>
+                                        <li><a href="#"><i className="icon-mail5 pull-right"></i> Send mail</a></li>
+                                        <li className="divider"></li>
+                                        <li><a href="#"><i className="icon-statistics pull-right"></i> Statistics</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                )
             })}</ol>
         }
 
         return (
-            <div>
-                searchResults<br />
-
-                {resultsContent}
+            <div className="content-group">
+                <p class="text-muted text-size-small content-group">About {this.props.searchResults.length} results (0.34 seconds)</p>
+                <div className="search-results-list">
+                    <div className="text-size-small text-uppercase text-semibold text-muted mb-10">List view</div>
+                    <div className="panel panel-body">
+                        <ul className="media-list">
+                            {/*<li className="media-header text-muted">Team leaders</li>*/}
+                            {resultsContent}
+                        </ul>
+                    </div>
+                </div>
             </div>
         )
     }

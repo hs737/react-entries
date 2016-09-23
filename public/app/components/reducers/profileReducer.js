@@ -10,11 +10,11 @@ export default function (previousState = initialState, someAction) {
     console.log(moduleName + " called", previousState, someAction)
 
     switch(someAction.type) {
-        case CONSTANTS.UPDATE_PROFILE:
-            console.log('UPDATE_PROFILE', JSON.stringify(someAction))
+        case CONSTANTS.ACTIONS.UPDATE_CURRENT_PROFILE:
+            console.log('UPDATE_CURRENT_PROFILE', JSON.stringify(someAction))
 
             var nextState = Object.assign({}, previousState)
-            nextState['currentProfile'] = someAction.profileId
+            nextState['currentProfile'] = someAction.profileDetails
 
             return nextState
 

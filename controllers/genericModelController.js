@@ -22,6 +22,12 @@ module.exports = function(model) {
 
             model.find(query, genericModelCallback(moduleNameForLogger, FUNCTION_NAME, callback)).setOptions(options)
         },
+        readById: function(id, options, isRaw, callback) {
+            const FUNCTION_NAME = 'readById'
+            logger.debug(moduleNameForLogger + " " + FUNCTION_NAME + " called", id, options, isRaw)
+
+            model.findById(id, genericModelCallback(moduleNameForLogger, FUNCTION_NAME, callback)).setOptions(options)
+        },
         update: function(id, params, isRaw, callback) {
             const FUNCTION_NAME = 'update'
             logger.debug(moduleNameForLogger + " " + FUNCTION_NAME + " called", id, params, isRaw)

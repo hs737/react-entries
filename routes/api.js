@@ -52,6 +52,15 @@ router.get('/:resource', function(req, res, next) {
     }
 });
 
+router.get('/:resource/:id', function(req, res, next) {
+    var resource = req.params.resource
+    var controller = getController(res, resource)
+
+    var options = req.query.options
+
+    controller.readById(req.params.id, options, false, genericControllerCallback(res))
+});
+
 router.post('/:resource', function(req, res, next) {
     var resource = req.params.resource
     var controller = getController(res, resource)

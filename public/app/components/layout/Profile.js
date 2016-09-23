@@ -8,6 +8,7 @@ import NavBar from '../presentational/NavBar'
 import PageHeader from '../presentational/PageHeader'
 import SideBar from '../presentational/SideBar'
 import EntriesPanel from '../presentational/EntriesPanel'
+import EntriesSidebar from '../presentational/EntriesSidebar'
 
 var MODULE_NAME = "Profile"
 
@@ -18,7 +19,7 @@ class Profile extends Component {
 
         super(props, context, updater)
 
-        console.log(MODULE_NAME, functionName, "props", this.props.params)
+        console.log(MODULE_NAME, functionName, "props", this.props)
     }
 
     componentWillMount() {
@@ -65,13 +66,14 @@ class Profile extends Component {
         return (
             <div>
                 <NavBar />
-                <PageHeader />
+                <PageHeader profileDetails={this.props.currentProfile} />
                 <div className="page-container">
                     <div className="page-content">
                         <SideBar />
                         <div className="content-wrapper">
                             <EntriesPanel />
                         </div>
+                        <EntriesSidebar />
                     </div>
                 </div>
                 <EntryText id={this.props.params.id} />
@@ -84,6 +86,7 @@ class Profile extends Component {
 var mapStateToProps = function(storesState) {
     console.log("mapStateToProps", JSON.stringify(storesState))
     return {
+        currentProfile: storesState.profileReducer.currentProfile,
         entries: storesState.entryReducer.entriesList
     }
 }

@@ -11,6 +11,53 @@ import {get, post} from '../utils/APIManager'
 
 var MODULE_NAME = "SearchResults"
 
+// TODO Move this function to a utility file
+function updateProfileEntries(profileId) {
+    var functionName = "updateProfileEntries"
+    console.log(MODULE_NAME, functionName + " called", profileId)
+
+    var query = {
+        constraints: {
+            profile: profileId
+        },
+        options: {
+            sort: {
+                timestamp: -1
+            }
+        }
+    }
+
+    get("/api/entry", query, function(err, results) {
+        if (err) {
+            console.log(MODULE_NAME, functionName, "Error:", err)
+            // TODO do not call profile page if current profile isn't loaded
+            return
+        }
+
+        store.currentStore().dispatch(actions.getEntries(results.result));
+    })
+}
+
+function updateProfileDetails(profileId) {
+    var functionName = "updateProfileDetails"
+    console.log(MODULE_NAME, functionName + " called", profileId)
+
+    var query = {
+        constraints: {},
+        options: {}
+    }
+
+    get("/api/profile/" + profileId, query, function(err, results) {
+        if (err) {
+            console.log(MODULE_NAME, functionName, "Error:", err)
+            // TODO do not call profile page if current profile isn't loaded
+            return
+        }
+
+        store.currentStore().dispatch(actions.updateCurrentProfile(results.result))
+    })
+}
+
 class SearchResults extends Component {
     constructor(props, context, updater) {
         var functionName = "constructor"
@@ -19,7 +66,7 @@ class SearchResults extends Component {
         super(props, context, updater)
 
         this.createProfileHandler = this.createProfileHandler.bind(this)
-        this.getProfileEntries = this.getProfileEntries.bind(this)
+        this.getProfileData = this.getProfileData.bind(this)
 
         this.state = {
             searchResults: []
@@ -40,48 +87,16 @@ class SearchResults extends Component {
             var profile = result.result
             console.log(MODULE_NAME, functionName, profile)
 
-            store.currentStore().dispatch(actions.updateCurrentProfile(profile._id))
+            updateProfileDetails(profile._id)
         })
     }
 
-    getProfileEntries(elem) {
-        var functionName = "getProfileEntries"
+    getProfileData(elem) {
+        var functionName = "getProfileData"
         console.log(MODULE_NAME, functionName + " called", elem)
 
-        var query = {
-            constraints: {
-                profile: elem._id
-            },
-            options: {
-                sort: {
-                    timestamp: -1
-                }
-            }
-        }
-
-        get("/api/entry", query, function(err, results) {
-            if (err) {
-                console.log(MODULE_NAME, functionName, "Error:", err)
-                // TODO do not call profile page if current profile isn't loaded
-                return
-            }
-
-            store.currentStore().dispatch(actions.getEntries(results.result));
-        })
-
-
-        // controllers['entry'].read({profile: req.params.slug}, false, function(error, docs) {
-        //     if (error) {
-        //         logger.error('ReactRouter - ERROR: ' + error)
-        //         // TODO render page not found
-        //         return
-        //     }
-
-        //     var initialStatePerReducer = {
-        //         entryReducer: {
-        //             entriesList: docs
-        //         }
-        //     }
+        updateProfileDetails(elem._id)
+        updateProfileEntries(elem._id)
     }
 
     componentWillMount() {
@@ -138,17 +153,17 @@ class SearchResults extends Component {
             console.log("Search results for some results found")
             var _this = this
             resultsContent = <ol>{this.props.searchResults.map(function(elem, idx) {
-                // return <li key={idx}><Link onClick={() => _this.getProfileEntries(elem)} to={"/profile/" + elem._id}>{elem.name}</Link></li>
+                // return <li key={idx}><Link onClick={() => _this.getProfileData(elem)} to={"/profile/" + elem._id}>{elem.name}</Link></li>
                 return (
                     <li key={idx} className="media">
                         <div className="media-left media-middle">
-                            <Link onClick={() => _this.getProfileEntries(elem)} to={"/profile/" + elem._id}>
+                            <Link onClick={() => _this.getProfileData(elem)} to={"/profile/" + elem._id}>
                                 <img src="assets/images/demo/users/face1.jpg" className="img-circle" alt="" />
                             </Link>
                         </div>
 
                         <div className="media-body">
-                            <div className="media-heading text-semibold"><Link onClick={() => _this.getProfileEntries(elem)} to={"/profile/" + elem._id}>{elem.name}</Link></div>
+                            <div className="media-heading text-semibold"><Link onClick={() => _this.getProfileData(elem)} to={"/profile/" + elem._id}>{elem.name}</Link></div>
                             {/*<span className="text-muted">Development</span>*/}
                         </div>
 
@@ -174,7 +189,7 @@ class SearchResults extends Component {
 
         return (
             <div className="content-group">
-                <p class="text-muted text-size-small content-group">About {this.props.searchResults.length} results (0.34 seconds)</p>
+                <p className="text-muted text-size-small content-group">About {this.props.searchResults.length} results (0.34 seconds)</p>
                 <div className="search-results-list">
                     <div className="text-size-small text-uppercase text-semibold text-muted mb-10">List view</div>
                     <div className="panel panel-body">

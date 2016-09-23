@@ -3,6 +3,15 @@ import React, { Component } from 'react'
 var MODULE_NAME = "PageHeader"
 
 class PageHeader extends Component {
+    constructor(props, context, updater) {
+        var functionName = "constructor"
+        console.log(MODULE_NAME, functionName + " called")
+
+        super(props, context, updater)
+
+        console.log(MODULE_NAME, functionName, "props", this.props)
+    }
+
     componentWillMount() {
         var functionName = "componentWillMount"
         console.log(MODULE_NAME, functionName + " called")
@@ -44,6 +53,12 @@ class PageHeader extends Component {
         var functionName = "render"
         console.log(MODULE_NAME, functionName + " called", this.props)
 
+        var profileName = null
+
+        if (this.props.profileDetails != null) {
+            var profileName = this.props.profileDetails.name
+        }
+
         return (
             <div className="page-header">
                 <div className="breadcrumb-line"><a className="breadcrumb-elements-toggle"><i className="icon-menu-open"></i></a>
@@ -75,7 +90,7 @@ class PageHeader extends Component {
 
                 <div className="page-header-content">
                     <div className="page-title">
-                        <h4><i className="icon-arrow-left52 position-left"></i> <span className="text-semibold">Starters</span> - Double Sidebars</h4>
+                        <h4><i className="icon-arrow-left52 position-left"></i> <span className="text-semibold">{profileName}</span> - Double Sidebars</h4>
                     <a className="heading-elements-toggle"><i className="icon-more"></i></a></div>
 
                     <div className="heading-elements">

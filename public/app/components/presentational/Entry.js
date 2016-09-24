@@ -116,8 +116,8 @@ class Entry extends Component {
         console.log(MODULE_NAME, functionName + " called", this.props)
 
         return (
-            <div>
-                <textarea value={this.state.entryText} onChange={this.updateEntryText} />
+            <div className='form-group'>
+                <textarea className='form-control' value={this.state.entryText} onChange={this.updateEntryText} />
                 <button type="submit" onClick={this.submitEntryUpdate}>Update</button>
                 <button type="submit" onClick={this.submitEntryDelete}>Delete</button>
             </div>

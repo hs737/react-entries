@@ -1,23 +1,8 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
-import Entry from './Entry'
+var MODULE_NAME = "Panel"
 
-import store from '../stores/store'
-import actions from '../actions/actions'
-import {post} from '../utils/APIManager'
-
-var MODULE_NAME = "Entries"
-
-class Entries extends Component {
-    constructor(props, context, updater) {
-        var functionName = "constructor"
-        console.log(MODULE_NAME, functionName + " called")
-
-        super(props, context, updater)
-
-        console.log(MODULE_NAME, functionName, "props", this.props.params)
-    }
-
+class Panel extends Component {
     componentWillMount() {
         var functionName = "componentWillMount"
         console.log(MODULE_NAME, functionName + " called")
@@ -57,28 +42,32 @@ class Entries extends Component {
 
     render() {
         var functionName = "render"
-        console.log(MODULE_NAME, functionName + " called", this.props.entries)
+        console.log(MODULE_NAME, functionName + " called", this.props)
 
-        if (this.props.entries == null) {
-            var entryTags = null
-        } else {
-            entryTags = this.props.entries.map(function(elem, index) {
-                return <Entry key = {index} details={elem} />
-                // return (
-                //     <div key = {index}>
-                //         <Entry text={elem.text} />
-                //     </div>
-                // )
-            })
+        var heading = null;
+        if (this.props.headingDetails != null) {
+            heading = (
+                <div className="panel-heading">
+                    <h5 className="panel-title">{this.props.headingDetails.title}<a className="heading-elements-toggle"><i className="icon-more"></i></a></h5>
+                    <div className="heading-elements">
+                        <ul className="icons-list">
+                            <li><a data-action="collapse"></a></li>
+                            <li><a data-action="close"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            )
         }
 
         return (
-            <fieldset className='content-group'>
-                {entryTags}
-            </fieldset>
+            <div className="panel panel-flat">
+                {heading}
+                <div className="panel-body">
+                    {this.props.panelBody}
+                </div>
+            </div>
         )
     }
 }
 
-// export default connect(mapStateToProps)(Entries)
-export default Entries
+export default Panel

@@ -37,6 +37,8 @@ class EntryText extends Component {
         var functionName = "addEntry"
         console.log(MODULE_NAME, functionName + " called", event.target.name, event.target.value)
 
+        event.preventDefault();
+
         var _this = this
         var newDocument = {
             profile: this.props.id,
@@ -97,11 +99,14 @@ class EntryText extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Entry Text</h1>
-                <textarea placeholder="Enter text here" onChange={this.updateCurrentStateEntry} value = {this.state.currentEntry} />
-                <button type="submit" onClick={this.addEntry}>Submit</button>
-            </div>
+            <form class="form-horizontal">
+                <fieldset class="content-group">
+                    <div className='form-group'>
+                        <textarea className='form-control' placeholder="Enter text here" onChange={this.updateCurrentStateEntry} value={this.state.currentEntry} />
+                        <button type="submit" onClick={this.addEntry}>Submit</button>
+                    </div>
+                </fieldset>
+            </form>
         )
     }
 }

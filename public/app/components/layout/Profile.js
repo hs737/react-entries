@@ -2,8 +2,6 @@ import React, {Component} from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 
-import EntryText from '../presentational/EntryText'
-import Entries from '../presentational/Entries'
 import NavBar from '../presentational/NavBar'
 import PageHeader from '../presentational/PageHeader'
 import SideBar from '../presentational/SideBar'
@@ -130,13 +128,11 @@ class Profile extends Component {
                     <div className="page-content">
                         <SideBar />
                         <div className="content-wrapper">
-                            <EntriesPanel />
+                            <EntriesPanel id={this.props.params.id} entries={this.props.entries} />
                         </div>
                         <EntriesSidebar />
                     </div>
                 </div>
-                <EntryText id={this.props.params.id} />
-                <Entries entries={this.props.entries} />
             </div>
         )
     }

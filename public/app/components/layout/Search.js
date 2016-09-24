@@ -28,26 +28,28 @@ class Search extends Component {
         var functionName = "componentWillMount"
         console.log(MODULE_NAME, functionName + " called", this.props.location.query)
 
-        var query = {
-            constraints: {
-                text: this.props.location.query.q
-            },
-            options: {}
-        }
-
-        var _this = this
-
-        get("/api/search", query, function(err, results) {
-            if (err) {
-                console.log(MODULE_NAME, functionName, "Error:", err)
-                return
+        if (this.props.searchResults == null) {
+            var query = {
+                constraints: {
+                    text: this.props.location.query.q
+                },
+                options: {}
             }
 
-            var searchResults = results.result;
-            console.log(MODULE_NAME, functionName, "Search results", searchResults)
+            var _this = this
 
-            store.currentStore().dispatch(actions.search(searchResults))
-        })
+            get("/api/search", query, function(err, results) {
+                if (err) {
+                    console.log(MODULE_NAME, functionName, "Error:", err)
+                    return
+                }
+
+                var searchResults = results.result;
+                console.log(MODULE_NAME, functionName, "Search results", searchResults)
+
+                store.currentStore().dispatch(actions.search(searchResults))
+            })
+        }
     }
 
     componentDidMount() {

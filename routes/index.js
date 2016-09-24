@@ -20,6 +20,7 @@ var store                   = require('../public/build/es5/components/stores/sto
 var controllers = {
     entry: promise.promisifyAll(require('../controllers/genericModelController')(Entry)),
     profile: promise.promisifyAll(require('../controllers/genericModelController')(RelationshipProfile)),
+    search: promise.promisifyAll(require('../controllers/searchController')),
 }
 
 var router = express.Router();
@@ -104,39 +105,15 @@ router.use(function(req, res, next) {
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-    var initialStatePerReducer = {}
-    var initialStore = store.createStore(initialStatePerReducer)
-
-    var routes = {
-        path: '/',
-        component: ServerApp,
-        initial: initialStore,
-        indexRoute: {
-            component: Home
-        },
-        childRoutes: [
-            {path: 'search', component: Search},
-            {path: 'profile', component: Profile}
-        ]
-    }
-
-    reactRouter.match({routes: routes, location: req.url}, function(error, redirectLocation, renderProps) {
-        if (error){
-            logger.error('ReactRouter - ERROR: ' + error)
-            return
-        }
-        if (redirectLocation){
-            logger.debug('ReactRouter - redirectLocation: ' + redirectLocation)
-            return
-        }
-
-        logger.debug('ReactRouter - renderProps: ' + JSON.stringify(renderProps))
-        var html = reactDomServer.renderToString(react.createElement(reactRouter.RouterContext, renderProps))
-        res.render('index', {
-            title: 'Express',
-            react: html,
-            preloadedState: JSON.stringify(initialStore.getState())
-        });
+    matchRoute(req, [
+        {path: 'search', component: Search},
+        {path: 'profile', component: Profile},
+        {path: '*', component: PageNotFound}
+    ])({})
+    .then(renderRoute(res))
+    .catch(function (err) {
+        logger.error(MODULE_NAME, err)
+        res.status(404).send({ error: err });       // TODO: Verify correct html error code
     })
 });
 
@@ -148,58 +125,17 @@ router.get('/:page', function(req, res, next) {
         return
     }
 
-    // matchRoute(req, [
-    //     {path: 'search', component: Search},
-    //     {path: '*', component: PageNotFound}
-    // ])
-    // .then(renderRoute(res))
-    // // .catch(RouterMatchError, function(err) {
-    // //      logger.error(MODULE_NAME, err)
-    // //      res.status(404).send({ error: err });       // TODO: Verify correct html error code
-    // // })
-    // .catch(function (err) {
-    //     //Catch any unexpected errors
-    //     logger.error(MODULE_NAME, err)
-    //     res.status(404).send({ error: err });       // TODO: Verify correct html error code
-    // })
-
-    var initialStatePerReducer = {
-        searchReducer: {
-            searchResults: null
-        }
-    }
-    var initialStore = store.createStore(initialStatePerReducer)
-
-    var routes = {
-        path: '/',
-        component: ServerApp,
-        initial: initialStore,
-        indexRoute: {
-            component: Home
-        },
-        childRoutes: [
-            {path: 'search', component: Search},
-            {path: '*', component: PageNotFound}
-        ]
-    }
-
-    reactRouter.match({routes: routes, location: req.url}, function(error, redirectLocation, renderProps) {
-        if (error){
-            logger.error('ReactRouter - ERROR: ' + error)
-            return
-        }
-        if (redirectLocation){
-            logger.debug('ReactRouter - redirectLocation: ' + redirectLocation)
-            return
-        }
-
-        logger.debug('ReactRouter - renderProps: ' + JSON.stringify(renderProps))
-        var html = reactDomServer.renderToString(react.createElement(reactRouter.RouterContext, renderProps))
-        res.render('index', {
-            title: 'Express',
-            react: html,
-            preloadedState: JSON.stringify(initialStore.getState())
-        });
+    promise.props({
+        searchResults: controllers['search'].searchAsync({text: req.query.q}, false)
+    })
+    .then(matchRoute(req, [
+        {path: 'search', component: Search},
+        {path: '*', component: PageNotFound}
+    ]))
+    .then(renderRoute(res))
+    .catch(function (err) {
+        logger.error(MODULE_NAME, err)
+        res.status(404).send({ error: err });       // TODO: Verify correct html error code
     })
 });
 
@@ -217,15 +153,11 @@ router.get('/:page/:slug', function(req, res, next) {
         entries: controllers['entry'].readAsync({profile: req.params.slug}, {sort: {timestamp: -1}}, false)
     })
     .then(matchRoute(req, [
-        {path: 'profile/:id', component: Profile}
+        {path: 'profile/:id', component: Profile},
+        {path: '*', component: PageNotFound}
     ]))
     .then(renderRoute(res))
-    // .catch(RouterMatchError, function(err) {
-    //      logger.error(MODULE_NAME, err)
-    //      res.status(404).send({ error: err });       // TODO: Verify correct html error code
-    // })
     .catch(function (err) {
-        //Catch any unexpected errors
         logger.error(MODULE_NAME, err)
         res.status(404).send({ error: err });       // TODO: Verify correct html error code
     })

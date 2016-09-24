@@ -10,7 +10,58 @@ import SideBar from '../presentational/SideBar'
 import EntriesPanel from '../presentational/EntriesPanel'
 import EntriesSidebar from '../presentational/EntriesSidebar'
 
+import store from '../stores/store'
+import actions from '../actions/actions'
+import { get } from '../utils/APIManager'
+
 var MODULE_NAME = "Profile"
+
+// TODO Move this function to a utility file
+function updateProfileEntries(profileId) {
+    var functionName = "updateProfileEntries"
+    console.log(MODULE_NAME, functionName + " called", profileId)
+
+    var query = {
+        constraints: {
+            profile: profileId
+        },
+        options: {
+            sort: {
+                timestamp: -1
+            }
+        }
+    }
+
+    get("/api/entry", query, function(err, results) {
+        if (err) {
+            console.log(MODULE_NAME, functionName, "Error:", err)
+            // TODO do not call profile page if current profile isn't loaded
+            return
+        }
+
+        store.currentStore().dispatch(actions.getEntries(results.result));
+    })
+}
+
+function updateProfileDetails(profileId) {
+    var functionName = "updateProfileDetails"
+    console.log(MODULE_NAME, functionName + " called", profileId)
+
+    var query = {
+        constraints: {},
+        options: {}
+    }
+
+    get("/api/profile/" + profileId, query, function(err, results) {
+        if (err) {
+            console.log(MODULE_NAME, functionName, "Error:", err)
+            // TODO do not call profile page if current profile isn't loaded
+            return
+        }
+
+        store.currentStore().dispatch(actions.updateCurrentProfile(results.result))
+    })
+}
 
 class Profile extends Component {
     constructor(props, context, updater) {
@@ -25,6 +76,14 @@ class Profile extends Component {
     componentWillMount() {
         var functionName = "componentWillMount"
         console.log(MODULE_NAME, functionName + " called")
+
+        if (this.props.currentProfile == null) {
+            updateProfileDetails(this.props.params.id)
+        }
+
+        if (this.props.entries == null) {
+            updateProfileEntries(this.props.params.id)
+        }
     }
 
     componentDidMount() {

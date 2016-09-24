@@ -5,58 +5,10 @@ import { Link } from 'react-router'
 // import Search from '../presentational/Search'
 
 import store from '../stores/store'
-import CONSTANTS from '../constants/constants'
 import actions from '../actions/actions'
 import {get, post} from '../utils/APIManager'
 
 var MODULE_NAME = "SearchResults"
-
-// TODO Move this function to a utility file
-function updateProfileEntries(profileId) {
-    var functionName = "updateProfileEntries"
-    console.log(MODULE_NAME, functionName + " called", profileId)
-
-    var query = {
-        constraints: {
-            profile: profileId
-        },
-        options: {
-            sort: {
-                timestamp: -1
-            }
-        }
-    }
-
-    get("/api/entry", query, function(err, results) {
-        if (err) {
-            console.log(MODULE_NAME, functionName, "Error:", err)
-            // TODO do not call profile page if current profile isn't loaded
-            return
-        }
-
-        store.currentStore().dispatch(actions.getEntries(results.result));
-    })
-}
-
-function updateProfileDetails(profileId) {
-    var functionName = "updateProfileDetails"
-    console.log(MODULE_NAME, functionName + " called", profileId)
-
-    var query = {
-        constraints: {},
-        options: {}
-    }
-
-    get("/api/profile/" + profileId, query, function(err, results) {
-        if (err) {
-            console.log(MODULE_NAME, functionName, "Error:", err)
-            // TODO do not call profile page if current profile isn't loaded
-            return
-        }
-
-        store.currentStore().dispatch(actions.updateCurrentProfile(results.result))
-    })
-}
 
 class SearchResults extends Component {
     constructor(props, context, updater) {
@@ -66,7 +18,6 @@ class SearchResults extends Component {
         super(props, context, updater)
 
         this.createProfileHandler = this.createProfileHandler.bind(this)
-        this.getProfileData = this.getProfileData.bind(this)
 
         this.state = {
             searchResults: []
@@ -84,19 +35,11 @@ class SearchResults extends Component {
                 return
             }
 
-            var profile = result.result
-            console.log(MODULE_NAME, functionName, profile)
+            // var profile = result.result
+            // console.log(MODULE_NAME, functionName, profile)
 
-            updateProfileDetails(profile._id)
+            // updateProfileDetails(profile._id)
         })
-    }
-
-    getProfileData(elem) {
-        var functionName = "getProfileData"
-        console.log(MODULE_NAME, functionName + " called", elem)
-
-        updateProfileDetails(elem._id)
-        updateProfileEntries(elem._id)
     }
 
     componentWillMount() {
@@ -157,13 +100,13 @@ class SearchResults extends Component {
                 return (
                     <li key={idx} className="media">
                         <div className="media-left media-middle">
-                            <Link onClick={() => _this.getProfileData(elem)} to={"/profile/" + elem._id}>
+                            <Link to={"/profile/" + elem._id}>
                                 <img src="assets/images/demo/users/face1.jpg" className="img-circle" alt="" />
                             </Link>
                         </div>
 
                         <div className="media-body">
-                            <div className="media-heading text-semibold"><Link onClick={() => _this.getProfileData(elem)} to={"/profile/" + elem._id}>{elem.name}</Link></div>
+                            <div className="media-heading text-semibold"><Link to={"/profile/" + elem._id}>{elem.name}</Link></div>
                             {/*<span className="text-muted">Development</span>*/}
                         </div>
 

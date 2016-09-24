@@ -26,23 +26,47 @@ var router = express.Router();
 require('node-jsx').install({extension: '.js'})
 const MODULE_NAME = "index.js"
 
-function matchAsync(req, routes, initialStore) {
-    return new Promise(function(resolve, reject){
-        reactRouter.match({ routes, location: req.url }, function(error, redirectLocation, renderProps){
-            console.log("matchAsync", error, redirectLocation, renderProps)
-
-            if (error){
-                reject(error)
-                return
+function matchAsync(req) {
+    return function(result) {
+        var initialStatePerReducer = {
+            entryReducer: {
+                entriesList: result.entries
+            },
+            profileReducer: {
+                currentProfile: result.profileDetails
             }
+        }
+        initialStore = store.createStore(initialStatePerReducer)
 
-            resolve({
-                redirectLocation: redirectLocation,
-                renderProps: renderProps,
-                initialStore: initialStore
+        var routes = {
+            path: '/',
+            component: ServerApp,
+            initial: initialStore,
+            indexRoute: {
+                component: Home
+            },
+            childRoutes: [
+                {path: 'profile/:id', component: Profile}
+            ]
+        }
+
+        return new Promise(function(resolve, reject){
+            reactRouter.match({ routes, location: req.url }, function(error, redirectLocation, renderProps){
+                console.log("matchAsync", error, redirectLocation, renderProps)
+
+                if (error){
+                    reject(error)
+                    return
+                }
+
+                resolve({
+                    redirectLocation: redirectLocation,
+                    renderProps: renderProps,
+                    initialStore: initialStore
+                })
             })
         })
-    })
+    }
 }
 
 router.use(function(req, res, next) {
@@ -155,31 +179,7 @@ router.get('/:page/:slug', function(req, res, next) {
     promise.props({
         profileDetails: controllers['profile'].readByIdAsync(req.params.slug, null, false),
         entries: controllers['entry'].readAsync({profile: req.params.slug}, {sort: {timestamp: -1}}, false)
-    }).then(function(result) {
-        var initialStatePerReducer = {
-            entryReducer: {
-                entriesList: result.entries
-            },
-            profileReducer: {
-                currentProfile: result.profileDetails
-            }
-        }
-        initialStore = store.createStore(initialStatePerReducer)
-
-        var routes = {
-            path: '/',
-            component: ServerApp,
-            initial: initialStore,
-            indexRoute: {
-                component: Home
-            },
-            childRoutes: [
-                {path: 'profile/:id', component: Profile}
-            ]
-        }
-
-        return matchAsync(req, routes, initialStore)
-    })
+    }).then(matchAsync(req))
     .then(function(result) {
         console.log("then", result)
         if (result.redirectLocation){

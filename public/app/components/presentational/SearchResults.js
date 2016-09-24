@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Link, withRouter } from 'react-router'
 
 // import Search from '../presentational/Search'
 
@@ -28,6 +28,8 @@ class SearchResults extends Component {
         var functionName = "createProfileHandler"
         console.log(MODULE_NAME, functionName + " called")
 
+        var _this = this
+
         post("/api/profile", {name: this.props.queryText}, function(err, result) {
             if (err) {
                 console.log(MODULE_NAME, functionName, "Error:", err)
@@ -35,10 +37,13 @@ class SearchResults extends Component {
                 return
             }
 
-            // var profile = result.result
-            // console.log(MODULE_NAME, functionName, profile)
+            var profile = result.result
+            console.log(MODULE_NAME, functionName, profile)
 
             // updateProfileDetails(profile._id)
+
+            console.log(MODULE_NAME, functionName, "this.props.router", _this.props.router)
+            _this.props.router.push('/profile/' + profile._id)
         })
     }
 
@@ -89,7 +94,7 @@ class SearchResults extends Component {
             resultsContent = (
                 <span>
                     Your search for <strong>{this.props.queryText}</strong> was not found.
-                    <Link onClick={this.createProfileHandler} to="/">Would you like to create a profile for <strong>{this.props.queryText}</strong></Link>
+                    <a onClick={this.createProfileHandler}>Would you like to create a profile for <strong>{this.props.queryText}</strong></a>
                 </span>
             )
         } else {
@@ -155,4 +160,4 @@ class SearchResults extends Component {
 // }
 
 // export default connect(mapStateToProps)(SearchResults)
-export default SearchResults
+export default withRouter(SearchResults)

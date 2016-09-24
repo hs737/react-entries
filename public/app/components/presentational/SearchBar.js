@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import { browserHistory, withRouter } from 'react-router'
+import { withRouter } from 'react-router'
 
 import store from '../stores/store'
 import actions from '../actions/actions'

@@ -12,6 +12,32 @@ import {get, post} from '../utils/APIManager'
 
 var MODULE_NAME = "Search"
 
+function executeSearch(query) {
+    var functionName = "executeSearch"
+    console.log(MODULE_NAME, functionName + " called")
+
+    var query = {
+        constraints: {
+            text: query
+        },
+        options: {}
+    }
+
+    var _this = this
+
+    get("/api/search", query, function(err, results) {
+        if (err) {
+            console.log(MODULE_NAME, functionName, "Error:", err)
+            return
+        }
+
+        var searchResults = results.result;
+        console.log(MODULE_NAME, functionName, "Search results", searchResults)
+
+        store.currentStore().dispatch(actions.search(searchResults))
+    })
+}
+
 class Search extends Component {
     constructor(props, context, updater) {
         var functionName = "constructor"
@@ -29,26 +55,7 @@ class Search extends Component {
         console.log(MODULE_NAME, functionName + " called", this.props.location.query)
 
         if (this.props.searchResults == null) {
-            var query = {
-                constraints: {
-                    text: this.props.location.query.q
-                },
-                options: {}
-            }
-
-            var _this = this
-
-            get("/api/search", query, function(err, results) {
-                if (err) {
-                    console.log(MODULE_NAME, functionName, "Error:", err)
-                    return
-                }
-
-                var searchResults = results.result;
-                console.log(MODULE_NAME, functionName, "Search results", searchResults)
-
-                store.currentStore().dispatch(actions.search(searchResults))
-            })
+            executeSearch(this.props.location.query.q)
         }
     }
 
@@ -65,6 +72,10 @@ class Search extends Component {
     componentWillReceiveProps(nextProps) {
         var functionName = "componentWillReceiveProps"
         console.log(MODULE_NAME, functionName + " called", nextProps)
+
+        if (this.props.searchResults != nextProps.searchResults) {
+            executeSearch(nextProps.location.query.q)
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {

@@ -26,7 +26,7 @@ var router = express.Router();
 require('node-jsx').install({extension: '.js'})
 const MODULE_NAME = "index.js"
 
-function matchAsync(req) {
+function matchRoute(req, childRoutes) {
     return function(result) {
         var initialStatePerReducer = {
             entryReducer: {
@@ -34,6 +34,9 @@ function matchAsync(req) {
             },
             profileReducer: {
                 currentProfile: result.profileDetails
+            },
+            searchReducer: {
+                searchResults: result.searchResults
             }
         }
         initialStore = store.createStore(initialStatePerReducer)
@@ -45,14 +48,12 @@ function matchAsync(req) {
             indexRoute: {
                 component: Home
             },
-            childRoutes: [
-                {path: 'profile/:id', component: Profile}
-            ]
+            childRoutes: childRoutes
         }
 
         return new Promise(function(resolve, reject){
             reactRouter.match({ routes, location: req.url }, function(error, redirectLocation, renderProps){
-                console.log("matchAsync", error, redirectLocation, renderProps)
+                console.log("matchRoute", error, redirectLocation, renderProps)
 
                 if (error){
                     reject(error)
@@ -66,6 +67,26 @@ function matchAsync(req) {
                 })
             })
         })
+    }
+}
+
+function renderRoute(res) {
+    return function(result) {
+        console.log("then", result)
+        if (result.redirectLocation){
+            logger.debug('ReactRouter - redirectLocation: ' + result.redirectLocation)
+            return
+        }
+
+        logger.debug('ReactRouter - renderProps: ' + JSON.stringify(result.renderProps))
+        var html = reactDomServer.renderToString(react.createElement(reactRouter.RouterContext, result.renderProps))
+        res.render('index', {
+            title: 'Express',
+            react: html,
+            preloadedState: JSON.stringify(result.initialStore.getState())
+        });
+
+        return
     }
 }
 
@@ -127,6 +148,21 @@ router.get('/:page', function(req, res, next) {
         return
     }
 
+    // matchRoute(req, [
+    //     {path: 'search', component: Search},
+    //     {path: '*', component: PageNotFound}
+    // ])
+    // .then(renderRoute(res))
+    // // .catch(RouterMatchError, function(err) {
+    // //      logger.error(MODULE_NAME, err)
+    // //      res.status(404).send({ error: err });       // TODO: Verify correct html error code
+    // // })
+    // .catch(function (err) {
+    //     //Catch any unexpected errors
+    //     logger.error(MODULE_NAME, err)
+    //     res.status(404).send({ error: err });       // TODO: Verify correct html error code
+    // })
+
     var initialStatePerReducer = {
         searchReducer: {
             searchResults: null
@@ -179,28 +215,11 @@ router.get('/:page/:slug', function(req, res, next) {
     promise.props({
         profileDetails: controllers['profile'].readByIdAsync(req.params.slug, null, false),
         entries: controllers['entry'].readAsync({profile: req.params.slug}, {sort: {timestamp: -1}}, false)
-    }).then(matchAsync(req))
-    .then(function(result) {
-        console.log("then", result)
-        if (result.redirectLocation){
-            logger.debug('ReactRouter - redirectLocation: ' + result.redirectLocation)
-            return
-        }
-
-        logger.debug('ReactRouter - renderProps: ' + JSON.stringify(result.renderProps))
-        var html = reactDomServer.renderToString(react.createElement(reactRouter.RouterContext, result.renderProps))
-        res.render('index', {
-            title: 'Express',
-            react: html,
-            preloadedState: JSON.stringify(result.initialStore.getState())
-        });
-
-        return
     })
-    // .catch(ControllerError, function(err) {
-    //      logger.error(MODULE_NAME, err)
-    //      res.status(404).send({ error: err });       // TODO: Verify correct html error code
-    // })
+    .then(matchRoute(req, [
+        {path: 'profile/:id', component: Profile}
+    ]))
+    .then(renderRoute(res))
     // .catch(RouterMatchError, function(err) {
     //      logger.error(MODULE_NAME, err)
     //      res.status(404).send({ error: err });       // TODO: Verify correct html error code

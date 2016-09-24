@@ -1,7 +1,8 @@
-var express        = require('express');
+var express                 = require('express');
 var react                   = require('react')
 var reactRouter             = require('react-router')
 var reactDomServer          = require('react-dom/server')
+var promise                 = require('bluebird')
 
 var logger                  = require('../utils/logger')
 var CONSTANTS               = require('../utils/constants')
@@ -17,13 +18,32 @@ var Profile                 = require('../public/build/es5/components/layout/Pro
 var store                   = require('../public/build/es5/components/stores/store')
 
 var controllers = {
-    entry: require('../controllers/genericModelController')(Entry),
-    profile: require('../controllers/genericModelController')(RelationshipProfile),
+    entry: promise.promisifyAll(require('../controllers/genericModelController')(Entry)),
+    profile: promise.promisifyAll(require('../controllers/genericModelController')(RelationshipProfile)),
 }
 
 var router = express.Router();
 require('node-jsx').install({extension: '.js'})
 const MODULE_NAME = "index.js"
+
+function matchAsync(req, routes, initialStore) {
+    return new Promise(function(resolve, reject){
+        reactRouter.match({ routes, location: req.url }, function(error, redirectLocation, renderProps){
+            console.log("matchAsync", error, redirectLocation, renderProps)
+
+            if (error){
+                reject(error)
+                return
+            }
+
+            resolve({
+                redirectLocation: redirectLocation,
+                renderProps: renderProps,
+                initialStore: initialStore
+            })
+        })
+    })
+}
 
 router.use(function(req, res, next) {
     var params = req.params
@@ -132,19 +152,19 @@ router.get('/:page/:slug', function(req, res, next) {
         return
     }
 
-    controllers['entry'].read({profile: req.params.slug}, {sort: {timestamp: -1}}, false, function(error, docs) {
-        if (error) {
-            logger.error('ReactRouter - ERROR: ' + error)
-            // TODO render page not found
-            return
-        }
-
+    promise.props({
+        profileDetails: controllers['profile'].readByIdAsync(req.params.slug, null, false),
+        entries: controllers['entry'].readAsync({profile: req.params.slug}, {sort: {timestamp: -1}}, false)
+    }).then(function(result) {
         var initialStatePerReducer = {
             entryReducer: {
-                entriesList: docs
+                entriesList: result.entries
+            },
+            profileReducer: {
+                currentProfile: result.profileDetails
             }
         }
-        var initialStore = store.createStore(initialStatePerReducer)
+        initialStore = store.createStore(initialStatePerReducer)
 
         var routes = {
             path: '/',
@@ -158,24 +178,37 @@ router.get('/:page/:slug', function(req, res, next) {
             ]
         }
 
-        reactRouter.match({routes: routes, location: req.url}, function(error, redirectLocation, renderProps) {
-            if (error){
-                logger.error('ReactRouter - ERROR: ' + error)
-                return
-            }
-            if (redirectLocation){
-                logger.debug('ReactRouter - redirectLocation: ' + redirectLocation)
-                return
-            }
+        return matchAsync(req, routes, initialStore)
+    })
+    .then(function(result) {
+        console.log("then", result)
+        if (result.redirectLocation){
+            logger.debug('ReactRouter - redirectLocation: ' + result.redirectLocation)
+            return
+        }
 
-            logger.debug('ReactRouter - renderProps: ' + JSON.stringify(renderProps))
-            var html = reactDomServer.renderToString(react.createElement(reactRouter.RouterContext, renderProps))
-            res.render('index', {
-                title: 'Express',
-                react: html,
-                preloadedState: JSON.stringify(initialStore.getState())
-            });
-        })
+        logger.debug('ReactRouter - renderProps: ' + JSON.stringify(result.renderProps))
+        var html = reactDomServer.renderToString(react.createElement(reactRouter.RouterContext, result.renderProps))
+        res.render('index', {
+            title: 'Express',
+            react: html,
+            preloadedState: JSON.stringify(result.initialStore.getState())
+        });
+
+        return
+    })
+    // .catch(ControllerError, function(err) {
+    //      logger.error(MODULE_NAME, err)
+    //      res.status(404).send({ error: err });       // TODO: Verify correct html error code
+    // })
+    // .catch(RouterMatchError, function(err) {
+    //      logger.error(MODULE_NAME, err)
+    //      res.status(404).send({ error: err });       // TODO: Verify correct html error code
+    // })
+    .catch(function (err) {
+        //Catch any unexpected errors
+        logger.error(MODULE_NAME, err)
+        res.status(404).send({ error: err });       // TODO: Verify correct html error code
     })
 });
 

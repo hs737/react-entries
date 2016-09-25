@@ -118,7 +118,7 @@ class Search extends Component {
         console.log(MODULE_NAME, functionName + " called", this.props)
 
         return (
-            <div>
+            <div className="input-group has-feedback has-feedback-left">
                 {/*<input name="searchInput" placeholder="Enter user name" type="search" onChange={this.handleSearchTextChange}></input>
                 <button type="submit" onClick={this.handleSearchSubmit}>Submit</button>*/}
                 <input type="searchInput" className={this.state.classForInput} onChange={this.handleSearchTextChange} />

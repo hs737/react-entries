@@ -88,9 +88,9 @@ class NavBar extends Component {
                         </li>
                     </ul>
                     <form className="navbar-form navbar-right">
-                        <div className="input-group has-feedback has-feedback-left">
+                        {/*<div className="input-group has-feedback has-feedback-left">*/}
                             <SearchBar />
-                        </div>
+                        {/*</div>*/}
                         {/*<input type="search" className="form-control" placeholder="Search" />
                         <div className="form-control-feedback">
                             <i className="icon-search4 text-muted text-size-base"></i>

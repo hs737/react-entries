@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import { Link } from 'react-router'
 
+import Panel from './Panel'
+
 import store from '../stores/store'
 import actions from '../actions/actions'
 import { put, del } from '../utils/APIManager'
@@ -115,12 +117,16 @@ class Entry extends Component {
         var functionName = "render"
         console.log(MODULE_NAME, functionName + " called", this.props)
 
-        return (
+        var entryBody = (
             <div className='form-group'>
                 <textarea className='form-control' value={this.state.entryText} onChange={this.updateEntryText} />
                 <button type="submit" onClick={this.submitEntryUpdate}>Update</button>
                 <button type="submit" onClick={this.submitEntryDelete}>Delete</button>
             </div>
+        )
+
+        return (
+            <Panel panelBody={entryBody}/>
         )
     }
 }

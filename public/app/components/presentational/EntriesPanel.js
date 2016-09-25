@@ -52,14 +52,10 @@ class EntriesPanel extends Component {
             <EntryText id={this.props.id} />
         )
 
-        var entriesListBody = (
-            <Entries entries={this.props.entries} />
-        )
-
         return (
             <div>
                 <Panel panelBody={textEntryBody}/>
-                <Panel panelBody={entriesListBody}/>
+                <Entries entries={this.props.entries} />
             </div>
         )
     }

@@ -12,13 +12,13 @@ import {get, post} from '../utils/APIManager'
 
 var MODULE_NAME = "Search"
 
-function executeSearch(query) {
+function executeSearch(q) {
     var functionName = "executeSearch"
-    console.log(MODULE_NAME, functionName + " called")
+    console.log(MODULE_NAME, functionName + " called", q)
 
     var query = {
         constraints: {
-            text: query
+            text: q
         },
         options: {}
     }
@@ -54,6 +54,7 @@ class Search extends Component {
         var functionName = "componentWillMount"
         console.log(MODULE_NAME, functionName + " called", this.props.location.query)
 
+        // debugger;
         if (this.props.searchResults == null) {
             executeSearch(this.props.location.query.q)
         }
@@ -73,7 +74,7 @@ class Search extends Component {
         var functionName = "componentWillReceiveProps"
         console.log(MODULE_NAME, functionName + " called", nextProps)
 
-        if (this.props.searchResults != nextProps.searchResults) {
+        if (nextProps.searchResults == null) {
             executeSearch(nextProps.location.query.q)
         }
     }
@@ -101,7 +102,7 @@ class Search extends Component {
 
         var resultsContent = null;
         if (this.props.searchResults != null) {
-            resultsContent = <SearchResults searchResults = {this.props.searchResults} queryText = {this.props.location.query.q} />
+            resultsContent = <SearchResults searchResults={this.props.searchResults} queryText={this.props.location.query.q} />
         }
 
         return (

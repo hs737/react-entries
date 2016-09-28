@@ -69,7 +69,6 @@ class Search extends Component {
         event.preventDefault();
 
         // TODO Handle submitting empty text
-
         store.currentStore().dispatch(actions.search(null))
 
         console.log(MODULE_NAME, functionName + " this.props.router", this.props.router)

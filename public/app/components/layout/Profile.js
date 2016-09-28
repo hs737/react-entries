@@ -19,6 +19,11 @@ function updateProfileEntries(profileId) {
     var functionName = "updateProfileEntries"
     console.log(MODULE_NAME, functionName + " called", profileId)
 
+    if (profileId == null) {
+        store.currentStore().dispatch(actions.getEntries(null));
+        return;
+    }
+
     var query = {
         constraints: {
             profile: profileId
@@ -44,6 +49,11 @@ function updateProfileEntries(profileId) {
 function updateProfileDetails(profileId) {
     var functionName = "updateProfileDetails"
     console.log(MODULE_NAME, functionName + " called", profileId)
+
+    if (profileId == null) {
+        store.currentStore().dispatch(actions.updateCurrentProfile(null));
+        return;
+    }
 
     var query = {
         constraints: {},
@@ -92,6 +102,9 @@ class Profile extends Component {
     componentWillUnmount() {
         var functionName = "componentWillUnmount"
         console.log(MODULE_NAME, functionName + " called")
+
+        updateProfileDetails(null)
+        updateProfileEntries(null)
     }
 
     componentWillReceiveProps(nextProps) {

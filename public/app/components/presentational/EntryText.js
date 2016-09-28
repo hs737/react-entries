@@ -100,7 +100,7 @@ class EntryText extends Component {
     render() {
         return (
             <form>
-                <fieldset class="content-group">
+                <fieldset className="content-group">
                     <div className='form-group'>
                         <textarea className='form-control' placeholder="Enter text here" onChange={this.updateCurrentStateEntry} value={this.state.currentEntry} />
                         <button type="submit" onClick={this.addEntry}>Submit</button>

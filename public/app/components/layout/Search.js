@@ -54,7 +54,6 @@ class Search extends Component {
         var functionName = "componentWillMount"
         console.log(MODULE_NAME, functionName + " called", this.props.location.query)
 
-        // debugger;
         if (this.props.searchResults == null) {
             executeSearch(this.props.location.query.q)
         }

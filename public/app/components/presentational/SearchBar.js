@@ -68,6 +68,12 @@ class Search extends Component {
 
         event.preventDefault();
 
+        if (this.state.searchQuery.length === 0) {
+            // TODO Show user a visual error
+            console.log("Attempting to search empty string. Exiting.")
+            return
+        }
+
         // TODO Handle submitting empty text
         store.currentStore().dispatch(actions.search(null))
 

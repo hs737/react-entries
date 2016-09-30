@@ -1,13 +1,17 @@
 var mongoose = require('mongoose')
 var logger = require('./logger')
-var CONSTANTS = require('./constants')
+var config = require('config');
 
-var dbUrl = CONSTANTS.DB_URL
+const MODULE_NAME = 'db.js'
+const dbConfig = config.get('dbConfig')
+const dbUrl = "mongodb://" + [dbConfig.host, dbConfig.name].join('/')
+
+logger.debug(MODULE_NAME, 'DB Config:', JSON.stringify(dbConfig));
 
 mongoose.connect(dbUrl, function(err, res) {
     if (err) {
-        logger.error("Database connection failed", dbUrl, err)
+        logger.error(MODULE_NAME, "Database connection failed", dbUrl, err)
     } else {
-        logger.debug("Database connection succeeded", dbUrl)
+        logger.debug(MODULE_NAME, "Database connection succeeded", dbUrl)
     }
 })

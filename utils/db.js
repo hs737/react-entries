@@ -1,6 +1,6 @@
 var mongoose = require('mongoose')
 var logger = require('./logger')
-var config = require('config');
+var config = require('config')
 
 const MODULE_NAME = 'db.js'
 const dbConfig = config.get('dbConfig')

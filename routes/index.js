@@ -1,13 +1,16 @@
+const MODULE_NAME = "index.js"
+
 var express                 = require('express');
 var react                   = require('react')
 var reactRouter             = require('react-router')
 var reactDomServer          = require('react-dom/server')
 var promise                 = require('bluebird')
 
-var logger                  = require('../utils/logger')
+var logger                  = require('../utils/logger')(MODULE_NAME)
 var CONSTANTS               = require('../utils/constants')
 var Entry                   = require('../models/entry')
 var RelationshipProfile     = require('../models/relationshipProfile')
+var User                    = require('../models/user')
 
 var ServerApp               = require('../public/build/es5/ServerApp')
 var Main                    = require('../public/build/es5/components/Main')
@@ -21,11 +24,11 @@ var controllers = {
     entry: promise.promisifyAll(require('../controllers/genericModelController')(Entry)),
     profile: promise.promisifyAll(require('../controllers/genericModelController')(RelationshipProfile)),
     search: promise.promisifyAll(require('../controllers/searchController')),
+    user: promise.promisifyAll(require('../controllers/genericModelController')(User))
 }
 
 var router = express.Router();
 require('node-jsx').install({extension: '.js'})
-const MODULE_NAME = "index.js"
 
 function matchRoute(req, childRoutes) {
     return function(result) {
@@ -73,7 +76,7 @@ function matchRoute(req, childRoutes) {
 
 function renderRoute(res) {
     return function(result) {
-        console.log("then", result)
+        logger.debug("renderRoute", result)
         if (result.redirectLocation){
             logger.debug('ReactRouter - redirectLocation: ' + result.redirectLocation)
             return
@@ -95,16 +98,34 @@ router.use(function(req, res, next) {
     var params = req.params
     var query = req.query
 
-    logger.debug(MODULE_NAME, req.path, "called", req.method)
-    logger.debug(MODULE_NAME, req.path, req.method, "params", params)
-    logger.debug(MODULE_NAME, req.path, req.method, "query", query)
+    logger.debug(req.path, "called", req.method)
+    logger.debug(req.path, req.method, "params", params)
+    logger.debug(req.path, req.method, "query", query)
 
     next()
 })
 
+router.use(function(req, res, next) {
+    logger.debug("req.session.userDetails", req.session.userDetails)
+
+    if (req.session.userDetails != null) {
+        next()
+        return
+    }
+
+    // User is not logged in
+    matchRoute(req, [
+        {path: '*', component: PageNotFound}
+    ])({})
+    .then(renderRoute(res))
+    .catch(function (err) {
+        logger.error(MODULE_NAME, err)
+        res.status(404).send({ error: err });       // TODO: Verify correct html error code
+    })
+})
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
-
     matchRoute(req, [
         {path: 'search', component: Search},
         {path: 'profile', component: Profile},
@@ -141,7 +162,7 @@ router.get('/:page', function(req, res, next) {
 
 router.get('/:page/:slug', function(req, res, next) {
     // TODO: This route has a generic path but profile-specific logic. This should be abstracted out
-    logger.debug(MODULE_NAME, req.path, "req.params", req.params)
+    logger.debug(req.path, "req.params", req.params)
 
     if (req.params.page == 'api'){
         next()

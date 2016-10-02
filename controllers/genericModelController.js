@@ -1,10 +1,10 @@
-var logger = require('../utils/logger')
+const MODULE_NAME = 'genericModelController.js'
 
-const MODULE_NAME = 'genericModelController'
+var logger = require('../utils/logger')(MODULE_NAME)
 
 module.exports = function(model) {
     const MODEL_NAME = model.modelName
-    const moduleNameForLogger = MODULE_NAME + "::" + MODEL_NAME
+    const moduleNameForLogger = MODEL_NAME + "::"
     logger.debug(moduleNameForLogger, "Created controller for model")
 
     return {

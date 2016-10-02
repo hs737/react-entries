@@ -4,6 +4,7 @@ import thunk from 'redux-thunk'
 import entryReducer from '../reducers/entryReducer'
 import profileReducer from '../reducers/profileReducer'
 import searchReducer from '../reducers/searchReducer'
+import userReducer from '../reducers/userReducer'
 
 var currentStore
 
@@ -13,7 +14,8 @@ export default {
         var reducers = combineReducers({
             entryReducer: entryReducer,
             profileReducer: profileReducer,
-            searchReducer: searchReducer
+            searchReducer: searchReducer,
+            userReducer: userReducer
         })
 
         // Initialize store

@@ -33,6 +33,14 @@ export default {
         }
     },
 
+    updateCurrentUser: function(userDetails) {
+        console.log("updateCurrentUser called", JSON.stringify(userDetails))
+        return {
+            type: CONSTANTS.ACTIONS.UPDATE_CURRENT_USER,
+            userDetails: userDetails
+        }
+    },
+
     search: function(searchResults) {
         console.log("search called", JSON.stringify(searchResults))
         return {

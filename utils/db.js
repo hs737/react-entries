@@ -1,12 +1,13 @@
+const MODULE_NAME = 'db.js'
+
 var mongoose = require('mongoose')
-var logger = require('./logger')
+var logger = require('./logger')(MODULE_NAME)
 var config = require('config')
 
-const MODULE_NAME = 'db.js'
 const dbConfig = config.get('dbConfig')
 const dbUrl = "mongodb://" + [dbConfig.host, dbConfig.name].join('/')
 
-logger.debug(MODULE_NAME, 'DB Config:', JSON.stringify(dbConfig));
+logger.debug('DB Config:', JSON.stringify(dbConfig));
 
 mongoose.connect(dbUrl, function(err, res) {
     if (err) {

@@ -1,8 +1,10 @@
-var logger = require('../utils/logger')
+var MODULE_NAME = 'searchController'
+
 var Entry = require('../models/entry')
 var RelationshipProfile = require('../models/relationshipProfile')
 
-var MODULE_NAME = 'searchController'
+var logger = require('../utils/logger')(MODULE_NAME)
+
 var controllers = {
     entry: require('./genericModelController')(Entry),
     profile: require('./genericModelController')(RelationshipProfile),

@@ -1,6 +1,8 @@
+const MODULE_NAME = 'api.js'
+
 var express = require('express');
 
-var logger = require('../utils/logger')
+var logger = require('../utils/logger')(MODULE_NAME)
 var CONSTANTS = require('../utils/constants')
 
 var Entry = require('../models/entry')
@@ -13,17 +15,16 @@ var controllers = {
 }
 
 var router = express.Router();
-const MODULE_NAME = 'api.js'
 
 router.use(function(req, res, next) {
     var params = req.params
     var query = req.query
     var body = req.body
 
-    logger.debug(MODULE_NAME, req.path, "called", req.method)
-    logger.debug(MODULE_NAME, req.path, req.method, "params", params)
-    logger.debug(MODULE_NAME, req.path, req.method, "query", query)
-    logger.debug(MODULE_NAME, req.path, req.method, "body", body)
+    logger.debug(req.path, "called", req.method)
+    logger.debug(req.path, req.method, "params", params)
+    logger.debug(req.path, req.method, "query", query)
+    logger.debug(req.path, req.method, "body", body)
 
     next()
 })

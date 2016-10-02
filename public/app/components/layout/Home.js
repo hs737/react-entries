@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import SearchBar from '../presentational/SearchBar'
 import NavBar from '../presentational/NavBar'
@@ -6,6 +7,19 @@ import NavBar from '../presentational/NavBar'
 var MODULE_NAME = "Home"
 
 class Home extends Component {
+    constructor(props, context, updater) {
+        var functionName = "constructor"
+        console.log(MODULE_NAME, functionName + " called")
+
+        super(props, context, updater)
+
+        console.log(MODULE_NAME, functionName, "props", this.props)
+
+        this.state = {
+            currentUser: null
+        }
+    }
+
     componentWillMount() {
         var functionName = "componentWillMount"
         console.log(MODULE_NAME, functionName + " called")
@@ -46,10 +60,17 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <NavBar />
-                {/*<SearchBar />*/}
+                <NavBar currentUser={this.props.currentUser} />
             </div>
         )
+    }
+}
+
+var mapStateToProps = function(newStateInStore) {
+    console.log("mapStateToProps", JSON.stringify(newStateInStore))
+
+    return {
+        currentUser: newStateInStore.userReducer.currentUser
     }
 }
 

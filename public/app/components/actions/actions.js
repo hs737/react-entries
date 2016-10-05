@@ -47,5 +47,13 @@ export default {
             type: CONSTANTS.ACTIONS.SEARCH,
             results: searchResults
         }
+    },
+
+    updateHomeComponentDisplay: function(displayEnum) {
+        console.log("updateHomeComponentDisplay called", displayEnum)
+        return {
+            type: CONSTANTS.ACTIONS.UPDATE_HOME_DISPLAY,
+            display: displayEnum
+        }
     }
 }

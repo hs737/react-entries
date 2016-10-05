@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 
 import SearchBar from './SearchBar'
 
+import store from '../stores/store'
+import actions from '../actions/actions'
+import CONSTANTS from '../constants/constants'
+
 var MODULE_NAME = "NavBar"
 
 class NavBar extends Component {
@@ -12,6 +16,19 @@ class NavBar extends Component {
         super(props, context, updater)
 
         console.log(MODULE_NAME, functionName, "props", this.props)
+
+        this.handleLoginSignupClick = this.handleLoginSignupClick.bind(this)
+    }
+
+    handleLoginSignupClick(displayEnum) {
+        var functionName = "handleLoginSignupClick"
+        console.log(MODULE_NAME, functionName + " called", displayEnum)
+
+        if (displayEnum != null && displayEnum.length > 0) {
+            store.currentStore().dispatch(actions.updateHomeComponentDisplay(displayEnum))
+        } else {
+            console.log("Bad display enum value", displayEnum)
+        }
     }
 
     componentWillMount() {
@@ -102,21 +119,26 @@ class NavBar extends Component {
                         <span className="visible-xs-inline-block position-right">Icon link</span>
                     </a>
                 </li>*/}
-                <li>hello</li>
+                <li>
+                    <button type="button" className="btn btn-default btn-xs navbar-btn" onClick={() => this.handleLoginSignupClick(CONSTANTS.HOME_DISPLAY_ENUM.SHOW_LOGIN)}>Log In</button>
+                </li>
+                <li>
+                    <button type="button" className="btn btn-default btn-xs navbar-btn" onClick={() => this.handleLoginSignupClick(CONSTANTS.HOME_DISPLAY_ENUM.SHOW_SIGNUP)}>Sign Up</button>
+                </li>
             </ul>
         )
 
-        var navBarList = (this.props.currentUser == null ? navBarNotLoggedInList : navBarLoggedInList)
+        var navBarRightList = (this.props.currentUser == null ? navBarNotLoggedInList : navBarLoggedInList)
         return (
             <div className="navbar navbar-inverse">
                 <div className="navbar-header">
                     <a className="navbar-brand" href="/"><img src="/assets/images/logo_light.png" alt="" /></a>
 
-                    <ul className="nav navbar-nav pull-right visible-xs-block">
+                    {/*<ul className="nav navbar-nav pull-right visible-xs-block">
                         <li><a data-toggle="collapse" data-target="#navbar-mobile"><i className="icon-tree5"></i></a></li>
                         <li><a className="sidebar-mobile-main-toggle"><i className="icon-paragraph-justify3"></i></a></li>
                         <li><a className="sidebar-mobile-secondary-toggle"><i className="icon-more"></i></a></li>
-                    </ul>
+                    </ul>*/}
                 </div>
 
                 <div className="navbar-collapse collapse" id="navbar-mobile">
@@ -125,7 +147,7 @@ class NavBar extends Component {
                         <li><a className="sidebar-control sidebar-secondary-hide hidden-xs"><i className="icon-transmission"></i></a></li>
                     </ul>*/}
 
-                    {navBarList}
+                    {navBarRightList}
                 </div>
             </div>
         )

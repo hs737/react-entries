@@ -5,6 +5,7 @@ import entryReducer from '../reducers/entryReducer'
 import profileReducer from '../reducers/profileReducer'
 import searchReducer from '../reducers/searchReducer'
 import userReducer from '../reducers/userReducer'
+import uiReducer from '../reducers/uiReducer'
 
 var currentStore
 
@@ -15,7 +16,8 @@ export default {
             entryReducer: entryReducer,
             profileReducer: profileReducer,
             searchReducer: searchReducer,
-            userReducer: userReducer
+            userReducer: userReducer,
+            uiReducer: uiReducer
         })
 
         // Initialize store

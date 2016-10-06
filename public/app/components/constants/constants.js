@@ -10,6 +10,6 @@ module.exports = {
     },
     HOME_DISPLAY_ENUM: {
         SHOW_LOGIN: "show_login",
-        SHOW_SIGNUP: "show_signup"
+        SHOW_DEFAULT: "show_default"
     }
 }

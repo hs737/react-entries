@@ -106,7 +106,7 @@ class Search extends Component {
 
         return (
             <div>
-                <NavBar />
+                <NavBar currentUser={this.props.currentUser} />
                 <div className="page-container">
                     <div className="page-content">
                         <div className="content-wrapper">
@@ -121,10 +121,11 @@ class Search extends Component {
     }
 }
 
-var mapStateToProps = function(storesState) {
-    console.log("mapStateToProps", JSON.stringify(storesState))
+var mapStateToProps = function(newStateInStore) {
+    console.log("mapStateToProps", JSON.stringify(newStateInStore))
     return {
-        searchResults: storesState.searchReducer.searchResults
+        currentUser: newStateInStore.userReducer.currentUser,
+        searchResults: newStateInStore.searchReducer.searchResults
     }
 }
 

@@ -135,7 +135,7 @@ class Profile extends Component {
 
         return (
             <div>
-                <NavBar />
+                <NavBar currentUser={this.props.currentUser} />
                 <PageHeader profileDetails={this.props.currentProfile} />
                 <div className="page-container">
                     <div className="page-content">
@@ -151,11 +151,12 @@ class Profile extends Component {
     }
 }
 
-var mapStateToProps = function(storesState) {
-    console.log("mapStateToProps", JSON.stringify(storesState))
+var mapStateToProps = function(newStateInStore) {
+    console.log("mapStateToProps", JSON.stringify(newStateInStore))
     return {
-        currentProfile: storesState.profileReducer.currentProfile,
-        entries: storesState.entryReducer.entriesList
+        currentUser: newStateInStore.userReducer.currentUser,
+        currentProfile: newStateInStore.profileReducer.currentProfile,
+        entries: newStateInStore.entryReducer.entriesList
     }
 }
 

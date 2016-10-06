@@ -122,9 +122,6 @@ class NavBar extends Component {
                 <li>
                     <button type="button" className="btn btn-default btn-xs navbar-btn" onClick={() => this.handleLoginSignupClick(CONSTANTS.HOME_DISPLAY_ENUM.SHOW_LOGIN)}>Log In</button>
                 </li>
-                <li>
-                    <button type="button" className="btn btn-default btn-xs navbar-btn" onClick={() => this.handleLoginSignupClick(CONSTANTS.HOME_DISPLAY_ENUM.SHOW_SIGNUP)}>Sign Up</button>
-                </li>
             </ul>
         )
 

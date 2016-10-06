@@ -7,7 +7,6 @@ var reactDomServer          = require('react-dom/server')
 var promise                 = require('bluebird')
 
 var logger                  = require('../utils/logger')(MODULE_NAME)
-var CONSTANTS               = require('../utils/constants')
 var Entry                   = require('../models/entry')
 var RelationshipProfile     = require('../models/relationshipProfile')
 var User                    = require('../models/user')
@@ -19,6 +18,7 @@ var PageNotFound            = require('../public/build/es5/components/layout/Pag
 var Search                  = require('../public/build/es5/components/layout/Search')
 var Profile                 = require('../public/build/es5/components/layout/Profile')
 var store                   = require('../public/build/es5/components/stores/store')
+var CONSTANTS               = require('../public/build/es5/components/constants/constants')
 
 var controllers = {
     entry: promise.promisifyAll(require('../controllers/genericModelController')(Entry)),
@@ -41,6 +41,9 @@ function matchRoute(req, childRoutes) {
             },
             searchReducer: {
                 searchResults: result.searchResults
+            },
+            uiReducer: {
+                displaySelection: CONSTANTS.HOME_DISPLAY_ENUM.SHOW_DEFAULT
             }
         }
         initialStore = store.createStore(initialStatePerReducer)

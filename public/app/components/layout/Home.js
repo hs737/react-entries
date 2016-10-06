@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import SearchBar from '../presentational/SearchBar'
 import NavBar from '../presentational/NavBar'
+import Login from '../presentational/Login'
+
+import CONSTANTS from '../constants/constants'
+import store from '../stores/store'
 
 var MODULE_NAME = "Home"
 
@@ -16,7 +19,8 @@ class Home extends Component {
         console.log(MODULE_NAME, functionName, "props", this.props)
 
         this.state = {
-            currentUser: null
+            currentUser: null,
+            displaySelection: null
         }
     }
 
@@ -58,9 +62,31 @@ class Home extends Component {
     }
 
     render() {
+        var functionName = "render"
+        console.log(MODULE_NAME, functionName + " called", this.props.location.query.q, this.props)
+
+        var mainDisplayComponent = null
+        if (this.props.displaySelection == CONSTANTS.HOME_DISPLAY_ENUM.SHOW_LOGIN) {
+            mainDisplayComponent = <Login />
+        } else if (this.props.displaySelection == CONSTANTS.HOME_DISPLAY_ENUM.SHOW_DEFAULT) {
+            mainDisplayComponent = "default"
+        } else {
+            mainDisplayComponent = "woops"
+        }
+
         return (
             <div>
                 <NavBar currentUser={this.props.currentUser} />
+
+                <div className="login-container login-cover">
+                    <div className="page-container">
+                        <div className="page-content">
+                            <div className="content-wrapper">
+                                {mainDisplayComponent}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -70,8 +96,9 @@ var mapStateToProps = function(newStateInStore) {
     console.log("mapStateToProps", JSON.stringify(newStateInStore))
 
     return {
-        currentUser: newStateInStore.userReducer.currentUser
+        currentUser: newStateInStore.userReducer.currentUser,
+        displaySelection: newStateInStore.uiReducer.displaySelection
     }
 }
 
-export default Home
+export default connect(mapStateToProps)(Home)

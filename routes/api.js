@@ -7,10 +7,13 @@ var CONSTANTS = require('../utils/constants')
 
 var Entry = require('../models/entry')
 var RelationshipProfile = require('../models/relationshipProfile')
+var User = require('../models/user')
 
+logger.debug("Creating controllers")
 var controllers = {
     entry: require('../controllers/genericModelController')(Entry),
     profile: require('../controllers/genericModelController')(RelationshipProfile),
+    user: require('../controllers/genericModelController')(User),
     search: require('../controllers/searchController')
 }
 

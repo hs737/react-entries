@@ -39,7 +39,7 @@ export function del(endpoint, params, callback) {
 var httpCallback = function (callback) {
   return function (err, response) {
     if (err) {
-        console.log("Error", JSON.stringify(err))
+        console.log("Error", err)
     }
 
     if (callback) {

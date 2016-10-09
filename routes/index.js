@@ -20,6 +20,7 @@ var Profile                 = require('../public/build/es5/components/layout/Pro
 var store                   = require('../public/build/es5/components/stores/store')
 var CONSTANTS               = require('../public/build/es5/components/constants/constants')
 
+logger.debug("Creating controllers")
 var controllers = {
     entry: promise.promisifyAll(require('../controllers/genericModelController')(Entry)),
     profile: promise.promisifyAll(require('../controllers/genericModelController')(RelationshipProfile)),
@@ -44,6 +45,9 @@ function matchRoute(req, childRoutes) {
             },
             uiReducer: {
                 displaySelection: CONSTANTS.HOME_DISPLAY_ENUM.SHOW_DEFAULT
+            },
+            userReducer: {
+                currentUser: result.userDetails
             }
         }
         initialStore = store.createStore(initialStatePerReducer)
@@ -108,32 +112,35 @@ router.use(function(req, res, next) {
     next()
 })
 
-router.use(function(req, res, next) {
-    logger.debug("req.session.userDetails", req.session.userDetails)
+// router.use(function(req, res, next) {
+//     logger.debug("req.session.userDetails", req.session.userDetails)
 
-    if (req.session.userDetails != null) {
-        next()
-        return
-    }
+//     if (req.session.userDetails != null) {
+//         next()
+//         return
+//     }
 
-    // User is not logged in
-    matchRoute(req, [
-        {path: '*', component: PageNotFound}
-    ])({})
-    .then(renderRoute(res))
-    .catch(function (err) {
-        logger.error(MODULE_NAME, err)
-        res.status(404).send({ error: err });       // TODO: Verify correct html error code
-    })
-})
+//     // User is not logged in
+//     matchRoute(req, [
+//         {path: '*', component: PageNotFound}
+//     ])({})
+//     .then(renderRoute(res))
+//     .catch(function (err) {
+//         logger.error(MODULE_NAME, err)
+//         res.status(404).send({ error: err });       // TODO: Verify correct html error code
+//     })
+// })
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    matchRoute(req, [
+    promise.props({
+        userDetails: controllers['user'].readByIdAsync(req.session.userId, null, false)
+    })
+    .then(matchRoute(req, [
         {path: 'search', component: Search},
         {path: 'profile', component: Profile},
         {path: '*', component: PageNotFound}
-    ])({})
+    ]))
     .then(renderRoute(res))
     .catch(function (err) {
         logger.error(MODULE_NAME, err)
@@ -150,6 +157,7 @@ router.get('/:page', function(req, res, next) {
     }
 
     promise.props({
+        userDetails: controllers['user'].readByIdAsync(req.session.userId, null, false),
         searchResults: controllers['search'].searchAsync({text: req.query.q}, false)
     })
     .then(matchRoute(req, [
@@ -173,6 +181,7 @@ router.get('/:page/:slug', function(req, res, next) {
     }
 
     promise.props({
+        userDetails: controllers['user'].readByIdAsync(req.session.userId, null, false),
         profileDetails: controllers['profile'].readByIdAsync(req.params.slug, null, false),
         entries: controllers['entry'].readAsync({profile: req.params.slug}, {sort: {timestamp: -1}}, false)
     })

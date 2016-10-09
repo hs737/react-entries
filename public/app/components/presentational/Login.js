@@ -1,16 +1,27 @@
 import React, { Component } from 'react'
 
+import store from '../stores/store'
+import actions from '../actions/actions'
+import CONSTANTS from '../constants/constants'
+import { post } from '../utils/APIManager'
+
 var MODULE_NAME = "Login"
 
-var fieldEnum = {
+var FIELD_ENUM = {
     USERNAME: "username",
     PASSWORD: "password",
     EMAIL: "email"
 }
 
-var submitEnum = {
+var SUBMIT_ENUM = {
     REGISTER: "register",
     SIGNIN: "signin"
+}
+
+var DEFAULT_STATE = {
+    username: '',
+    password: '',
+    email: ''
 }
 
 class Login extends Component {
@@ -22,11 +33,7 @@ class Login extends Component {
 
         console.log(MODULE_NAME, functionName, "props", this.props)
 
-        this.state = {
-            username: '',
-            password: '',
-            email: ''
-        }
+        this.state = DEFAULT_STATE
 
         this.handleFieldUpdate = this.handleFieldUpdate.bind(this)
         this.handlLoginSubmit = this.handlLoginSubmit.bind(this)
@@ -39,13 +46,13 @@ class Login extends Component {
         var newState = Object.assign({}, this.state)
 
         switch (fieldType) {
-            case fieldEnum.USERNAME:
+            case FIELD_ENUM.USERNAME:
                 newState.username = event.target.value
                 break;
-            case fieldEnum.PASSWORD:
+            case FIELD_ENUM.PASSWORD:
                 newState.password = event.target.value
                 break;
-            case fieldEnum.EMAIL:
+            case FIELD_ENUM.EMAIL:
                 newState.email = event.target.value
                 break;
             default:
@@ -68,18 +75,37 @@ class Login extends Component {
         if (this.state.username == null
             || this.state.username.length == 0) {
             // TODO Error handle this better
-            console.log("Error: Invalid username entered", username)
-        } else if (this.state.password != null
-            && this.state.password.length > 0) {
+            console.log("Error: Invalid username entered", JSON.stringify(this.state.username))
+        } else if (this.state.password == null
+            || this.state.password.length == 0) {
             // TODO Error handle this better
-            console.log("Error: Invalid password entered", password)
+            console.log("Error: Invalid password entered", JSON.stringify(this.state.password))
         }
 
-        if (submitType === submitEnum.SIGNIN) {
+        if (submitType === SUBMIT_ENUM.SIGNIN) {
 
-        } else if (submitType === submitEnum.REGISTER
+        } else if (submitType === SUBMIT_ENUM.REGISTER
                    && this.state.email != null
                    && this.state.email.length > 0) {
+
+            var _this = this
+
+            var params = {
+                username: this.state.username,
+                password: this.state.password,
+                email: this.state.email
+            }
+
+            post("/account/register", params, function(err, user) {
+                if (err != null){
+                    console.log("Error", err.code, err.message)
+                    return
+                }
+
+                console.log("Created user", user.result)
+                store.currentStore().dispatch(actions.updateHomeComponentDisplay(CONSTANTS.HOME_DISPLAY_ENUM.SHOW_DEFAULT))
+                store.currentStore().dispatch(actions.updateCurrentUser(user.result))
+            })
 
         } else {
             console.log("Cannot recognize field value:", fieldType)
@@ -143,14 +169,14 @@ class Login extends Component {
                             </div>
 
                             <div className="form-group has-feedback has-feedback-left">
-                                <input type="text" className="form-control" placeholder="Username" name="username" required="required" value={this.state.username} onChange={(e) => this.handleFieldUpdate(fieldEnum.USERNAME, e)} />
+                                <input type="text" className="form-control" placeholder="Username" name="username" required="required" value={this.state.username} onChange={(e) => this.handleFieldUpdate(FIELD_ENUM.USERNAME, e)} />
                                 <div className="form-control-feedback">
                                     <i className="icon-user text-muted"></i>
                                 </div>
                             </div>
 
                             <div className="form-group has-feedback has-feedback-left">
-                                <input type="password" className="form-control" placeholder="Password" name="password" required="required" value={this.state.password} onChange={(e) => this.handleFieldUpdate(fieldEnum.PASSWORD, e)} />
+                                <input type="password" className="form-control" placeholder="Password" name="password" required="required" value={this.state.password} onChange={(e) => this.handleFieldUpdate(FIELD_ENUM.PASSWORD, e)} />
                                 <div className="form-control-feedback">
                                     <i className="icon-lock2 text-muted"></i>
                                 </div>
@@ -172,7 +198,7 @@ class Login extends Component {
                             </div>
 
                             <div className="form-group">
-                                <button type="submit" className="btn bg-blue btn-block" onClick={(e) => this.handlLoginSubmit(submitEnum.SIGNIN, e)}>Login <i className="icon-arrow-right14 position-right"></i></button>
+                                <button type="submit" className="btn bg-blue btn-block" onClick={(e) => this.handlLoginSubmit(SUBMIT_ENUM.SIGNIN, e)}>Login <i className="icon-arrow-right14 position-right"></i></button>
                             </div>
 
 
@@ -195,21 +221,21 @@ class Login extends Component {
                             </div>
 
                             <div className="form-group has-feedback has-feedback-left">
-                                <input type="text" className="form-control" placeholder="Your username" value={this.state.username} onChange={(e) => this.handleFieldUpdate(fieldEnum.USERNAME, e)} />
+                                <input type="text" className="form-control" placeholder="Your username" value={this.state.username} onChange={(e) => this.handleFieldUpdate(FIELD_ENUM.USERNAME, e)} />
                                 <div className="form-control-feedback">
                                     <i className="icon-user-check text-muted"></i>
                                 </div>
                             </div>
 
                             <div className="form-group has-feedback has-feedback-left">
-                                <input type="password" className="form-control" placeholder="Create password" value={this.state.password} onChange={(e) => this.handleFieldUpdate(fieldEnum.PASSWORD, e)} />
+                                <input type="password" className="form-control" placeholder="Create password" value={this.state.password} onChange={(e) => this.handleFieldUpdate(FIELD_ENUM.PASSWORD, e)} />
                                 <div className="form-control-feedback">
                                     <i className="icon-user-lock text-muted"></i>
                                 </div>
                             </div>
 
                             <div className="form-group has-feedback has-feedback-left">
-                                <input type="text" className="form-control" placeholder="Your email" value={this.state.email} onChange={(e) => this.handleFieldUpdate(fieldEnum.EMAIL, e)} />
+                                <input type="text" className="form-control" placeholder="Your email" value={this.state.email} onChange={(e) => this.handleFieldUpdate(FIELD_ENUM.EMAIL, e)} />
                                 <div className="form-control-feedback">
                                     <i className="icon-mention text-muted"></i>
                                 </div>
@@ -241,7 +267,7 @@ class Login extends Component {
                             </div>
                             */}
 
-                            <button type="submit" className="btn bg-indigo-400 btn-block" onClick={(e) => this.handlLoginSubmit(submitEnum.REGISTER, e)}>Register <i className="icon-circle-right2 position-right"></i></button>
+                            <button type="submit" className="btn bg-indigo-400 btn-block" onClick={(e) => this.handlLoginSubmit(SUBMIT_ENUM.REGISTER, e)}>Register <i className="icon-circle-right2 position-right"></i></button>
 
                     </div>
                 </div>

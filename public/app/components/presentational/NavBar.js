@@ -5,6 +5,7 @@ import SearchBar from './SearchBar'
 import store from '../stores/store'
 import actions from '../actions/actions'
 import CONSTANTS from '../constants/constants'
+import { get } from '../utils/APIManager'
 
 var MODULE_NAME = "NavBar"
 
@@ -18,6 +19,7 @@ class NavBar extends Component {
         console.log(MODULE_NAME, functionName, "props", this.props)
 
         this.handleLoginSignupClick = this.handleLoginSignupClick.bind(this)
+        this.handleLogoutClick = this.handleLogoutClick.bind(this)
     }
 
     handleLoginSignupClick(displayEnum) {
@@ -29,6 +31,21 @@ class NavBar extends Component {
         } else {
             console.log("Bad display enum value", displayEnum)
         }
+    }
+
+    handleLogoutClick() {
+        var functionName = "handleLogoutClick"
+        console.log(MODULE_NAME, functionName + " called")
+
+        get("/account/logout", null, function(err, result) {
+            if (err != null){
+                console.log("Error", err.code, err.message)
+                return
+            }
+
+            store.currentStore().dispatch(actions.updateCurrentUser(null))
+        })
+
     }
 
     componentWillMount() {
@@ -95,7 +112,7 @@ class NavBar extends Component {
                 <li className="dropdown dropdown-user">
                     <a className="dropdown-toggle" data-toggle="dropdown">
                         <img src="/assets/images/image.png" alt="" />
-                        <span>bbbbb</span>
+                        <span>{this.props.currentUser.username}</span>
                         <i className="caret"></i>
                     </a>
 
@@ -105,7 +122,7 @@ class NavBar extends Component {
                         <li><a href="#"><span className="badge badge-warning pull-right">58</span> <i className="icon-comment-discussion"></i> Messages</a></li>
                         <li className="divider"></li>
                         <li><a href="#"><i className="icon-cog5"></i> Account settings</a></li>
-                        <li><a href="#"><i className="icon-switch2"></i> Logout</a></li>
+                        <li><a onClick={this.handleLogoutClick}><i className="icon-switch2"></i>Logout</a></li>
                     </ul>
                 </li>
             </ul>

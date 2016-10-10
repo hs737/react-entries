@@ -27,6 +27,7 @@ var controllers = {
     search: promise.promisifyAll(require('../controllers/searchController')),
     user: promise.promisifyAll(require('../controllers/genericModelController')(User))
 }
+var routesToSkip = ['api', 'account']
 
 var router = express.Router();
 require('node-jsx').install({extension: '.js'})
@@ -108,6 +109,7 @@ router.use(function(req, res, next) {
     logger.debug(req.path, "called", req.method)
     logger.debug(req.path, req.method, "params", params)
     logger.debug(req.path, req.method, "query", query)
+    logger.debug(req.path, req.method, "session", req.session)
 
     next()
 })
@@ -151,7 +153,7 @@ router.get('/', function(req, res, next) {
 router.get('/:page', function(req, res, next) {
     // TODO: This route has a generic path but search-specific logic. This should be abstracted out
 
-    if (req.params.page == 'api'){
+    if (routesToSkip.indexOf(req.params.page) >= 0){
         next()
         return
     }
@@ -175,7 +177,7 @@ router.get('/:page/:slug', function(req, res, next) {
     // TODO: This route has a generic path but profile-specific logic. This should be abstracted out
     logger.debug(req.path, "req.params", req.params)
 
-    if (req.params.page == 'api'){
+    if (routesToSkip.indexOf(req.params.page) >= 0){
         next()
         return
     }

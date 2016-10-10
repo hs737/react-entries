@@ -132,7 +132,7 @@ class Search extends Component {
                     <i className="icon-search4 text-muted text-size-base"></i>
                 </div>
                 <div className="input-group-btn">
-                    <button type="submit" className="btn btn-link" onClick={this.handleSearchSubmit}>Search</button>
+                    <button type="submit" className="btn action" onClick={this.handleSearchSubmit}>Search</button>
                 </div>
             </div>
         )

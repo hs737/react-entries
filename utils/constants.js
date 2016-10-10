@@ -5,6 +5,7 @@ module.exports = {
         FUNCTION_EXECUTION_FAILED: "FUNCTION EXECUTION FAILED"
     },
     RETURN_MESSAGES: {
-        SUCCESS: "Successful execution"
+        SUCCESS: "Successful execution",
+        NULL_RESPONSE: "Null response"
     }
 }

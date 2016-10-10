@@ -28,6 +28,7 @@ router.use(function(req, res, next) {
     logger.debug(req.path, req.method, "params", params)
     logger.debug(req.path, req.method, "query", query)
     logger.debug(req.path, req.method, "body", body)
+    logger.debug(req.path, req.method, "session", req.session)
 
     next()
 })

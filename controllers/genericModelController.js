@@ -15,12 +15,17 @@ module.exports = function(model) {
 
             model.create(docs, genericModelCallback(moduleNameForLogger, FUNCTION_NAME, callback))
         },
-
         read: function(query, options, isRaw, callback) {
             const FUNCTION_NAME = 'read'
             logger.debug(moduleNameForLogger + " " + FUNCTION_NAME + " called", query, options, isRaw)
 
             model.find(query, genericModelCallback(moduleNameForLogger, FUNCTION_NAME, callback)).setOptions(options)
+        },
+        readOne: function(query, options, isRaw, callback) {
+            const FUNCTION_NAME = 'readOne'
+            logger.debug(moduleNameForLogger + " " + FUNCTION_NAME + " called", query, options, isRaw)
+
+            model.findOne(query, genericModelCallback(moduleNameForLogger, FUNCTION_NAME, callback)).setOptions(options)
         },
         readById: function(id, options, isRaw, callback) {
             const FUNCTION_NAME = 'readById'

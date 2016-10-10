@@ -5,23 +5,28 @@ import actions from '../actions/actions'
 import CONSTANTS from '../constants/constants'
 import { post } from '../utils/APIManager'
 
-var MODULE_NAME = "Login"
+const MODULE_NAME = "Login"
 
-var FIELD_ENUM = {
+const FIELD_ENUM = {
     USERNAME: "username",
     PASSWORD: "password",
     EMAIL: "email"
 }
 
-var SUBMIT_ENUM = {
+const SUBMIT_ENUM = {
     REGISTER: "register",
     SIGNIN: "signin"
 }
 
-var DEFAULT_STATE = {
-    username: '',
-    password: '',
-    email: ''
+const BUTTON_DETAILS = {
+    VALID: {
+        CLASS: "btn bg-blue btn-block",
+        TEXT: "Login"
+    },
+    INVALID: {
+        CLASS: "btn bg-warning btn-block",
+        TEXT: "Invalid authentication. Try again"
+    }
 }
 
 class Login extends Component {
@@ -33,7 +38,12 @@ class Login extends Component {
 
         console.log(MODULE_NAME, functionName, "props", this.props)
 
-        this.state = DEFAULT_STATE
+        this.state = {
+            username: '',
+            password: '',
+            email: '',
+            submitButtonDetails: BUTTON_DETAILS.VALID
+        }
 
         this.handleFieldUpdate = this.handleFieldUpdate.bind(this)
         this.handlLoginSubmit = this.handlLoginSubmit.bind(this)
@@ -83,7 +93,33 @@ class Login extends Component {
         }
 
         if (submitType === SUBMIT_ENUM.SIGNIN) {
+            var params = {
+                username: this.state.username,
+                password: this.state.password
+            }
 
+            var _this = this
+
+            post("/account/login", params, function(err, user) {
+                if (err != null){
+                    console.log("Error", err.code, err.message)
+                    return
+                }
+
+                if (user.result == null) {
+                    console.log("User is null.")
+
+                    var newState = Object.assign({}, _this.state)
+                    newState['submitButtonDetails'] = BUTTON_DETAILS.INVALID
+                    _this.setState(newState)
+
+                    return;
+                }
+
+                console.log("Logged in as user", user.result)
+                store.currentStore().dispatch(actions.updateHomeComponentDisplay(CONSTANTS.HOME_DISPLAY_ENUM.SHOW_DEFAULT))
+                store.currentStore().dispatch(actions.updateCurrentUser(user.result))
+            })
         } else if (submitType === SUBMIT_ENUM.REGISTER
                    && this.state.email != null
                    && this.state.email.length > 0) {
@@ -198,7 +234,7 @@ class Login extends Component {
                             </div>
 
                             <div className="form-group">
-                                <button type="submit" className="btn bg-blue btn-block" onClick={(e) => this.handlLoginSubmit(SUBMIT_ENUM.SIGNIN, e)}>Login <i className="icon-arrow-right14 position-right"></i></button>
+                                <button type="submit" className={this.state.submitButtonDetails.CLASS} onClick={(e) => this.handlLoginSubmit(SUBMIT_ENUM.SIGNIN, e)}>{this.state.submitButtonDetails.TEXT}<i className="icon-arrow-right14 position-right"></i></button>
                             </div>
 
 

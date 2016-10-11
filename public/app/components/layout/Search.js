@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Link, withRouter } from 'react-router'
 
 import SearchResults from '../presentational/SearchResults'
 import NavBar from '../presentational/NavBar'
@@ -54,6 +54,12 @@ class Search extends Component {
         var functionName = "componentWillMount"
         console.log(MODULE_NAME, functionName + " called", this.props.location.query)
 
+        if (this.props.currentUser == null) {
+            console.log("this.props.currentUser is null. Redirecting.")
+            this.props.router.push('/')
+            return
+        }
+
         if (this.props.searchResults == null) {
             executeSearch(this.props.location.query.q)
         }
@@ -101,7 +107,7 @@ class Search extends Component {
 
         var resultsContent = null;
         if (this.props.searchResults != null) {
-            resultsContent = <SearchResults searchResults={this.props.searchResults} queryText={this.props.location.query.q} />
+            resultsContent = <SearchResults user={this.props.currentUser} searchResults={this.props.searchResults} queryText={this.props.location.query.q} />
         }
 
         return (
@@ -129,4 +135,4 @@ var mapStateToProps = function(newStateInStore) {
     }
 }
 
-export default connect(mapStateToProps)(Search)
+export default withRouter(connect(mapStateToProps)(Search))

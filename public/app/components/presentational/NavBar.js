@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 
 import SearchBar from './SearchBar'
 
@@ -37,6 +38,8 @@ class NavBar extends Component {
         var functionName = "handleLogoutClick"
         console.log(MODULE_NAME, functionName + " called")
 
+        const _this = this
+
         get("/account/logout", null, function(err, result) {
             if (err != null){
                 console.log("Error", err.code, err.message)
@@ -44,6 +47,9 @@ class NavBar extends Component {
             }
 
             store.currentStore().dispatch(actions.updateCurrentUser(null))
+
+            console.log(MODULE_NAME, functionName, "this.props.router", _this.props.router)
+            _this.props.router.push('/')
         })
 
     }
@@ -86,8 +92,10 @@ class NavBar extends Component {
     }
 
     render() {
-        var functionName = "render"
+        const functionName = "render"
         console.log(MODULE_NAME, functionName + " called", this.props)
+
+        const username = (this.props.currentUser != null ? this.props.currentUser.username : null)
 
         var navBarLoggedInList= (
             <ul className="nav navbar-nav navbar-right">
@@ -112,7 +120,7 @@ class NavBar extends Component {
                 <li className="dropdown dropdown-user">
                     <a className="dropdown-toggle" data-toggle="dropdown">
                         <img src="/assets/images/image.png" alt="" />
-                        <span>{this.props.currentUser.username}</span>
+                        <span>{username}</span>
                         <i className="caret"></i>
                     </a>
 
@@ -168,4 +176,4 @@ class NavBar extends Component {
     }
 }
 
-export default NavBar
+export default withRouter(NavBar)

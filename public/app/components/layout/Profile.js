@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Link } from 'react-router'
+import { Link, withRouter } from 'react-router'
 import { connect } from 'react-redux'
 
 import NavBar from '../presentational/NavBar'
@@ -85,6 +85,12 @@ class Profile extends Component {
         var functionName = "componentWillMount"
         console.log(MODULE_NAME, functionName + " called")
 
+        if (this.props.currentUser == null) {
+            console.log("this.props.currentUser is null. Redirecting.")
+            this.props.router.push('/')
+            return
+        }
+
         if (this.props.currentProfile == null) {
             updateProfileDetails(this.props.params.id)
         }
@@ -160,5 +166,5 @@ var mapStateToProps = function(newStateInStore) {
     }
 }
 
-export default connect(mapStateToProps)(Profile)
+export default withRouter(connect(mapStateToProps)(Profile))
 // export default Profile

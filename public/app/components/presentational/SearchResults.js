@@ -29,8 +29,11 @@ class SearchResults extends Component {
         console.log(MODULE_NAME, functionName + " called")
 
         var _this = this
-
-        post("/api/profile", {name: this.props.queryText}, function(err, result) {
+        var params = {
+            name: this.props.queryText,
+            user: this.props.user._id
+        }
+        post("/api/profile", params, function(err, result) {
             if (err) {
                 console.log(MODULE_NAME, functionName, "Error:", err)
                 // TODO do not call profile page if current profile isn't loaded

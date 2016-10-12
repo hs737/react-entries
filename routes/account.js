@@ -31,7 +31,56 @@ router.use(function(req, res, next) {
 router.post('/login', function(req, res, next) {
     // var constraints = req.query.constraints
     // var options = req.query.options
-    controllers['user'].readOne(req.body, null, false, genericAccountControllerCallback(req, res))
+    controllers['user'].readOne(req.body, null, false, function(err, user) {
+        if (err) {
+            logger.error("Controller returned error", err)
+
+            req.session = {}
+            res.json({
+                code: CONSTANTS.RETURN_CODES.FUNCTION_EXECUTION_FAILED,
+                message: err
+            })
+
+            return
+        }
+
+        if (user == null) {
+            logger.warn("Controller returned null user")
+
+            req.session = {}
+            res.json({
+                code: CONSTANTS.RETURN_CODES.FUNCTION_EXECUTION_FAILED,
+                message: CONSTANTS.RETURN_MESSAGES.NULL_RESPONSE,
+                result: null
+            })
+
+            return
+        }
+
+        user.comparePassword(req.body.password, function(error, isMatch) {
+            if (error != null) {
+                logger.warn("Schema password comparison had error", error)
+                return
+            }
+
+            if (!isMatch) {
+                req.session = {}
+                res.json({
+                    code: CONSTANTS.RETURN_CODES.INVALID_INPUT_ERROR,
+                    message: "",    // TODO: Should be an enum with a better description than ""
+                    result: null
+                })
+            } else {
+                req.session.userId = user._id
+
+                res.json({
+                    code: CONSTANTS.RETURN_CODES.SUCCESS,
+                    message: CONSTANTS.RETURN_MESSAGES.SUCCESS,
+                    result: user
+                })
+            }
+        })
+    })
 });
 
 router.get('/logout', function (req, res, next) {

@@ -41,6 +41,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:resource', function(req, res, next) {
+    logger.debug(req.path, "req.params", req.params)
+
     var resource = req.params.resource
     var controller = getController(res, resource)
 
@@ -91,7 +93,7 @@ router.delete('/:resource/:id', function(req, res, next) {
 var getController = function (res, resource) {
     var controller = controllers[resource]
     if (controller == null) {
-        var errorMessage = "Resource '" + resource + "' not recognized"
+        var errorMessage = "Did not find controller. Resource '" + resource + "' not recognized"
         logger.error(errorMessage)
 
         res.json({
@@ -99,6 +101,7 @@ var getController = function (res, resource) {
             message: errorMessage
         })
     } else {
+        logger.debug("Found controller for", resource)
         return controller
     }
 }

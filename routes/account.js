@@ -31,7 +31,12 @@ router.use(function(req, res, next) {
 router.post('/login', function(req, res, next) {
     // var constraints = req.query.constraints
     // var options = req.query.options
-    controllers['user'].readOne(req.body, null, false, function(err, user) {
+
+    var userInput = {
+        username: req.body.username
+    }
+
+    controllers['user'].readOne(userInput, null, false, function(err, user) {
         if (err) {
             logger.error("Controller returned error", err)
 
@@ -94,11 +99,8 @@ router.get('/logout', function (req, res, next) {
 });
 
 router.post('/register', function(req, res, next) {
-    controllers['user'].create(req.body, false, genericAccountControllerCallback(req, res))
-});
-
-var genericAccountControllerCallback = function (req, res) {
-    return function(err, user) {
+    controllers['user'].create(req.body, false, function(err, user) {
+        logger.debug("/register callback called")
         if (err) {
             logger.error("Controller returned error", err)
 
@@ -131,6 +133,7 @@ var genericAccountControllerCallback = function (req, res) {
             message: CONSTANTS.RETURN_MESSAGES.SUCCESS,
             result: user
         })
-    }
-}
+    })
+});
+
 module.exports = router;

@@ -2,13 +2,15 @@ const MODULE_NAME = 'genericModelController.js'
 
 var logger = require('../utils/logger')(MODULE_NAME)
 
+const CONTROLLER_NAME = "genericModelController"
+
 module.exports = function(model) {
     const MODEL_NAME = model.modelName
     const moduleNameForLogger = MODEL_NAME + "::"
     logger.debug(moduleNameForLogger, "Created controller for model")
 
     return {
-        controllerName: MODULE_NAME,
+        controllerName: CONTROLLER_NAME,
         create: function(docs, isRaw, callback) {
             const FUNCTION_NAME = 'create'
             logger.debug(moduleNameForLogger + " " + FUNCTION_NAME + " called", docs, isRaw)
@@ -50,7 +52,10 @@ module.exports = function(model) {
 
 var genericModelCallback = function (moduleNameForLogger, functionName, callback) {
     return function(err, docs) {
-        var logPrefix = moduleNameForLogger + " " + functionName
+        const FUNCTION_NAME = "genericModelCallback"
+        var logPrefix = moduleNameForLogger + functionName
+        logger.debug(logPrefix + " " + FUNCTION_NAME + " called")
+
         if (err) {
             logger.error(logPrefix, err)
             callback(err, null)

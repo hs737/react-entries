@@ -36,6 +36,8 @@ function updateProfileEntries(profileId) {
     }
 
     get("/api/entry", query, function(err, results) {
+        console.log("get /api/entry callback called", err, results)
+
         if (err) {
             console.log(MODULE_NAME, functionName, "Error:", err)
             // TODO do not call profile page if current profile isn't loaded
@@ -92,10 +94,12 @@ class Profile extends Component {
         }
 
         if (this.props.currentProfile == null) {
+            console.log("Current profile details are empty")
             updateProfileDetails(this.props.params.id)
         }
 
         if (this.props.entries == null) {
+            console.log("Current profile entries are empty")
             updateProfileEntries(this.props.params.id)
         }
     }

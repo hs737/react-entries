@@ -27,7 +27,7 @@ var controllers = {
     search: promise.promisifyAll(require('../controllers/searchController')),
     user: promise.promisifyAll(require('../controllers/genericModelController')(User))
 }
-var routesToSkip = ['api', 'account']
+var routesToSkip = ['api', 'account', 'favicon.ico']
 
 var router = express.Router();
 require('node-jsx').install({extension: '.js'})
@@ -65,7 +65,7 @@ function matchRoute(req, childRoutes) {
 
         return new Promise(function(resolve, reject){
             reactRouter.match({ routes, location: req.url }, function(error, redirectLocation, renderProps){
-                console.log("matchRoute", error, redirectLocation, renderProps)
+                // console.log("matchRoute", error, redirectLocation, renderProps)
 
                 if (error){
                     reject(error)
@@ -84,13 +84,13 @@ function matchRoute(req, childRoutes) {
 
 function renderRoute(res) {
     return function(result) {
-        logger.debug("renderRoute", result)
+        // logger.debug("renderRoute", result)
         if (result.redirectLocation){
             logger.debug('ReactRouter - redirectLocation: ' + result.redirectLocation)
             return
         }
 
-        logger.debug('ReactRouter - renderProps: ' + JSON.stringify(result.renderProps))
+        // logger.debug('ReactRouter - renderProps: ' + JSON.stringify(result.renderProps))
         var html = reactDomServer.renderToString(react.createElement(reactRouter.RouterContext, result.renderProps))
         res.render('index', {
             title: 'Express',
@@ -152,6 +152,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/:page', function(req, res, next) {
     // TODO: This route has a generic path but search-specific logic. This should be abstracted out
+    logger.debug(req.path, "req.params", req.params)
 
     if (routesToSkip.indexOf(req.params.page) >= 0){
         next()

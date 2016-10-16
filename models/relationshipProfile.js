@@ -1,3 +1,6 @@
+const MODULE_NAME = 'relationshipProfile.js'
+
+var logger = require('../utils/logger')(MODULE_NAME)
 var mongoose = require('mongoose')
 
 var relationshipProfileSchema = new mongoose.Schema({

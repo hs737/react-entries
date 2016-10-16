@@ -1,3 +1,6 @@
+const MODULE_NAME = 'entry.js'
+
+var logger = require('../utils/logger')(MODULE_NAME)
 var mongoose = require('mongoose')
 
 var entrySchema = new mongoose.Schema({

@@ -1,6 +1,7 @@
 const MODULE_NAME = 'account.js'
 
 var express = require('express');
+var config = require('config')
 
 var logger = require('../utils/logger')(MODULE_NAME)
 var CONSTANTS = require('../utils/constants')
@@ -12,6 +13,7 @@ var controllers = {
     user: require('../controllers/genericModelController')(User)
 }
 
+const sessionConfig = config.get('session')
 var router = express.Router();
 
 router.use(function(req, res, next) {
@@ -23,7 +25,7 @@ router.use(function(req, res, next) {
     logger.debug(req.path, req.method, "params", params)
     logger.debug(req.path, req.method, "query", query)
     logger.debug(req.path, req.method, "body", body)
-    logger.debug(req.path, req.method, "session", req.session)
+    logger.debug(req.path, req.method, "session", req[sessionConfig.name])
 
     next()
 })
@@ -40,7 +42,7 @@ router.post('/login', function(req, res, next) {
         if (err) {
             logger.error("Controller returned error", err)
 
-            req.session = {}
+            req[sessionConfig.name] = {}
             res.json({
                 code: CONSTANTS.RETURN_CODES.FUNCTION_EXECUTION_FAILED,
                 message: err
@@ -52,7 +54,7 @@ router.post('/login', function(req, res, next) {
         if (user == null) {
             logger.warn("Controller returned null user")
 
-            req.session = {}
+            req[sessionConfig.name] = {}
             res.json({
                 code: CONSTANTS.RETURN_CODES.FUNCTION_EXECUTION_FAILED,
                 message: CONSTANTS.RETURN_MESSAGES.NULL_RESPONSE,
@@ -69,14 +71,14 @@ router.post('/login', function(req, res, next) {
             }
 
             if (!isMatch) {
-                req.session = {}
+                req[sessionConfig.name] = {}
                 res.json({
                     code: CONSTANTS.RETURN_CODES.INVALID_INPUT_ERROR,
                     message: "",    // TODO: Should be an enum with a better description than ""
                     result: null
                 })
             } else {
-                req.session.userId = user._id
+                req[sessionConfig.name].userId = user._id
 
                 res.json({
                     code: CONSTANTS.RETURN_CODES.SUCCESS,
@@ -89,8 +91,8 @@ router.post('/login', function(req, res, next) {
 });
 
 router.get('/logout', function (req, res, next) {
-    req.session.reset();
-    logger.debug("Resetting client session", req.session)
+    req[sessionConfig.name].reset();
+    logger.debug("Resetting client session", req[sessionConfig.name])
 
     res.json({
         code: CONSTANTS.RETURN_CODES.SUCCESS,
@@ -104,7 +106,7 @@ router.post('/register', function(req, res, next) {
         if (err) {
             logger.error("Controller returned error", err)
 
-            req.session = {}
+            req[sessionConfig.name] = {}
             res.json({
                 code: CONSTANTS.RETURN_CODES.FUNCTION_EXECUTION_FAILED,
                 message: err
@@ -116,7 +118,7 @@ router.post('/register', function(req, res, next) {
         if (user == null) {
             logger.warn("Controller returned null user")
 
-            req.session = {}
+            req[sessionConfig.name] = {}
             res.json({
                 code: CONSTANTS.RETURN_CODES.FUNCTION_EXECUTION_FAILED,
                 message: CONSTANTS.RETURN_MESSAGES.NULL_RESPONSE,
@@ -126,7 +128,7 @@ router.post('/register', function(req, res, next) {
             return
         }
 
-        req.session.userId = user._id
+        req[sessionConfig.name].userId = user._id
 
         res.json({
             code: CONSTANTS.RETURN_CODES.SUCCESS,

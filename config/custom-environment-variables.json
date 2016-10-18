@@ -1,0 +1,12 @@
+{
+    "serverConfig": {
+        "port": "PORT"
+    },
+    "dbConfig": {
+        "uri": "MONGODB_URI"
+    },
+    "session": {
+        "name": "CLIENT_SESSION_NAME",
+        "secret": "CLIENT_SESSION_SECRET"
+    }
+}

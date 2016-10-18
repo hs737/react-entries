@@ -5,6 +5,7 @@ var react                   = require('react')
 var reactRouter             = require('react-router')
 var reactDomServer          = require('react-dom/server')
 var promise                 = require('bluebird')
+var config                  = require('config')
 
 var logger                  = require('../utils/logger')(MODULE_NAME)
 var Entry                   = require('../models/entry')
@@ -28,6 +29,7 @@ var controllers = {
     user: promise.promisifyAll(require('../controllers/genericModelController')(User))
 }
 var routesToSkip = ['api', 'account', 'favicon.ico']
+const sessionConfig = config.get('session')
 
 var router = express.Router();
 require('node-jsx').install({extension: '.js'})
@@ -109,15 +111,15 @@ router.use(function(req, res, next) {
     logger.debug(req.path, "called", req.method)
     logger.debug(req.path, req.method, "params", params)
     logger.debug(req.path, req.method, "query", query)
-    logger.debug(req.path, req.method, "session", req.session)
+    logger.debug(req.path, req.method, "session", req[sessionConfig.name])
 
     next()
 })
 
 // router.use(function(req, res, next) {
-//     logger.debug("req.session.userDetails", req.session.userDetails)
+//     logger.debug("req[sessionConfig.name].userDetails", req[sessionConfig.name].userDetails)
 
-//     if (req.session.userDetails != null) {
+//     if (req[sessionConfig.name].userDetails != null) {
 //         next()
 //         return
 //     }
@@ -136,7 +138,7 @@ router.use(function(req, res, next) {
 /* GET home page. */
 router.get('/', function(req, res, next) {
     promise.props({
-        userDetails: controllers['user'].readByIdAsync(req.session.userId, null, false)
+        userDetails: controllers['user'].readByIdAsync(req[sessionConfig.name].userId, null, false)
     })
     .then(matchRoute(req, [
         {path: 'search', component: Search},
@@ -160,7 +162,7 @@ router.get('/:page', function(req, res, next) {
     }
 
     promise.props({
-        userDetails: controllers['user'].readByIdAsync(req.session.userId, null, false),
+        userDetails: controllers['user'].readByIdAsync(req[sessionConfig.name].userId, null, false),
         searchResults: controllers['search'].searchAsync({text: req.query.q}, false)
     })
     .then(matchRoute(req, [
@@ -184,7 +186,7 @@ router.get('/:page/:slug', function(req, res, next) {
     }
 
     promise.props({
-        userDetails: controllers['user'].readByIdAsync(req.session.userId, null, false),
+        userDetails: controllers['user'].readByIdAsync(req[sessionConfig.name].userId, null, false),
         profileDetails: controllers['profile'].readByIdAsync(req.params.slug, null, false),
         entries: controllers['entry'].readAsync({profile: req.params.slug}, {sort: {timestamp: -1}}, false)
     })

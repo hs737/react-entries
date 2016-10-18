@@ -5,13 +5,14 @@ var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var sessions = require("client-sessions")
-var config = require('config')
 
 const MODULE_NAME = 'app.js'
 
 if (process.env['NODE_ENV'] === 'development') {
     require('./utils/env')
 }
+
+var config = require('config')
 
 var indexRoutes = require('./routes/index')
 var apiRoutes = require('./routes/api')

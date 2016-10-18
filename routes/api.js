@@ -1,6 +1,7 @@
 const MODULE_NAME = 'api.js'
 
 var express = require('express');
+var config = require('config')
 
 var logger = require('../utils/logger')(MODULE_NAME)
 var CONSTANTS = require('../utils/constants')
@@ -17,6 +18,7 @@ var controllers = {
     search: require('../controllers/searchController')
 }
 
+const sessionConfig = config.get('session')
 var router = express.Router();
 
 router.use(function(req, res, next) {
@@ -28,7 +30,7 @@ router.use(function(req, res, next) {
     logger.debug(req.path, req.method, "params", params)
     logger.debug(req.path, req.method, "query", query)
     logger.debug(req.path, req.method, "body", body)
-    logger.debug(req.path, req.method, "session", req.session)
+    logger.debug(req.path, req.method, "session", req[sessionConfig.name])
 
     next()
 })

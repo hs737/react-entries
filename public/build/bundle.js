@@ -32147,16 +32147,18 @@
 
 /***/ },
 /* 284 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {"use strict";
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	var DEBUG = false;
+	
 	exports.default = {
 	    debug: function debug() {
-	        if ("production" !== process.env.NODE_ENV) {
+	        if (DEBUG) {
 	            console.log.apply(console, arguments);
 	        }
 	    },
@@ -32164,7 +32166,6 @@
 	        console.error.apply(console, arguments);
 	    }
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
 /* 285 */,

@@ -1,8 +1,10 @@
 "use strict";
 
+var DEBUG = false;
+
 module.exports = {
     debug: function () {
-        if ("production" !== process.env.NODE_ENV) {
+        if (DEBUG) {
             console.log.apply(console, arguments);
         }
     },

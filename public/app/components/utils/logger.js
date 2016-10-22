@@ -1,6 +1,8 @@
+const DEBUG = false
+
 export default {
     debug: function() {
-        if ("production" !== process.env.NODE_ENV) {
+        if (DEBUG) {
             console.log.apply(console, arguments);
         }
     },

@@ -30018,28 +30018,32 @@
 	
 	var _superagent2 = _interopRequireDefault(_superagent);
 	
+	var _logger = __webpack_require__(284);
+	
+	var _logger2 = _interopRequireDefault(_logger);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function get(endpoint, params, callback) {
-	    console.log("get called", endpoint, params);
+	    _logger2.default.debug("get called", endpoint, params);
 	
 	    _superagent2.default.get(endpoint).query(params).set('Accept', 'application/json').end(httpCallback(callback));
 	}
 	
 	function post(endpoint, params, callback) {
-	    console.log("post called", endpoint, params);
+	    _logger2.default.debug("post called", endpoint, params);
 	
 	    _superagent2.default.post(endpoint).send(params).set('Accept', 'application/json').end(httpCallback(callback));
 	}
 	
 	function put(endpoint, params, callback) {
-	    console.log("put called", endpoint, params);
+	    _logger2.default.debug("put called", endpoint, params);
 	
 	    _superagent2.default.put(endpoint).send(params).set('Accept', 'application/json').end(httpCallback(callback));
 	}
 	
 	function del(endpoint, params, callback) {
-	    console.log("del called", endpoint, params);
+	    _logger2.default.debug("del called", endpoint, params);
 	
 	    _superagent2.default.del(endpoint).send(params).set('Accept', 'application/json').end(httpCallback(callback));
 	}
@@ -30047,7 +30051,7 @@
 	var httpCallback = function httpCallback(callback) {
 	    return function (err, response) {
 	        if (err) {
-	            console.log("Error", err);
+	            _logger2.default.error("Error", err);
 	        }
 	
 	        if (callback) {

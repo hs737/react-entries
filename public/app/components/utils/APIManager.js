@@ -1,7 +1,9 @@
 import superagent from 'superagent'
 
+import logger from '../utils/logger'
+
 export function get(endpoint, params, callback) {
-    console.log("get called", endpoint, params)
+    logger.debug("get called", endpoint, params)
 
     superagent.get(endpoint)
               .query(params)
@@ -10,7 +12,7 @@ export function get(endpoint, params, callback) {
 }
 
 export function post(endpoint, params, callback) {
-    console.log("post called", endpoint, params)
+    logger.debug("post called", endpoint, params)
 
     superagent.post(endpoint)
               .send(params)
@@ -19,7 +21,7 @@ export function post(endpoint, params, callback) {
 }
 
 export function put(endpoint, params, callback) {
-    console.log("put called", endpoint, params)
+    logger.debug("put called", endpoint, params)
 
     superagent.put(endpoint)
               .send(params)
@@ -28,7 +30,7 @@ export function put(endpoint, params, callback) {
 }
 
 export function del(endpoint, params, callback) {
-    console.log("del called", endpoint, params)
+    logger.debug("del called", endpoint, params)
 
     superagent.del(endpoint)
               .send(params)
@@ -39,7 +41,7 @@ export function del(endpoint, params, callback) {
 var httpCallback = function (callback) {
   return function (err, response) {
     if (err) {
-        console.log("Error", err)
+        logger.error("Error", err)
     }
 
     if (callback) {

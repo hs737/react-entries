@@ -1,6 +1,6 @@
 const MODULE_NAME = 'account.js'
 
-var express = require('express');
+var express = require('express')
 var config = require('config')
 
 var logger = require('../utils/logger')(MODULE_NAME)

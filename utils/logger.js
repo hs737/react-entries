@@ -1,10 +1,13 @@
 var winston = require('winston')
+var config = require('config')
+
+const loggingConfig = config.get('logging')
 
 module.exports = function(loggerLabel) {
   return new (winston.Logger)({
     transports: [
         new (winston.transports.Console)({
-            level: 'silly',
+            level: loggingConfig.level,
             colorize: true,
             timestamp: function() {
                 var today = new Date()
@@ -20,5 +23,5 @@ module.exports = function(loggerLabel) {
         })
     ],
     exitOnError: false
-})
+  })
 }

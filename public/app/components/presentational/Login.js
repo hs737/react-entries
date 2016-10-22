@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import logger from '../utils/logger'
 import store from '../stores/store'
 import actions from '../actions/actions'
 import CONSTANTS from '../constants/constants'
@@ -32,11 +33,11 @@ const BUTTON_DETAILS = {
 class Login extends Component {
     constructor(props, context, updater) {
         var functionName = "constructor"
-        console.log(MODULE_NAME, functionName + " called")
+        logger.debug(MODULE_NAME, functionName + " called")
 
         super(props, context, updater)
 
-        console.log(MODULE_NAME, functionName, "props", this.props)
+        logger.debug(MODULE_NAME, functionName, "props", this.props)
 
         this.state = {
             username: '',
@@ -51,7 +52,7 @@ class Login extends Component {
 
     handleFieldUpdate(fieldType, event) {
         var functionName = "handleFieldUpdate"
-        console.log(MODULE_NAME, functionName + " called", fieldType, event.target.value)
+        logger.debug(MODULE_NAME, functionName + " called", fieldType, event.target.value)
 
         var newState = Object.assign({}, this.state)
 
@@ -66,7 +67,7 @@ class Login extends Component {
                 newState.email = event.target.value
                 break;
             default:
-                console.log("Cannot recognize field value:", fieldType)
+                logger.error("Cannot recognize field value:", fieldType)
         }
 
         this.setState(newState)
@@ -74,7 +75,7 @@ class Login extends Component {
 
     handlLoginSubmit(submitType, event) {
         var functionName = "handlLoginSubmit"
-        console.log(MODULE_NAME, functionName + " called", event.target.name,
+        logger.debug(MODULE_NAME, functionName + " called", event.target.name,
                     submitType,
                     this.state.username,
                     this.state.password,
@@ -85,11 +86,11 @@ class Login extends Component {
         if (this.state.username == null
             || this.state.username.length == 0) {
             // TODO Error handle this better
-            console.log("Error: Invalid username entered", JSON.stringify(this.state.username))
+            logger.error("Error: Invalid username entered", JSON.stringify(this.state.username))
         } else if (this.state.password == null
             || this.state.password.length == 0) {
             // TODO Error handle this better
-            console.log("Error: Invalid password entered", JSON.stringify(this.state.password))
+            logger.error("Error: Invalid password entered", JSON.stringify(this.state.password))
         }
 
         if (submitType === SUBMIT_ENUM.SIGNIN) {
@@ -102,12 +103,12 @@ class Login extends Component {
 
             post("/account/login", params, function(err, user) {
                 if (err != null){
-                    console.log("Error", err.code, err.message)
+                    logger.debug("Error", err.code, err.message)
                     return
                 }
 
                 if (user.result == null) {
-                    console.log("User is null.")
+                    logger.debug("User is null.")
 
                     var newState = Object.assign({}, _this.state)
                     newState['submitButtonDetails'] = BUTTON_DETAILS.INVALID
@@ -116,7 +117,7 @@ class Login extends Component {
                     return;
                 }
 
-                console.log("Logged in as user", user.result)
+                logger.debug("Logged in as user", user.result)
                 store.currentStore().dispatch(actions.updateHomeComponentDisplay(CONSTANTS.HOME_DISPLAY_ENUM.SHOW_DEFAULT))
                 store.currentStore().dispatch(actions.updateCurrentUser(user.result))
             })
@@ -134,60 +135,60 @@ class Login extends Component {
 
             post("/account/register", params, function(err, user) {
                 if (err != null){
-                    console.log("Error", err.code, err.message)
+                    logger.error("Error", err.code, err.message)
                     return
                 }
 
-                console.log("Created user", user.result)
+                logger.debug("Created user", user.result)
                 store.currentStore().dispatch(actions.updateHomeComponentDisplay(CONSTANTS.HOME_DISPLAY_ENUM.SHOW_DEFAULT))
                 store.currentStore().dispatch(actions.updateCurrentUser(user.result))
             })
 
         } else {
-            console.log("Cannot recognize field value:", fieldType)
+            logger.debug("Cannot recognize field value:", fieldType)
         }
     }
 
     componentWillMount() {
         var functionName = "componentWillMount"
-        console.log(MODULE_NAME, functionName + " called")
+        logger.debug(MODULE_NAME, functionName + " called")
     }
 
     componentDidMount() {
         var functionName = "componentDidMount"
-        console.log(MODULE_NAME, functionName + " called")
+        logger.debug(MODULE_NAME, functionName + " called")
     }
 
     componentWillUnmount() {
         var functionName = "componentWillUnmount"
-        console.log(MODULE_NAME, functionName + " called")
+        logger.debug(MODULE_NAME, functionName + " called")
     }
 
     componentWillReceiveProps(nextProps) {
         var functionName = "componentWillReceiveProps"
-        console.log(MODULE_NAME, functionName + " called", nextProps)
+        logger.debug(MODULE_NAME, functionName + " called", nextProps)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         var functionName = "shouldComponentUpdate"
-        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
+        logger.debug(MODULE_NAME, functionName + " called", nextProps, nextState)
 
         return true
     }
 
     componentWillUpdate(nextProps, nextState) {
         var functionName = "componentWillUpdate"
-        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
+        logger.debug(MODULE_NAME, functionName + " called", nextProps, nextState)
     }
 
     componentDidUpdate(prevProps, prevState) {
         var functionName = "componentDidUpdate"
-        console.log(MODULE_NAME, functionName + " called", prevProps, prevState)
+        logger.debug(MODULE_NAME, functionName + " called", prevProps, prevState)
     }
 
     render() {
         var functionName = "render"
-        console.log(MODULE_NAME, functionName + " called", this.props)
+        logger.debug(MODULE_NAME, functionName + " called", this.props)
 
         return (
             <div className="tabbable panel login-form width-400">

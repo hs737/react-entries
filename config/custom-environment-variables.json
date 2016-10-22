@@ -8,5 +8,8 @@
     "session": {
         "name": "CLIENT_SESSION_NAME",
         "secret": "CLIENT_SESSION_SECRET"
+    },
+    "logging": {
+        "level": "LOG_LEVEL"
     }
 }

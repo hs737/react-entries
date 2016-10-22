@@ -15,6 +15,8 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
+var logger = _interopRequire(require("../utils/logger"));
+
 var store = _interopRequire(require("../stores/store"));
 
 var actions = _interopRequire(require("../actions/actions"));
@@ -53,11 +55,11 @@ var Login = (function (Component) {
         _classCallCheck(this, Login);
 
         var functionName = "constructor";
-        console.log(MODULE_NAME, functionName + " called");
+        logger.debug(MODULE_NAME, functionName + " called");
 
         _get(Object.getPrototypeOf(Login.prototype), "constructor", this).call(this, props, context, updater);
 
-        console.log(MODULE_NAME, functionName, "props", this.props);
+        logger.debug(MODULE_NAME, functionName, "props", this.props);
 
         this.state = {
             username: "",
@@ -76,7 +78,7 @@ var Login = (function (Component) {
         handleFieldUpdate: {
             value: function handleFieldUpdate(fieldType, event) {
                 var functionName = "handleFieldUpdate";
-                console.log(MODULE_NAME, functionName + " called", fieldType, event.target.value);
+                logger.debug(MODULE_NAME, functionName + " called", fieldType, event.target.value);
 
                 var newState = Object.assign({}, this.state);
 
@@ -91,7 +93,7 @@ var Login = (function (Component) {
                         newState.email = event.target.value;
                         break;
                     default:
-                        console.log("Cannot recognize field value:", fieldType);
+                        logger.error("Cannot recognize field value:", fieldType);
                 }
 
                 this.setState(newState);
@@ -102,16 +104,16 @@ var Login = (function (Component) {
         handlLoginSubmit: {
             value: function handlLoginSubmit(submitType, event) {
                 var functionName = "handlLoginSubmit";
-                console.log(MODULE_NAME, functionName + " called", event.target.name, submitType, this.state.username, this.state.password, this.state.email);
+                logger.debug(MODULE_NAME, functionName + " called", event.target.name, submitType, this.state.username, this.state.password, this.state.email);
 
                 event.preventDefault();
 
                 if (this.state.username == null || this.state.username.length == 0) {
                     // TODO Error handle this better
-                    console.log("Error: Invalid username entered", JSON.stringify(this.state.username));
+                    logger.error("Error: Invalid username entered", JSON.stringify(this.state.username));
                 } else if (this.state.password == null || this.state.password.length == 0) {
                     // TODO Error handle this better
-                    console.log("Error: Invalid password entered", JSON.stringify(this.state.password));
+                    logger.error("Error: Invalid password entered", JSON.stringify(this.state.password));
                 }
 
                 if (submitType === SUBMIT_ENUM.SIGNIN) {
@@ -124,12 +126,12 @@ var Login = (function (Component) {
 
                     post("/account/login", params, function (err, user) {
                         if (err != null) {
-                            console.log("Error", err.code, err.message);
+                            logger.debug("Error", err.code, err.message);
                             return;
                         }
 
                         if (user.result == null) {
-                            console.log("User is null.");
+                            logger.debug("User is null.");
 
                             var newState = Object.assign({}, _this.state);
                             newState.submitButtonDetails = BUTTON_DETAILS.INVALID;
@@ -138,7 +140,7 @@ var Login = (function (Component) {
                             return;
                         }
 
-                        console.log("Logged in as user", user.result);
+                        logger.debug("Logged in as user", user.result);
                         store.currentStore().dispatch(actions.updateHomeComponentDisplay(CONSTANTS.HOME_DISPLAY_ENUM.SHOW_DEFAULT));
                         store.currentStore().dispatch(actions.updateCurrentUser(user.result));
                     });
@@ -153,16 +155,16 @@ var Login = (function (Component) {
 
                     post("/account/register", params, function (err, user) {
                         if (err != null) {
-                            console.log("Error", err.code, err.message);
+                            logger.error("Error", err.code, err.message);
                             return;
                         }
 
-                        console.log("Created user", user.result);
+                        logger.debug("Created user", user.result);
                         store.currentStore().dispatch(actions.updateHomeComponentDisplay(CONSTANTS.HOME_DISPLAY_ENUM.SHOW_DEFAULT));
                         store.currentStore().dispatch(actions.updateCurrentUser(user.result));
                     });
                 } else {
-                    console.log("Cannot recognize field value:", fieldType);
+                    logger.debug("Cannot recognize field value:", fieldType);
                 }
             },
             writable: true,
@@ -171,7 +173,7 @@ var Login = (function (Component) {
         componentWillMount: {
             value: function componentWillMount() {
                 var functionName = "componentWillMount";
-                console.log(MODULE_NAME, functionName + " called");
+                logger.debug(MODULE_NAME, functionName + " called");
             },
             writable: true,
             configurable: true
@@ -179,7 +181,7 @@ var Login = (function (Component) {
         componentDidMount: {
             value: function componentDidMount() {
                 var functionName = "componentDidMount";
-                console.log(MODULE_NAME, functionName + " called");
+                logger.debug(MODULE_NAME, functionName + " called");
             },
             writable: true,
             configurable: true
@@ -187,7 +189,7 @@ var Login = (function (Component) {
         componentWillUnmount: {
             value: function componentWillUnmount() {
                 var functionName = "componentWillUnmount";
-                console.log(MODULE_NAME, functionName + " called");
+                logger.debug(MODULE_NAME, functionName + " called");
             },
             writable: true,
             configurable: true
@@ -195,7 +197,7 @@ var Login = (function (Component) {
         componentWillReceiveProps: {
             value: function componentWillReceiveProps(nextProps) {
                 var functionName = "componentWillReceiveProps";
-                console.log(MODULE_NAME, functionName + " called", nextProps);
+                logger.debug(MODULE_NAME, functionName + " called", nextProps);
             },
             writable: true,
             configurable: true
@@ -203,7 +205,7 @@ var Login = (function (Component) {
         shouldComponentUpdate: {
             value: function shouldComponentUpdate(nextProps, nextState) {
                 var functionName = "shouldComponentUpdate";
-                console.log(MODULE_NAME, functionName + " called", nextProps, nextState);
+                logger.debug(MODULE_NAME, functionName + " called", nextProps, nextState);
 
                 return true;
             },
@@ -213,7 +215,7 @@ var Login = (function (Component) {
         componentWillUpdate: {
             value: function componentWillUpdate(nextProps, nextState) {
                 var functionName = "componentWillUpdate";
-                console.log(MODULE_NAME, functionName + " called", nextProps, nextState);
+                logger.debug(MODULE_NAME, functionName + " called", nextProps, nextState);
             },
             writable: true,
             configurable: true
@@ -221,7 +223,7 @@ var Login = (function (Component) {
         componentDidUpdate: {
             value: function componentDidUpdate(prevProps, prevState) {
                 var functionName = "componentDidUpdate";
-                console.log(MODULE_NAME, functionName + " called", prevProps, prevState);
+                logger.debug(MODULE_NAME, functionName + " called", prevProps, prevState);
             },
             writable: true,
             configurable: true
@@ -230,7 +232,7 @@ var Login = (function (Component) {
             value: function render() {
                 var _this = this;
                 var functionName = "render";
-                console.log(MODULE_NAME, functionName + " called", this.props);
+                logger.debug(MODULE_NAME, functionName + " called", this.props);
 
                 return React.createElement(
                     "div",

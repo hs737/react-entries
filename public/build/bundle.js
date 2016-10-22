@@ -32155,13 +32155,13 @@
 	    value: true
 	});
 	exports.default = {
-	    debug: function debug(msg) {
+	    debug: function debug() {
 	        if ("production" !== process.env.NODE_ENV) {
-	            console.log(msg);
+	            console.log.apply(console, arguments);
 	        }
 	    },
-	    error: function error(msg) {
-	        console.error(msg);
+	    error: function error() {
+	        console.error.apply(console, arguments);
 	    }
 	};
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))

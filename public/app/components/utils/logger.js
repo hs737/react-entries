@@ -1,10 +1,10 @@
 export default {
-    debug: function(msg) {
+    debug: function() {
         if ("production" !== process.env.NODE_ENV) {
-            console.log(msg);
+            console.log.apply(console, arguments);
         }
     },
-    error: function(msg) {
-        console.error(msg);
+    error: function() {
+        console.error.apply(console, arguments);
     }
 }

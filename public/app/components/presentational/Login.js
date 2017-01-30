@@ -32,7 +32,7 @@ const BUTTON_DETAILS = {
 
 class Login extends Component {
     constructor(props, context, updater) {
-        var functionName = "constructor"
+        const functionName = "constructor"
         logger.debug(MODULE_NAME, functionName + " called")
 
         super(props, context, updater)
@@ -48,6 +48,7 @@ class Login extends Component {
 
         this.handleFieldUpdate = this.handleFieldUpdate.bind(this)
         this.handlLoginSubmit = this.handlLoginSubmit.bind(this)
+        this.handleKeyPress = this.handleKeyPress.bind(this)
     }
 
     handleFieldUpdate(fieldType, event) {
@@ -74,7 +75,7 @@ class Login extends Component {
     }
 
     handlLoginSubmit(submitType, event) {
-        var functionName = "handlLoginSubmit"
+        const functionName = "handlLoginSubmit"
         logger.debug(MODULE_NAME, functionName + " called", event.target.name,
                     submitType,
                     this.state.username,
@@ -149,6 +150,17 @@ class Login extends Component {
         }
     }
 
+    handleKeyPress(submitType, event) {
+        const functionName = "handleKeyPress"
+        logger.debug(MODULE_NAME, functionName + " called", event.target.name,
+                    submitType,
+                    this.state.username,
+                    this.state.password,
+                    this.state.email);
+
+        event.preventDefault();
+    }
+
     componentWillMount() {
         var functionName = "componentWillMount"
         logger.debug(MODULE_NAME, functionName + " called")
@@ -219,7 +231,7 @@ class Login extends Component {
                                 </div>
                             </div>
 
-                            <div className="form-group login-options">
+                            {/* <div className="form-group login-options">
                                 <div className="row">
                                     <div className="col-sm-6">
                                         <label className="checkbox-inline">
@@ -232,7 +244,7 @@ class Login extends Component {
                                         <a href="login_password_recover.html">Forgot password?</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="form-group">
                                 <button type="submit" className={this.state.submitButtonDetails.CLASS} onClick={(e) => this.handlLoginSubmit(SUBMIT_ENUM.SIGNIN, e)}>{this.state.submitButtonDetails.TEXT}<i className="icon-arrow-right14 position-right"></i></button>

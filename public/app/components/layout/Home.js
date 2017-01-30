@@ -78,7 +78,7 @@ class Home extends Component {
             <div>
                 <NavBar currentUser={this.props.currentUser} />
 
-                <div className="login-container login-cover">
+                {/* <div className="login-container login-cover">
                     <div className="page-container">
                         <div className="page-content">
                             <div className="content-wrapper">
@@ -86,7 +86,7 @@ class Home extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         )
     }

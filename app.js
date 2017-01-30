@@ -8,6 +8,7 @@ var sessions = require("client-sessions")
 
 const MODULE_NAME = 'app.js'
 
+console.log("NODE_ENV: " + process.env['NODE_ENV'])
 if (process.env['NODE_ENV'] === 'development') {
     require('./utils/env')
 }

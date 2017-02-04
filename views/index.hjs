@@ -37,12 +37,13 @@
     <script type="text/javascript" src="/assets/js/pages/dashboard_boxed.js"></script>
     <!-- /theme JS files -->
 
-    <!-- Theme JS files -->
+    <!-- Application JS files -->
     <script type="text/javascript" src="../assets/js/core/app.js"></script>
-    <!-- /theme JS files -->
+    <!-- /Application JS files -->
 
 </head>
-<body class="navbar-bottom sidebar-xs">
+<!-- <body class="navbar-bottom sidebar-xs"> -->
+<body class="layout-boxed">
     <div id = "app">{{{ react }}}</div>
     <script type="text/javascript">window.__PRELOADED_STATE__ = {{{preloadedState}}}</script>
     <script type = "text/javascript" src = "/build/bundle.js"></script>

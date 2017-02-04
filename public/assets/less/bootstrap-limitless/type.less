@@ -290,7 +290,8 @@ svg {
 .page-header-inverse {
     background-color: @page-header-inverse-bg;
     color: #fff;
-    margin-bottom: @line-height-computed;
+    margin-bottom: (@line-height-computed * 1.5);
+    .box-shadow(@shadow-depth1);
 
     // Change color of small element
     .page-title small {
@@ -354,8 +355,8 @@ svg {
 // White page header
 .page-header-default {
     background-color: @page-header-default-bg;
-    margin-bottom: @line-height-computed;
-    .box-shadow(0 1px 0 0 @navbar-default-border);
+    margin-bottom: (@line-height-computed * 1.5);
+    .box-shadow(@shadow-depth1);
     
     // Cover image
     &.has-cover {

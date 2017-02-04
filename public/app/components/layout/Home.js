@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 
 import NavBar from '../presentational/NavBar'
 import Login from '../presentational/Login'
+import PageContent from '../presentational/PageContent'
+
 
 import CONSTANTS from '../constants/constants'
 import store from '../stores/store'
@@ -78,15 +80,7 @@ class Home extends Component {
             <div className="layout-boxed">
                 <NavBar currentUser={this.props.currentUser} />
 
-                {/* <div className="login-container login-cover">
-                    <div className="page-container">
-                        <div className="page-content">
-                            <div className="content-wrapper">
-                                {mainDisplayComponent}
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
+                <PageContent />
             </div>
         )
     }

@@ -75,7 +75,7 @@ class Home extends Component {
         }
 
         return (
-            <div>
+            <div className="layout-boxed">
                 <NavBar currentUser={this.props.currentUser} />
 
                 {/* <div className="login-container login-cover">

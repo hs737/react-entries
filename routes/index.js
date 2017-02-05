@@ -1,25 +1,25 @@
-const MODULE_NAME = "index.js"
+const MODULE_NAME = "index.js";
 
 var express                 = require('express');
-var react                   = require('react')
-var reactRouter             = require('react-router')
-var reactDomServer          = require('react-dom/server')
-var promise                 = require('bluebird')
-var config                  = require('config')
+var react                   = require('react');
+var reactRouter             = require('react-router');
+var reactDomServer          = require('react-dom/server');
+var promise                 = require('bluebird');
+var config                  = require('config');
 
-var logger                  = require('../utils/logger')(MODULE_NAME)
-var Entry                   = require('../models/entry')
-var RelationshipProfile     = require('../models/relationshipProfile')
-var User                    = require('../models/user')
+var logger                  = require('../utils/logger')(MODULE_NAME);
+var Entry                   = require('../models/entry');
+var RelationshipProfile     = require('../models/relationshipProfile');
+var User                    = require('../models/user');
 
-var ServerApp               = require('../public/build/es5/ServerApp')
-var Main                    = require('../public/build/es5/components/Main')
-var Home                    = require('../public/build/es5/components/layout/Home')
-var PageNotFound            = require('../public/build/es5/components/layout/PageNotFound')
-var Search                  = require('../public/build/es5/components/layout/Search')
-var Profile                 = require('../public/build/es5/components/layout/Profile')
-var store                   = require('../public/build/es5/components/stores/store')
-var CONSTANTS               = require('../public/build/es5/components/constants/constants')
+var ServerApp               = require('../public/build/es5/ServerApp');
+var Main                    = require('../public/build/es5/components/Main');
+var Home                    = require('../public/build/es5/components/layout/Home');
+var PageNotFound            = require('../public/build/es5/components/layout/PageNotFound');
+var Search                  = require('../public/build/es5/components/layout/Search');
+var Profile                 = require('../public/build/es5/components/layout/Profile');
+var store                   = require('../public/build/es5/components/stores/store');
+var CONSTANTS               = require('../public/build/es5/components/constants/constants');
 
 logger.debug("Creating controllers")
 var controllers = {
@@ -27,12 +27,12 @@ var controllers = {
     profile: promise.promisifyAll(require('../controllers/genericModelController')(RelationshipProfile)),
     search: promise.promisifyAll(require('../controllers/searchController')),
     user: promise.promisifyAll(require('../controllers/genericModelController')(User))
-}
-var routesToSkip = ['api', 'account', 'favicon.ico']
-const sessionConfig = config.get('session')
+};
+var routesToSkip = ['api', 'account', 'favicon.ico'];
+const sessionConfig = config.get('session');
 
 var router = express.Router();
-require('node-jsx').install({extension: '.js'})
+require('node-jsx').install({extension: '.js'});
 
 function matchRoute(req, childRoutes) {
     return function(result) {
@@ -52,8 +52,8 @@ function matchRoute(req, childRoutes) {
             userReducer: {
                 currentUser: result.userDetails
             }
-        }
-        initialStore = store.createStore(initialStatePerReducer)
+        };
+        var initialStore = store.createStore(initialStatePerReducer);
 
         var routes = {
             path: '/',
@@ -63,7 +63,7 @@ function matchRoute(req, childRoutes) {
                 component: Home
             },
             childRoutes: childRoutes
-        }
+        };
 
         return new Promise(function(resolve, reject){
             reactRouter.match({ routes, location: req.url }, function(error, redirectLocation, renderProps){
@@ -78,10 +78,10 @@ function matchRoute(req, childRoutes) {
                     redirectLocation: redirectLocation,
                     renderProps: renderProps,
                     initialStore: initialStore
-                })
-            })
-        })
-    }
+                });
+            });
+        });
+    };
 }
 
 function renderRoute(res) {

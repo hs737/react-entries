@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
 import Entry from './Entry'
 
 import store from '../stores/store'
 import actions from '../actions/actions'
-import {post} from '../utils/APIManager'
+import { post } from '../utils/APIManager'
 
 var MODULE_NAME = "Entries"
 
@@ -62,8 +62,8 @@ class Entries extends Component {
         if (this.props.entries == null) {
             var entryTags = null
         } else {
-            entryTags = this.props.entries.map(function(elem, index) {
-                return <Entry key = {index} details={elem} />
+            entryTags = this.props.entries.map(function (elem, index) {
+                return <Entry key={index} details={elem} />
                 // return (
                 //     <div key = {index}>
                 //         <Entry text={elem.text} />

@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router'
 
 import store from '../stores/store'
 import actions from '../actions/actions'
-import {post} from '../utils/APIManager'
+import { post } from '../utils/APIManager'
 
 var MODULE_NAME = "EntryText"
 
@@ -43,7 +43,7 @@ class EntryText extends Component {
         var newDocument = {
             profile: this.props.id,
             text: this.state.currentEntry
-        }
+        };
 
         post("/api/entry", newDocument, function(err, document) {
             if (err) {
@@ -98,15 +98,23 @@ class EntryText extends Component {
     }
 
     render() {
-        return (
-            <form>
-                <fieldset className="content-group">
-                    <div className='form-group'>
-                        <textarea className='form-control' placeholder="Enter text here" onChange={this.updateCurrentStateEntry} value={this.state.currentEntry} />
-                        <button type="submit" onClick={this.addEntry}>Submit</button>
-                    </div>
-                </fieldset>
-            </form>
+        return ( <
+            form >
+            <
+            fieldset className = "content-group" >
+            <
+            div className = 'form-group' >
+            <
+            textarea className = 'form-control'
+            placeholder = "Enter text here"
+            onChange = { this.updateCurrentStateEntry }
+            value = { this.state.currentEntry }
+            /> <
+            button type = "submit"
+            onClick = { this.addEntry } > Submit < /button> <
+            /div> <
+            /fieldset> <
+            /form>
         )
     }
 }

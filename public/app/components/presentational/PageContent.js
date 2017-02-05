@@ -1,63 +1,63 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import SideBar from './SideBar'
-import PageHeader from './PageHeader'
-import CompositionPanel from './CompositionPanel'
+import SideBar from './SideBar';
+import PageHeader from './PageHeader';
+import CompositionPanel from './CompositionPanel';
 
-const MODULE_NAME = "PageContent"
+const MODULE_NAME = "PageContent";
 
 class PageContent extends Component {
     constructor(props, context, updater) {
-        const functionName = "constructor"
-        console.log(MODULE_NAME, functionName + " called")
+        const functionName = "constructor";
+        console.log(MODULE_NAME, functionName + " called");
 
-        super(props, context, updater)
+        super(props, context, updater);
 
-        console.log(MODULE_NAME, functionName, "props", this.props)
+        console.log(MODULE_NAME, functionName, "props", this.props);
 
-        this.state = {}
+        this.state = {};
     }
 
     componentWillMount() {
-        const functionName = "componentWillMount"
-        console.log(MODULE_NAME, functionName + " called")
+        const functionName = "componentWillMount";
+        console.log(MODULE_NAME, functionName + " called");
     }
 
     componentDidMount() {
-        const functionName = "componentDidMount"
-        console.log(MODULE_NAME, functionName + " called")
+        const functionName = "componentDidMount";
+        console.log(MODULE_NAME, functionName + " called");
     }
 
     componentWillUnmount() {
-        const functionName = "componentWillUnmount"
-        console.log(MODULE_NAME, functionName + " called")
+        const functionName = "componentWillUnmount";
+        console.log(MODULE_NAME, functionName + " called");
     }
 
     componentWillReceiveProps(nextProps) {
-        const functionName = "componentWillReceiveProps"
-        console.log(MODULE_NAME, functionName + " called", nextProps)
+        const functionName = "componentWillReceiveProps";
+        console.log(MODULE_NAME, functionName + " called", nextProps);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        const functionName = "shouldComponentUpdate"
-        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
+        const functionName = "shouldComponentUpdate";
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState);
 
-        return true
+        return true;
     }
 
     componentWillUpdate(nextProps, nextState) {
-        const functionName = "componentWillUpdate"
-        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
+        const functionName = "componentWillUpdate";
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState);
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const functionName = "componentDidUpdate"
-        console.log(MODULE_NAME, functionName + " called", prevProps, prevState)
+        const functionName = "componentDidUpdate";
+        console.log(MODULE_NAME, functionName + " called", prevProps, prevState);
     }
 
     render() {
-        const functionName = "render"
-        console.log(MODULE_NAME, functionName + " called", this.props)
+        const functionName = "render";
+        console.log(MODULE_NAME, functionName + " called", this.props);
 
         return (
             <div className="page-container">

@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 
-import PanelHeading from './PanelHeading'
+const MODULE_NAME = "PanelHeading"
 
-const MODULE_NAME = "CompositionPanel"
-
-class CompositionPanel extends Component {
+class PanelHeading extends Component {
     constructor(props, context, updater) {
         const functionName = "constructor"
         console.log(MODULE_NAME, functionName + " called")
@@ -13,14 +11,7 @@ class CompositionPanel extends Component {
 
         console.log(MODULE_NAME, functionName, "props", this.props)
 
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleTextareaChange = this.handleTextareaChange.bind(this)
-
-        this.state = {
-            compositionDetails: {
-                text: ""
-            }
-        }
+        this.state = {}
     }
 
     componentWillMount() {
@@ -60,45 +51,32 @@ class CompositionPanel extends Component {
         console.log(MODULE_NAME, functionName + " called", prevProps, prevState)
     }
 
-    handleSubmit(event) {
-        var functionName = "handleSubmit"
-        console.log(MODULE_NAME, functionName + " called", event.target.name, this.state.compositionDetails)
-    }
-
-    handleTextareaChange(event) {
-        var functionName = "handleTextareaChange"
-        console.log(MODULE_NAME, functionName + " called", event.target.name, event.target.value)
-
-        var newState = Object.assign({}, this.state)
-        newState.compositionDetails.text = event.target.value
-
-        this.setState(newState)
-    }
-
     render() {
         const functionName = "render"
         console.log(MODULE_NAME, functionName + " called", this.props)
 
         return (
-            <div className="panel panel-flat">
-            {/* <!-- Traffic sources --> */}
-
-                <PanelHeading />
-
-				<div className="container-fluid">
-                    <div className="col-md-12">
-                        <div className="col-md-12">
-                            <textarea rows="5" className="form-control" placeholder="Enter your message here" onChange={this.handleTextareaChange} ></textarea>
-                        </div>
-                        <div className="col-md-12">
-                            <button type="submit" className="btn btn-primary pull-right" onClick={this.handleSubmit}>Submit form</button>
-                        </div>
-                    </div>
+            <div className="panel-heading">
+                <h6 className="panel-title">Marketing campaigns</h6>
+                <div className="heading-elements">
+                    <span className="label bg-success heading-text">28 active</span>
+                    <ul className="icons-list">
+                        <li className="dropdown">
+                            <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="icon-menu7"></i> <span className="caret"></span></a>
+                            <ul className="dropdown-menu dropdown-menu-right">
+                                <li><a href="#"><i className="icon-sync"></i> Update data</a></li>
+                                <li><a href="#"><i className="icon-list-unordered"></i> Detailed log</a></li>
+                                <li><a href="#"><i className="icon-pie5"></i> Statistics</a></li>
+                                <li className="divider"></li>
+                                <li><a href="#"><i className="icon-cross3"></i> Clear list</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-            {/* <!-- /traffic sources --> */}
             </div>
         )
     }
+
 }
 
-export default CompositionPanel 
+export default PanelHeading

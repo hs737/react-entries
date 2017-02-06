@@ -3,7 +3,6 @@ const gulp = require('gulp'),
     gp_rename = require('gulp-rename'),
     gp_uglify = require('gulp-uglify'),
     debug = require("gulp-debug"),
-    // to5 = require('gulp-6to5'),
     gp_babel = require('gulp-babel');
 
 var srcPaths = [
@@ -11,17 +10,21 @@ var srcPaths = [
     './public/app/**/*.{js,jsx}',
 ];
 
-gulp.task('transpile', function(){
+gulp.task('transpile', function () {
     return gulp.src(srcPaths)
-        .pipe(debug({ title: 'Input:' }))
+        .pipe(debug({
+            title: 'Input:'
+        }))
         .pipe(gp_babel({
             presets: ['es2015', "react"]
         }))
         .pipe(gulp.dest('./public/build/es5/'))
-        .pipe(debug({ title: 'Output:' }));
+        .pipe(debug({
+            title: 'Output:'
+        }));
 });
 
-gulp.task('build', function(){
+gulp.task('build', function () {
     return gulp.src(
             [
                 './public/js/jquery.js',
@@ -36,8 +39,8 @@ gulp.task('build', function(){
         .pipe(gulp.dest('./public/build/'));
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', function () {
     gulp.watch(srcPaths, ['transpile']);
 });
 
-gulp.task('default', ['transpile', 'build', 'watch'], function(){});
+gulp.task('default', ['transpile', 'build', 'watch'], function () {});

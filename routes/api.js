@@ -21,7 +21,7 @@ var controllers = {
 const sessionConfig = config.get('session');
 var router = express.Router();
 
-router.use(function(req, res, next) {
+router.use(function (req, res, next) {
     var params = req.params;
     var query = req.query;
     var body = req.body;
@@ -35,14 +35,14 @@ router.use(function(req, res, next) {
     next();
 });
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
     res.json({
         code: CONSTANTS.RETURN_CODES.SUCCESS,
         message: CONSTANTS.RETURN_MESSAGES.SUCCESS
     });
 });
 
-router.get('/:resource', function(req, res, next) {
+router.get('/:resource', function (req, res, next) {
     logger.debug(req.path, "req.params", req.params);
 
     var resource = req.params.resource;
@@ -61,7 +61,7 @@ router.get('/:resource', function(req, res, next) {
     }
 });
 
-router.get('/:resource/:id', function(req, res, next) {
+router.get('/:resource/:id', function (req, res, next) {
     var resource = req.params.resource;
     var controller = getController(res, resource);
 
@@ -70,14 +70,14 @@ router.get('/:resource/:id', function(req, res, next) {
     controller.readById(req.params.id, options, false, genericControllerCallback(res));
 });
 
-router.post('/:resource', function(req, res, next) {
+router.post('/:resource', function (req, res, next) {
     var resource = req.params.resource;
     var controller = getController(res, resource);
 
     controller.create(req.body, false, genericControllerCallback(res));
 });
 
-router.put('/:resource/:id', function(req, res, next) {
+router.put('/:resource/:id', function (req, res, next) {
     var resource = req.params.resource;
     var controller = getController(res, resource);
 
@@ -85,14 +85,14 @@ router.put('/:resource/:id', function(req, res, next) {
     controller.update(id, req.body, false, genericControllerCallback(res));
 });
 
-router.delete('/:resource/:id', function(req, res, next) {
+router.delete('/:resource/:id', function (req, res, next) {
     var resource = req.params.resource;
     var controller = getController(res, resource);
 
     controller.deleteById(req.params.id, false, genericControllerCallback(res));
 });
 
-var getController = function(res, resource) {
+var getController = function (res, resource) {
     var controller = controllers[resource];
     if (controller === null || controller === undefined) {
         var errorMessage = "Did not find controller. Resource '" + resource + "' not recognized";
@@ -108,8 +108,8 @@ var getController = function(res, resource) {
     }
 };
 
-var genericControllerCallback = function(res) {
-    return function(err, docs) {
+var genericControllerCallback = function (res) {
+    return function (err, docs) {
         if (err) {
             logger.error("Controller returned error", err);
 

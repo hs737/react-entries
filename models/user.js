@@ -7,13 +7,30 @@ var bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 
 var userSchema = new mongoose.Schema({
-    username: { type: String, trim: true, index: true, unique: true, required: true },
-    password: { type: String, trim: true, required: true },
-    email: { type: String, trim: true, required: true },
-    timestamp: { type: Date, default: Date.now }
+    username: {
+        type: String,
+        trim: true,
+        index: true,
+        unique: true,
+        required: true
+    },
+    password: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    email: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    timestamp: {
+        type: Date,
+        default: Date.now
+    }
 });
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
     const FUNCTION_NAME = 'save';
     logger.debug(FUNCTION_NAME + " called");
 
@@ -26,14 +43,14 @@ userSchema.pre('save', function(next) {
     }
 
     // generate a salt
-    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
         if (err) {
             logger.error(FUNCTION_NAME, "Could not generate salt. Calling next(err)");
             return next(err);
         }
 
         // hash the password along with our new salt
-        bcrypt.hash(user.password, salt, function(err, hash) {
+        bcrypt.hash(user.password, salt, function (err, hash) {
             if (err) {
                 logger.error(FUNCTION_NAME, "Could not generate hash. Calling next(err)");
                 return next(err);
@@ -48,11 +65,11 @@ userSchema.pre('save', function(next) {
     });
 });
 
-userSchema.methods.comparePassword = function(candidatePassword, cb) {
+userSchema.methods.comparePassword = function (candidatePassword, cb) {
     const FUNCTION_NAME = 'comparePassword';
     logger.debug(FUNCTION_NAME + " called", candidatePassword);
 
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
         if (err) {
             logger.error(FUNCTION_NAME, "Could not generate hash. Calling next(err)");
             return cb(err);

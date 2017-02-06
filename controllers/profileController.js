@@ -1,6 +1,6 @@
-var MODULE_NAME = 'profileController'
+var MODULE_NAME = 'profileController';
 
-var logger = require('../utils/logger')(MODULE_NAME)
+var logger = require('../utils/logger')(MODULE_NAME);
 
 // module.exports['create'] = function(params, isRaw, callback) {}
 // module.exports['read']   = function(params, isRaw, callback) {}

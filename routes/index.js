@@ -12,13 +12,13 @@ var Entry                   = require('../models/entry');
 var RelationshipProfile     = require('../models/relationshipProfile');
 var User                    = require('../models/user');
 
-var ServerApp               = require('../public/build/es5/ServerApp');
-var Main                    = require('../public/build/es5/components/Main');
-var Home                    = require('../public/build/es5/components/layout/Home');
-var PageNotFound            = require('../public/build/es5/components/layout/PageNotFound');
-var Search                  = require('../public/build/es5/components/layout/Search');
-var Profile                 = require('../public/build/es5/components/layout/Profile');
-var store                   = require('../public/build/es5/components/stores/store');
+var ServerApp               = require('../public/build/es5/ServerApp').default;
+var Main                    = require('../public/build/es5/components/Main').default;
+var Home                    = require('../public/build/es5/components/layout/Home').default;
+var PageNotFound            = require('../public/build/es5/components/layout/PageNotFound').default;
+var Search                  = require('../public/build/es5/components/layout/Search').default;
+var Profile                 = require('../public/build/es5/components/layout/Profile').default;
+var store                   = require('../public/build/es5/components/stores/store').default;
 var CONSTANTS               = require('../public/build/es5/components/constants/constants');
 
 logger.debug("Creating controllers")
@@ -196,7 +196,7 @@ router.get('/:page/:slug', function(req, res, next) {
     ]))
     .then(renderRoute(res))
     .catch(function (err) {
-        logger.error(MODULE_NAME, err)
+        logger.error(MODULE_NAME, err);
         res.status(404).send({ error: err });       // TODO: Verify correct html error code
     })
 });

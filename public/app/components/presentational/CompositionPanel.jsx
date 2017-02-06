@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import PanelHeading from './PanelHeading';
-import post from '../utils/APIManager';
+import { post } from '../utils/APIManager';
 
 const MODULE_NAME = "CompositionPanel";
 
@@ -109,7 +109,7 @@ class CompositionPanel extends Component {
                             <button type="submit" className="btn btn-primary pull-right" onClick={this.handleSubmit} > Submit form </button> 
                         </div> 
                     </div> 
-                </div> 
+                </div>
             </div>
         )
     }

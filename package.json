@@ -28,6 +28,7 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.6.1",
     "redux": "^3.5.2",
+    "redux-actions": "^1.2.1",
     "redux-thunk": "^2.1.0",
     "serve-favicon": "~2.3.0",
     "superagent": "^2.2.0",

@@ -1,59 +1,69 @@
-import CONSTANTS from '../constants/constants'
+import CONSTANTS from '../constants/constants';
 
-export default {
-    addEntry: function(entryDetails) {
-        console.log("addEntry called", JSON.stringify(entryDetails))
-        return {
-            type: CONSTANTS.ACTIONS.ADD_ENTRY,
-            entry: entryDetails
-        }
-    },
+export const getEntries = (entries) => ({
+    type: CONSTANTS.ACTIONS.GET_ENTRIES,
+    payload: entries
+});
 
-    removeEntry: function(entryDetails) {
-        console.log("removeEntry called", JSON.stringify(entryDetails))
-        return {
-            type: CONSTANTS.ACTIONS.REMOVE_ENTRY,
-            entry: entryDetails
-        }
-    },
+export const addEntry = (entry) => ({
+    type: CONSTANTS.ACTIONS.ADD_ENTRY,
+    payload: entry
+});
 
-    getEntries: function(entriesList) {
-        console.log("getEntries called", JSON.stringify(entriesList))
-        return {
-            type: CONSTANTS.ACTIONS.GET_ENTRIES,
-            entries: entriesList
-        }
-    },
+// export default {
+//     addEntry: function(entryDetails) {
+//         console.log("addEntry called", JSON.stringify(entryDetails))
+//         return {
+//             type: CONSTANTS.ACTIONS.ADD_ENTRY,
+//             entry: entryDetails
+//         }
+//     },
 
-    updateCurrentProfile: function(profileDetails) {
-        console.log("updateCurrentProfile called", JSON.stringify(profileDetails))
-        return {
-            type: CONSTANTS.ACTIONS.UPDATE_CURRENT_PROFILE,
-            profileDetails: profileDetails
-        }
-    },
+//     removeEntry: function(entryDetails) {
+//         console.log("removeEntry called", JSON.stringify(entryDetails))
+//         return {
+//             type: CONSTANTS.ACTIONS.REMOVE_ENTRY,
+//             entry: entryDetails
+//         }
+//     },
 
-    updateCurrentUser: function(userDetails) {
-        console.log("updateCurrentUser called", JSON.stringify(userDetails))
-        return {
-            type: CONSTANTS.ACTIONS.UPDATE_CURRENT_USER,
-            userDetails: userDetails
-        }
-    },
+//     getEntries: function(entriesList) {
+//         console.log("getEntries called", JSON.stringify(entriesList))
+//         return {
+//             type: CONSTANTS.ACTIONS.GET_ENTRIES,
+//             entries: entriesList
+//         }
+//     },
 
-    search: function(searchResults) {
-        console.log("search called", JSON.stringify(searchResults))
-        return {
-            type: CONSTANTS.ACTIONS.SEARCH,
-            results: searchResults
-        }
-    },
+//     updateCurrentProfile: function(profileDetails) {
+//         console.log("updateCurrentProfile called", JSON.stringify(profileDetails))
+//         return {
+//             type: CONSTANTS.ACTIONS.UPDATE_CURRENT_PROFILE,
+//             profileDetails: profileDetails
+//         }
+//     },
 
-    updateHomeComponentDisplay: function(displayEnum) {
-        console.log("updateHomeComponentDisplay called", displayEnum)
-        return {
-            type: CONSTANTS.ACTIONS.UPDATE_HOME_DISPLAY,
-            display: displayEnum
-        }
-    }
-}
+//     updateCurrentUser: function(userDetails) {
+//         console.log("updateCurrentUser called", JSON.stringify(userDetails))
+//         return {
+//             type: CONSTANTS.ACTIONS.UPDATE_CURRENT_USER,
+//             userDetails: userDetails
+//         }
+//     },
+
+//     search: function(searchResults) {
+//         console.log("search called", JSON.stringify(searchResults))
+//         return {
+//             type: CONSTANTS.ACTIONS.SEARCH,
+//             results: searchResults
+//         }
+//     },
+
+//     updateHomeComponentDisplay: function(displayEnum) {
+//         console.log("updateHomeComponentDisplay called", displayEnum)
+//         return {
+//             type: CONSTANTS.ACTIONS.UPDATE_HOME_DISPLAY,
+//             display: displayEnum
+//         }
+//     }
+// }

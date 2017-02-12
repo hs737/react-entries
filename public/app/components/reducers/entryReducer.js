@@ -1,46 +1,47 @@
-import CONSTANTS from '../constants/constants'
+import CONSTANTS from '../constants/constants';
 
 var initialState = {
     entriesList: null
-}
+};
 
-var moduleName = "entryReducer"
+var moduleName = "entryReducer";
 
-export default function (previousState = initialState, someAction){
-    console.log(moduleName + " called", previousState, someAction)
+export default function (previousState = initialState, someAction) {
+    console.log(moduleName + " called", previousState, someAction);
+    var nextState = null;
 
-    switch(someAction.type) {
+    switch (someAction.type) {
         case CONSTANTS.ACTIONS.GET_ENTRIES:
-            console.log('GET_ENTRIES', JSON.stringify(someAction))
+            console.log('GET_ENTRIES', JSON.stringify(someAction));
 
-            var nextState = Object.assign({}, previousState)
-            nextState['entriesList'] = someAction.entries
+            nextState = Object.assign({}, previousState);
+            nextState['entriesList'] = someAction.entries;
 
-            return nextState
+            return nextState;
 
         case CONSTANTS.ACTIONS.ADD_ENTRY:
-            console.log('ADD_ENTRY', JSON.stringify(someAction))
+            console.log('ADD_ENTRY', JSON.stringify(someAction));
 
-            var nextState = Object.assign({}, previousState)
-            var entriesList = Object.assign([], nextState.entriesList)
+            nextState = Object.assign({}, previousState);
+            var entriesList = Object.assign([], nextState.entriesList);
 
-            entriesList.unshift(someAction.entry)
-            nextState['entriesList'] = entriesList
+            entriesList.unshift(someAction.entry);
+            nextState['entriesList'] = entriesList;
 
-            return nextState
+            return nextState;
 
         case CONSTANTS.ACTIONS.REMOVE_ENTRY:
-            console.log('REMOVE_ENTRY', JSON.stringify(someAction))
+            console.log('REMOVE_ENTRY', JSON.stringify(someAction));
 
-            var nextState = Object.assign({}, previousState)
-            var entriesList = Object.assign([], nextState.entriesList)
+            nextState = Object.assign({}, previousState);
+            var entriesList = Object.assign([], nextState.entriesList);
 
-            entriesList = entriesList.filter(element => element._id !== someAction.entry._id)
-            nextState['entriesList'] = entriesList
+            entriesList = entriesList.filter(element => element._id !== someAction.entry._id);
+            nextState['entriesList'] = entriesList;
 
-            return nextState
+            return nextState;
 
         default:
-            return previousState
+            return previousState;
     }
 }

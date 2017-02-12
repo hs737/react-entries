@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import PanelHeading from './PanelHeading';
+import PanelBody from './PanelBody';
 
 import { post } from '../utils/APIManager';
 import store from '../stores/store';
-import actions from '../actions/actions';
+import { addEntry } from '../actions/actions';
 
 const MODULE_NAME = "CompositionPanel";
 
@@ -84,10 +86,11 @@ class CompositionPanel extends Component {
             console.log(MODULE_NAME, functionName, "Entry created", document);
 
             // TODO: Add entry to store for display
-            store.currentStore().dispatch(actions.addEntry(document.result));
+            // store.currentStore().dispatch(addEntry(document.result));
+            _this.props.addEntry(document.result);
 
             var newState = Object.assign({}, _this.state);
-            newState.currentEntry = "";
+            newState.compositionDetails.text = "";
 
             _this.setState(newState);
         });
@@ -107,23 +110,22 @@ class CompositionPanel extends Component {
         const functionName = "render";
         console.log(MODULE_NAME, functionName + " called", this.props);
 
-        return (
-            <div className="panel panel-flat" >
-                <PanelHeading />
-
-                <div className="container-fluid" >
-                    <div className="col-md-12" >
-                        <div className="col-md-12" >
-                            <textarea rows="5" className="form-control" placeholder="Enter your message here" value={this.state.compositionDetails.text} onChange={this.handleTextareaChange} />
-                        </div>
-                        <div className="col-md-12" >
-                            <button type="submit" className="btn btn-primary pull-right" onClick={this.handleSubmit} > Submit form </button>
-                        </div>
-                    </div>
-                </div>
+        var compositionElement = (
+            <div>
+                <form onSubmit={e => { this.handleSubmit(e) }} >
+                    <textarea rows="5" className="form-control" placeholder="Enter your message here" value={this.state.compositionDetails.text} onChange={this.handleTextareaChange} />
+                    <button type="submit" className="btn btn-primary pull-right" > Submit form </button>
+                </form>
             </div>
-        )
+        );
+
+        return (
+            <div className="panel panel-default" >
+                <PanelHeading />
+                <PanelBody element={compositionElement} />
+            </div>
+        );
     }
 }
 
-export default CompositionPanel
+export default CompositionPanel;

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 
-import Panel from './Panel';
-import EntryText from './EntryText';
-import Entries from './Entries';
+// import Panel from './Panel';
+// import EntryText from './EntryText';
+// import Entries from './Entries';
+
+import PanelHeading from './PanelHeading';
+import PanelBody from './PanelBody';
 
 var MODULE_NAME = "EntriesPanel";
 
@@ -48,17 +51,26 @@ class EntriesPanel extends Component {
         var functionName = "render";
         console.log(MODULE_NAME, functionName + " called", this.props);
 
-        var textEntryBody = (
-            <EntryText id={this.props.id} />
-        )
+        // var textEntryBody = (
+        //     <EntryText id={this.props.id} />
+        // )
 
-        return (
+        /*return (
             <div>
                 <Panel panelBody={textEntryBody} />
                 <Entries entries={this.props.entries} />
+            </div>
+        )*/
+
+        var entries = <div>Hello World</div>;
+
+        return (
+            <div className="panel panel-default" >
+                <PanelHeading />
+                <PanelBody element={entries} />
             </div>
         )
     }
 }
 
-export default EntriesPanel
+export default EntriesPanel;

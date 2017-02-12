@@ -16,7 +16,7 @@ var currentStore;
 export default {
     createStore: function (initialState) {
         // Combine reducers
-        var reducers = combineReducers({
+        const reducers = combineReducers({
             entryReducer: entryReducer,
             profileReducer: profileReducer,
             searchReducer: searchReducer,

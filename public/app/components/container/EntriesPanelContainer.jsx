@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import SideBar from './SideBar';
-import PageHeader from './PageHeader';
-import CompositionPanel from './CompositionPanel';
+import ActionsCreators from '../actions/ActionCreators';
+import EntriesPanel from '../presentational/EntriesPanel';
 
-const MODULE_NAME = "PageContent";
+const MODULE_NAME = "EntriesPanelContainer";
+console.log(MODULE_NAME, "ActionCreator:", ActionsCreators);
 
-class PageContent extends Component {
+class EntriesPanelContainer extends Component {
     constructor(props, context, updater) {
         const functionName = "constructor";
         console.log(MODULE_NAME, functionName + " called");
@@ -60,45 +62,25 @@ class PageContent extends Component {
         console.log(MODULE_NAME, functionName + " called", this.props);
 
         return (
-            <div className="page-container">
-            {/* <!-- Page container --> */}
-
-                {/* <!-- Page content --> */}
-                <div className="page-content">
-                    <SideBar />
-
-                    {/* <!-- Main content --> */}
-                    <div className="content-wrapper">
-
-                        <PageHeader />
-
-
-                        {/* <!-- Content area --> */}
-                        <div className="content">
-
-                            <CompositionPanel />
-
-
-                            {/* <!-- Footer --> */}
-                            <div className="footer text-muted">
-                                &copy; 2015. <a href="#">Limitless Web App Kit</a> by <a href="http://themeforest.net/user/Kopyov" target="_blank">Eugene Kopyov</a>
-                            </div>
-                            {/* <!-- /footer --> */}
-
-                        </div>
-                        {/* <!-- /content area --> */}
-
-                    </div>
-                    {/* <!-- /main content --> */}
-
-                </div>
-                {/* <!-- /page content --> */}
-                
-            {/* <!-- /page container --> */}
-            </div>
-
-        )
+            EntriesPanelContainer
+        );
     }
 }
 
-export default PageContent
+const mapStateToProps = (newStateInStore) => {
+    console.log("mapStateToProps called", JSON.stringify(newStateInStore));
+    return {
+        // currentUser: newStateInStore.userReducer.currentUser,
+        // currentProfile: newStateInStore.profileReducer.currentProfile,
+        // entries: newStateInStore.entryReducer.entriesList
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    console.log("mapDispatchToProps called", JSON.stringify(dispatch));
+    return {
+        // actions: bindActionCreators(PlayerActions, dispatch)
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EntriesPanelContainer);

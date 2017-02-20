@@ -1,14 +1,27 @@
 import CONSTANTS from '../constants/constants';
+import {
+    createAction
+} from 'redux-actions';
 
-export const getEntries = (entries) => ({
-    type: CONSTANTS.ACTIONS.GET_ENTRIES,
-    payload: entries
-});
+/* Actions governed by user interaction */
+export const addEntry = createAction(CONSTANTS.ACTIONS.ADD_ENTRY);
+export const updateCurrentEntry = createAction(CONSTANTS.ACTIONS.UPDATE_ENTRY);
+export const removeEntry = createAction(CONSTANTS.ACTIONS.REMOVE_ENTRY);
 
-export const addEntry = (entry) => ({
-    type: CONSTANTS.ACTIONS.ADD_ENTRY,
-    payload: entry
-});
+/* Actions governed by automation */
+export const getEntries = createAction(CONSTANTS.ACTIONS.GET_ENTRIES);
+
+// export const getEntries = (entries) => ({
+//     type: CONSTANTS.ACTIONS.GET_ENTRIES,
+//     payload: entries
+// });
+
+// export const addEntry = (entry) => ({
+//     type: CONSTANTS.ACTIONS.ADD_ENTRY,
+//     payload: entry
+// });
+
+// ===============
 
 // export default {
 //     addEntry: function(entryDetails) {

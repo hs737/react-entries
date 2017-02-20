@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import SideBar from './SideBar';
 import PageHeader from './PageHeader';
 import CompositionPanelContainer from '../container/CompositionPanelContainer';
-// import EntriesPanelContainer from '../container/EntriesPanelContainer';
 
 const MODULE_NAME = "PageContent";
 
@@ -98,8 +97,8 @@ class PageContent extends Component {
                 {/* <!-- /page container --> */}
             </div>
 
-        )
-    }
-}
+        );
+    };
+};
 
-export default PageContent
+export default PageContent;

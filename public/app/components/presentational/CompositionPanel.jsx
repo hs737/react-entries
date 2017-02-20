@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PanelHeading from './PanelHeading';
 import PanelBody from './PanelBody';
 
-import { post } from '../utils/APIManager';
 import store from '../stores/store';
 import { addEntry } from '../actions/actions';
 
@@ -18,15 +17,6 @@ class CompositionPanel extends Component {
         super(props, context, updater);
 
         console.log(MODULE_NAME, functionName, "props", this.props);
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleTextareaChange = this.handleTextareaChange.bind(this);
-
-        this.state = {
-            compositionDetails: {
-                text: ""
-            }
-        };
     }
 
     componentWillMount() {
@@ -66,56 +56,14 @@ class CompositionPanel extends Component {
         console.log(MODULE_NAME, functionName + " called", prevProps, prevState);
     }
 
-    handleSubmit(event) {
-        var functionName = "handleSubmit";
-        console.log(MODULE_NAME, functionName + " called", event.target.name, this.state.compositionDetails);
-
-        event.preventDefault();
-
-        var _this = this;
-        var newEntry = {
-            text: this.state.compositionDetails.text
-        };
-
-        post("/api/entry", newEntry, function (err, document) {
-            if (err) {
-                console.log(MODULE_NAME, functionName, "Error: ", err);
-                return;
-            }
-
-            console.log(MODULE_NAME, functionName, "Entry created", document);
-
-            // TODO: Add entry to store for display
-            // store.currentStore().dispatch(addEntry(document.result));
-            _this.props.addEntry(document.result);
-
-            var newState = Object.assign({}, _this.state);
-            newState.compositionDetails.text = "";
-
-            _this.setState(newState);
-        });
-    }
-
-    handleTextareaChange(event) {
-        var functionName = "handleTextareaChange";
-        console.log(MODULE_NAME, functionName + " called", event.target.name, event.target.value);
-
-        var newState = Object.assign({}, this.state);
-        newState.compositionDetails.text = event.target.value;
-
-        this.setState(newState);
-    }
-
     render() {
         const functionName = "render";
-        console.log(MODULE_NAME, functionName + " called", this.props);
+        console.log(MODULE_NAME, functionName + " called", this.props, this.state);
 
         var compositionElement = (
             <div>
-                <form onSubmit={e => { this.handleSubmit(e) }} >
-                    <textarea rows="5" className="form-control" placeholder="Enter your message here" value={this.state.compositionDetails.text} onChange={this.handleTextareaChange} />
-                    <button type="submit" className="btn btn-primary pull-right" > Submit form </button>
-                </form>
+                <textarea rows="5" className="form-control" placeholder="Enter your message here" value={this.props.composition.text} onChange={this.props.handleOnChange} />
+                <button type="submit" className="btn btn-primary pull-right" onClick={this.props.handleOnClick} > Submit form </button>
             </div>
         );
 

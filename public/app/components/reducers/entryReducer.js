@@ -1,7 +1,16 @@
 import CONSTANTS from '../constants/constants';
+// import {
+//     handleAction
+// } from 'redux-actions';
 
 var initialState = {
-    entriesList: null
+    composition: {
+        text: "",
+        transaction: {
+            inProgress: false,
+            status: undefined
+        }
+    },
 };
 
 var moduleName = "entryReducer";
@@ -11,33 +20,15 @@ export default function (previousState = initialState, someAction) {
     var nextState = null;
 
     switch (someAction.type) {
-        case CONSTANTS.ACTIONS.GET_ENTRIES:
-            console.log('GET_ENTRIES', JSON.stringify(someAction));
-
-            nextState = Object.assign({}, previousState);
-            nextState['entriesList'] = someAction.entries;
-
-            return nextState;
-
         case CONSTANTS.ACTIONS.ADD_ENTRY:
-            console.log('ADD_ENTRY', JSON.stringify(someAction));
+            console.log('ADD_ENTRY', someAction.type, JSON.stringify(someAction.payload));
 
             nextState = Object.assign({}, previousState);
-            var entriesList = Object.assign([], nextState.entriesList);
+            nextState.composition.text = "";
+            // var entriesList = Object.assign([], nextState.entriesList);
 
-            entriesList.unshift(someAction.entry);
-            nextState['entriesList'] = entriesList;
-
-            return nextState;
-
-        case CONSTANTS.ACTIONS.REMOVE_ENTRY:
-            console.log('REMOVE_ENTRY', JSON.stringify(someAction));
-
-            nextState = Object.assign({}, previousState);
-            var entriesList = Object.assign([], nextState.entriesList);
-
-            entriesList = entriesList.filter(element => element._id !== someAction.entry._id);
-            nextState['entriesList'] = entriesList;
+            // entriesList.unshift(someAction.entry);
+            // nextState['entriesList'] = entriesList;
 
             return nextState;
 
@@ -45,3 +36,5 @@ export default function (previousState = initialState, someAction) {
             return previousState;
     }
 }
+
+// handleAction(CONSTANTS.ACTIONS.ADD_ENTRY)

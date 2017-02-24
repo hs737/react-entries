@@ -78,7 +78,7 @@ class PageContent extends Component {
                         <div className="content">
 
                             <CompositionPanelContainer />
-                            {/*<EntriesPanelContainer />*/}
+                            {/* <EntriesPanelContainer /> */}
 
                             {/* <!-- Footer --> */}
                             <div className="footer text-muted">
@@ -98,8 +98,8 @@ class PageContent extends Component {
                 {/* <!-- /page container --> */}
             </div>
 
-        )
-    }
-}
+        );
+    };
+};
 
-export default PageContent
+export default PageContent;

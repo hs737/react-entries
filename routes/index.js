@@ -40,7 +40,10 @@ function matchRoute(req, childRoutes) {
     return function (result) {
         var initialStatePerReducer = {
             entryReducer: {
-                entriesList: result.entries
+                entriesList: result.entries,
+                composition: {
+                    text: ""
+                }
             },
             profileReducer: {
                 currentProfile: result.profileDetails
@@ -72,11 +75,11 @@ function matchRoute(req, childRoutes) {
                 routes,
                 location: req.url
             }, function (error, redirectLocation, renderProps) {
-                // console.log("matchRoute", error, redirectLocation, renderProps)
+                console.log("matchRoute", error, redirectLocation, renderProps)
 
                 if (error) {
-                    reject(error)
-                    return
+                    reject(error);
+                    return;
                 }
 
                 resolve({
@@ -91,13 +94,13 @@ function matchRoute(req, childRoutes) {
 
 function renderRoute(res) {
     return function (result) {
-        // logger.debug("renderRoute", result)
+        logger.debug("renderRoute", result)
         if (result.redirectLocation) {
             logger.debug('ReactRouter - redirectLocation: ' + result.redirectLocation)
-            return
+            return;
         }
 
-        // logger.debug('ReactRouter - renderProps: ' + JSON.stringify(result.renderProps))
+        logger.debug('ReactRouter - renderProps: ' + JSON.stringify(result.renderProps))
         var html = reactDomServer.renderToString(react.createElement(reactRouter.RouterContext, result.renderProps))
         res.render('index', {
             title: 'Express',
@@ -105,21 +108,21 @@ function renderRoute(res) {
             preloadedState: JSON.stringify(result.initialStore.getState())
         });
 
-        return
-    }
+        return;
+    };
 }
 
 router.use(function (req, res, next) {
-    var params = req.params
-    var query = req.query
+    var params = req.params;
+    var query = req.query;
 
-    logger.debug(req.path, "called", req.method)
-    logger.debug(req.path, req.method, "params", params)
-    logger.debug(req.path, req.method, "query", query)
-    logger.debug(req.path, req.method, "session", req[sessionConfig.name])
+    logger.debug(req.path, "called", req.method);
+    logger.debug(req.path, req.method, "params", params);
+    logger.debug(req.path, req.method, "query", query);
+    logger.debug(req.path, req.method, "session", req[sessionConfig.name]);
 
-    next()
-})
+    next();
+});
 
 // router.use(function(req, res, next) {
 //     logger.debug("req[sessionConfig.name].userDetails", req[sessionConfig.name].userDetails)
@@ -142,8 +145,9 @@ router.use(function (req, res, next) {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+    logger.debug(req.path, "called");
     promise.props({
-            userDetails: controllers['user'].readByIdAsync(req[sessionConfig.name].userId, null, false)
+            userDetails: controllers.user.readByIdAsync(req[sessionConfig.name].userId, null, false)
         })
         .then(matchRoute(req, [{
                 path: 'search',
@@ -160,14 +164,15 @@ router.get('/', function (req, res, next) {
         ]))
         .then(renderRoute(res))
         .catch(function (err) {
-            logger.error(MODULE_NAME, err)
+            logger.error(MODULE_NAME, err);
             res.status(404).send({
                 error: err
             }); // TODO: Verify correct html error code
-        })
+        });
 });
 
 router.get('/:page', function (req, res, next) {
+    logger.debug(req.path, "called");
     // TODO: This route has a generic path but search-specific logic. This should be abstracted out
     logger.debug(req.path, "req.params", req.params)
 
@@ -201,6 +206,7 @@ router.get('/:page', function (req, res, next) {
 });
 
 router.get('/:page/:slug', function (req, res, next) {
+    logger.debug(req.path, "called");
     // TODO: This route has a generic path but profile-specific logic. This should be abstracted out
     logger.debug(req.path, "req.params", req.params)
 

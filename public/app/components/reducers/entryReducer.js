@@ -4,13 +4,14 @@ import CONSTANTS from '../constants/constants';
 // } from 'redux-actions';
 
 var initialState = {
-    composition: {
-        text: "",
-        transaction: {
-            inProgress: false,
-            status: undefined
-        }
-    },
+    entriesList: []
+    // composition: {
+    //     text: "",
+    //     transaction: {
+    //         inProgress: false,
+    //         status: undefined
+    //     }
+    // },
 };
 
 var moduleName = "entryReducer";
@@ -24,11 +25,25 @@ export default function (previousState = initialState, someAction) {
             console.log('ADD_ENTRY', someAction.type, JSON.stringify(someAction.payload));
 
             nextState = Object.assign({}, previousState);
-            nextState.composition.text = "";
+            // nextState.composition.text = "";
             // var entriesList = Object.assign([], nextState.entriesList);
 
             // entriesList.unshift(someAction.entry);
             // nextState['entriesList'] = entriesList;
+
+            return nextState;
+
+        case CONSTANTS.ACTIONS.SET_ENTRIES:
+            console.log('SET_ENTRIES', someAction.type, JSON.stringify(someAction.payload));
+
+            nextState = Object.assign({}, previousState);
+            var entriesList = someAction.payload.map((elem) => {
+                return {
+                    text: elem.text,
+                    timestamp: elem.timestamp
+                };
+            });
+            nextState.entriesList = entriesList;
 
             return nextState;
 

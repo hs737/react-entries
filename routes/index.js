@@ -41,9 +41,6 @@ function matchRoute(req, childRoutes) {
         var initialStatePerReducer = {
             entryReducer: {
                 entriesList: result.entries,
-                composition: {
-                    text: ""
-                }
             },
             profileReducer: {
                 currentProfile: result.profileDetails
@@ -147,7 +144,14 @@ router.use(function (req, res, next) {
 router.get('/', function (req, res, next) {
     logger.debug(req.path, "called");
     promise.props({
-            userDetails: controllers.user.readByIdAsync(req[sessionConfig.name].userId, null, false)
+            // userDetails: controllers.user.readByIdAsync(req[sessionConfig.name].userId, null, false),
+            entries: controllers.entry.readAsync({
+                // profile: req.params.slug
+            }, {
+                sort: {
+                    timestamp: -1
+                }
+            }, false)
         })
         .then(matchRoute(req, [{
                 path: 'search',
@@ -171,77 +175,77 @@ router.get('/', function (req, res, next) {
         });
 });
 
-router.get('/:page', function (req, res, next) {
-    logger.debug(req.path, "called");
-    // TODO: This route has a generic path but search-specific logic. This should be abstracted out
-    logger.debug(req.path, "req.params", req.params)
+// router.get('/:page', function (req, res, next) {
+//     logger.debug(req.path, "called");
+//     // TODO: This route has a generic path but search-specific logic. This should be abstracted out
+//     logger.debug(req.path, "req.params", req.params)
 
-    if (routesToSkip.indexOf(req.params.page) >= 0) {
-        next()
-        return
-    }
+//     if (routesToSkip.indexOf(req.params.page) >= 0) {
+//         next()
+//         return
+//     }
 
-    promise.props({
-            userDetails: controllers['user'].readByIdAsync(req[sessionConfig.name].userId, null, false),
-            searchResults: controllers['search'].searchAsync({
-                text: req.query.q
-            }, false)
-        })
-        .then(matchRoute(req, [{
-                path: 'search',
-                component: Search
-            },
-            {
-                path: '*',
-                component: PageNotFound
-            }
-        ]))
-        .then(renderRoute(res))
-        .catch(function (err) {
-            logger.error(MODULE_NAME, err)
-            res.status(404).send({
-                error: err
-            }); // TODO: Verify correct html error code
-        })
-});
+//     promise.props({
+//             userDetails: controllers['user'].readByIdAsync(req[sessionConfig.name].userId, null, false),
+//             searchResults: controllers['search'].searchAsync({
+//                 text: req.query.q
+//             }, false)
+//         })
+//         .then(matchRoute(req, [{
+//                 path: 'search',
+//                 component: Search
+//             },
+//             {
+//                 path: '*',
+//                 component: PageNotFound
+//             }
+//         ]))
+//         .then(renderRoute(res))
+//         .catch(function (err) {
+//             logger.error(MODULE_NAME, err)
+//             res.status(404).send({
+//                 error: err
+//             }); // TODO: Verify correct html error code
+//         })
+// });
 
-router.get('/:page/:slug', function (req, res, next) {
-    logger.debug(req.path, "called");
-    // TODO: This route has a generic path but profile-specific logic. This should be abstracted out
-    logger.debug(req.path, "req.params", req.params)
+// router.get('/:page/:slug', function (req, res, next) {
+//     logger.debug(req.path, "called");
+//     // TODO: This route has a generic path but profile-specific logic. This should be abstracted out
+//     logger.debug(req.path, "req.params", req.params)
 
-    if (routesToSkip.indexOf(req.params.page) >= 0) {
-        next()
-        return
-    }
+//     if (routesToSkip.indexOf(req.params.page) >= 0) {
+//         next()
+//         return
+//     }
 
-    promise.props({
-            userDetails: controllers['user'].readByIdAsync(req[sessionConfig.name].userId, null, false),
-            profileDetails: controllers['profile'].readByIdAsync(req.params.slug, null, false),
-            entries: controllers['entry'].readAsync({
-                profile: req.params.slug
-            }, {
-                sort: {
-                    timestamp: -1
-                }
-            }, false)
-        })
-        .then(matchRoute(req, [{
-                path: 'profile/:id',
-                component: Profile
-            },
-            {
-                path: '*',
-                component: PageNotFound
-            }
-        ]))
-        .then(renderRoute(res))
-        .catch(function (err) {
-            logger.error(MODULE_NAME, err);
-            res.status(404).send({
-                error: err
-            }); // TODO: Verify correct html error code
-        })
-});
+//     promise.props({
+//             userDetails: controllers['user'].readByIdAsync(req[sessionConfig.name].userId, null, false),
+//             profileDetails: controllers['profile'].readByIdAsync(req.params.slug, null, false),
+//             entries: controllers['entry'].readAsync({
+//                 profile: req.params.slug
+//             }, {
+//                 sort: {
+//                     timestamp: -1
+//                 }
+//             }, false)
+//         })
+//         .then(matchRoute(req, [{
+//                 path: 'profile/:id',
+//                 component: Profile
+//             },
+//             {
+//                 path: '*',
+//                 component: PageNotFound
+//             }
+//         ]))
+//         .then(renderRoute(res))
+//         .catch(function (err) {
+//             logger.error(MODULE_NAME, err);
+//             res.status(404).send({
+//                 error: err
+//             }); // TODO: Verify correct html error code
+//         })
+// });
 
 module.exports = router;

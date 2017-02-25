@@ -62,12 +62,19 @@ class EntriesPanel extends Component {
             </div>
         )*/
 
-        var entries = <div>Hello World</div>;
+        var entries = this.props.entries.map(elem => {
+            const element = <span>{elem.text}</span>;
+            return (
+                <div className="panel panel-default" >
+                    <PanelHeading />
+                    <PanelBody element={element} />
+                </div>
+            );
+        });
 
         return (
-            <div className="panel panel-default" >
-                <PanelHeading />
-                <PanelBody element={entries} />
+            <div>
+                {entries}
             </div>
         )
     }

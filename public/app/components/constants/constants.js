@@ -1,6 +1,6 @@
 module.exports = {
     ACTIONS: {
-        GET_ENTRIES: 'get_entries',
+        SET_ENTRIES: 'set_entries',
         ADD_ENTRY: 'add_entry',
         UPDATE_CURRENT_ENTRY: "update_current_entry",
         REMOVE_ENTRY: 'remove_entry',

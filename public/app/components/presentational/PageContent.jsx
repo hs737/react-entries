@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import SideBar from './SideBar';
 import PageHeader from './PageHeader';
 import CompositionPanelContainer from '../container/CompositionPanelContainer';
-// import EntriesPanelContainer from '../container/EntriesPanelContainer';
+import EntriesPanelContainer from '../container/EntriesPanelContainer';
 
 const MODULE_NAME = "PageContent";
 
@@ -78,7 +78,7 @@ class PageContent extends Component {
                         <div className="content">
 
                             <CompositionPanelContainer />
-                            {/* <EntriesPanelContainer /> */}
+                            <EntriesPanelContainer />
 
                             {/* <!-- Footer --> */}
                             <div className="footer text-muted">

@@ -9,7 +9,7 @@ export const updateCurrentEntry = createAction(CONSTANTS.ACTIONS.UPDATE_ENTRY);
 export const removeEntry = createAction(CONSTANTS.ACTIONS.REMOVE_ENTRY);
 
 /* Actions governed by automation */
-export const getEntries = createAction(CONSTANTS.ACTIONS.GET_ENTRIES);
+export const setEntries = createAction(CONSTANTS.ACTIONS.SET_ENTRIES);
 
 // export const getEntries = (entries) => ({
 //     type: CONSTANTS.ACTIONS.GET_ENTRIES,

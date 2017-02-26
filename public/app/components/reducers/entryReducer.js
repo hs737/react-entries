@@ -27,15 +27,16 @@ const mapDBEntrytoStoreObj = (elem) => {
 export default function (previousState = initialState, someAction) {
     console.log(moduleName + " called", previousState, someAction);
     var nextState = null;
+    var entriesList = null;
 
     switch (someAction.type) {
         case CONSTANTS.ACTIONS.ADD_ENTRY:
             console.log('ADD_ENTRY', someAction.type, JSON.stringify(someAction.payload));
 
             nextState = Object.assign({}, previousState);
-            var entriesList = Object.assign([], nextState.entriesList);
+            entriesList = Object.assign([], nextState.entriesList);
             entriesList.unshift(mapDBEntrytoStoreObj(someAction.payload));
-            nextState['entriesList'] = entriesList;
+            nextState.entriesList = entriesList;
 
             return nextState;
 
@@ -43,7 +44,18 @@ export default function (previousState = initialState, someAction) {
             console.log('SET_ENTRIES', someAction.type, JSON.stringify(someAction.payload));
 
             nextState = Object.assign({}, previousState);
-            var entriesList = someAction.payload.map(mapDBEntrytoStoreObj);
+            entriesList = someAction.payload.map(mapDBEntrytoStoreObj);
+            nextState.entriesList = entriesList;
+
+            return nextState;
+
+        case CONSTANTS.ACTIONS.REMOVE_ENTRY:
+            console.log('REMOVE_ENTRY', someAction.type, JSON.stringify(someAction.payload));
+
+            const element = mapDBEntrytoStoreObj(someAction.payload);
+
+            nextState = Object.assign({}, previousState);
+            entriesList = Object.assign([], nextState.entriesList).filter((elem) => elem.id !== element.id);
             nextState.entriesList = entriesList;
 
             return nextState;

@@ -63,7 +63,7 @@ class PanelHeading extends Component {
                     <ul className="icons-list">
                         <li><a data-action="collapse"></a></li>
                         <li><a data-action="reload"></a></li>
-                        <li><a data-action="close" onClick={(e) => { this.props.removeEntry(this.props.id) }}></a></li>
+                        <li><a data-action="custom_close" onClick={(e) => { this.props.removeEntry(this.props.id) }}></a></li>
                         {/*
                         <li className="dropdown">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="icon-menu7"></i> <span className="caret"></span></a>

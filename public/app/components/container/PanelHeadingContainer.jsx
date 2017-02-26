@@ -73,6 +73,16 @@ const mapDispatchToProps = (dispatch) => {
         removeEntry: (entryId) => {
             const functionName = "removeEntry";
             console.log(MODULE_NAME, functionName + " called", JSON.stringify(entryId));
+
+            del("/api/entry/" + entryId, null, function (err, document) {
+                if (err) {
+                    console.log(MODULE_NAME, functionName, "Error:", err)
+                    // TODO post that error happened
+                    return
+                }
+
+                dispatch(removeEntry(document.result));
+            })
         }
     };
 };

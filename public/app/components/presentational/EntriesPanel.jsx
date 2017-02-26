@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 // import EntryText from './EntryText';
 // import Entries from './Entries';
 
-import PanelHeadingContainer from '../container/PanelHeadingContainer';
+import EntryHeadingContainer from '../container/EntryHeadingContainer';
 import PanelBody from './PanelBody';
 
 var MODULE_NAME = "EntriesPanel";
@@ -67,7 +67,7 @@ class EntriesPanel extends Component {
             const element = <span>{elem.text}</span>;
             return (
                 <div className="panel panel-default" >
-                    <PanelHeadingContainer id={elem.id} />
+                    <EntryHeadingContainer id={elem.id} />
                     <PanelBody element={element} />
                 </div>
             );

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import PanelHeading from '../presentational/PanelHeading';
+import EntryHeading from '../presentational/EntryHeading';
 import { removeEntry } from '../actions/actions';
 import { del } from '../utils/APIManager';
 
-const MODULE_NAME = "PanelHeadingContainer";
+const MODULE_NAME = "EntryHeadingContainer";
 
-class PanelHeadingContainer extends Component {
+class EntryHeadingContainer extends Component {
     constructor(props, context, updater) {
         const functionName = "constructor";
         console.log(MODULE_NAME, functionName + " called");
@@ -61,7 +61,7 @@ class PanelHeadingContainer extends Component {
         console.log(MODULE_NAME, functionName + " called", this.props);
 
         return (
-            <PanelHeading {...this.props} />
+            <EntryHeading {...this.props} />
         );
     }
 }
@@ -87,4 +87,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(PanelHeadingContainer);
+export default connect(null, mapDispatchToProps)(EntryHeadingContainer);

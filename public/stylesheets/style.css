@@ -10,3 +10,7 @@ a {
 .icons-list a[data-action="custom_close"]:after {
   content: '\e9b6';
 }
+
+.icons-list a[data-action="custom_edit"]:after {
+  content: '\e906';
+}

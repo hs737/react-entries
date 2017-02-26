@@ -58,13 +58,13 @@ class PanelHeading extends Component {
         return (
             <div className="panel-heading">
                 <h6 className="panel-title">Marketing campaigns</h6>
-                {/*
                 <div className="heading-elements">
                     <span className="label bg-success heading-text">28 active</span>
                     <ul className="icons-list">
                         <li><a data-action="collapse"></a></li>
                         <li><a data-action="custom_edit"></a></li>
                         <li><a data-action="custom_close" onClick={(e) => { this.props.removeEntry(this.props.id) }}></a></li>
+                        {/*
                         <li className="dropdown">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="icon-menu7"></i> <span className="caret"></span></a>
                             <ul className="dropdown-menu dropdown-menu-right">
@@ -75,9 +75,9 @@ class PanelHeading extends Component {
                                 <li><a href="#"><i className="icon-cross3"></i> Clear list</a></li>
                             </ul>
                         </li>
+                        */}
                     </ul>
                 </div>
-                        */}
             </div>
         )
     }

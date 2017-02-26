@@ -52,8 +52,8 @@ class PanelHeading extends Component {
     }
 
     render() {
-        const functionName = "render"
-        console.log(MODULE_NAME, functionName + " called", this.props)
+        const functionName = "render";
+        console.log(MODULE_NAME, functionName + " called", this.props);
 
         return (
             <div className="panel-heading">
@@ -61,6 +61,10 @@ class PanelHeading extends Component {
                 <div className="heading-elements">
                     <span className="label bg-success heading-text">28 active</span>
                     <ul className="icons-list">
+                        <li><a data-action="collapse"></a></li>
+                        <li><a data-action="reload"></a></li>
+                        <li><a data-action="close" onClick={(e) => { this.props.removeEntry(this.props.id) }}></a></li>
+                        {/*
                         <li className="dropdown">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="icon-menu7"></i> <span className="caret"></span></a>
                             <ul className="dropdown-menu dropdown-menu-right">
@@ -71,6 +75,7 @@ class PanelHeading extends Component {
                                 <li><a href="#"><i className="icon-cross3"></i> Clear list</a></li>
                             </ul>
                         </li>
+                        */}
                     </ul>
                 </div>
             </div>
@@ -79,4 +84,4 @@ class PanelHeading extends Component {
 
 }
 
-export default PanelHeading
+export default PanelHeading;

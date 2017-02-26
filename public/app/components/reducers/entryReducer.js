@@ -18,6 +18,7 @@ var moduleName = "entryReducer";
 
 const mapDBEntrytoStoreObj = (elem) => {
     return {
+        id: elem._id,
         text: elem.text,
         timestamp: elem.timestamp
     };

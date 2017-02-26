@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import PanelHeadingContainer from '../container/PanelHeadingContainer';
-import PanelBody from './PanelBody';
+import PanelHeading from '../presentational/PanelHeading';
+import { removeEntry } from '../actions/actions';
+import { del } from '../utils/APIManager';
 
-import store from '../stores/store';
-import { addEntry } from '../actions/actions';
+const MODULE_NAME = "PanelHeadingContainer";
 
-const MODULE_NAME = "CompositionPanel";
-
-class CompositionPanel extends Component {
+class PanelHeadingContainer extends Component {
     constructor(props, context, updater) {
         const functionName = "constructor";
         console.log(MODULE_NAME, functionName + " called");
@@ -17,6 +15,8 @@ class CompositionPanel extends Component {
         super(props, context, updater);
 
         console.log(MODULE_NAME, functionName, "props", this.props);
+
+        this.state = {};
     }
 
     componentWillMount() {
@@ -58,22 +58,23 @@ class CompositionPanel extends Component {
 
     render() {
         const functionName = "render";
-        console.log(MODULE_NAME, functionName + " called", this.props, this.state);
-
-        var compositionElement = (
-            <div>
-                <textarea rows="5" className="form-control" placeholder="Enter your message here" value={this.props.composition.text} onChange={this.props.handleOnChange} />
-                <button type="submit" className="btn btn-primary pull-right" onClick={this.props.handleOnClick} > Submit form </button>
-            </div>
-        );
+        console.log(MODULE_NAME, functionName + " called", this.props);
 
         return (
-            <div className="panel panel-default" >
-                <PanelHeadingContainer />
-                <PanelBody element={compositionElement} />
-            </div>
+            <PanelHeading {...this.props} />
         );
     }
 }
 
-export default CompositionPanel;
+const mapDispatchToProps = (dispatch) => {
+    console.log("mapDispatchToProps called", JSON.stringify(dispatch));
+
+    return {
+        removeEntry: (entryId) => {
+            const functionName = "removeEntry";
+            console.log(MODULE_NAME, functionName + " called", JSON.stringify(entryId));
+        }
+    };
+};
+
+export default connect(null, mapDispatchToProps)(PanelHeadingContainer);

@@ -12,5 +12,5 @@ a {
 }
 
 .icons-list a[data-action="custom_edit"]:after {
-  content: '\e906';
+  content: '\270e';
 }

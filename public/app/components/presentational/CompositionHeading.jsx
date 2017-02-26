@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-const MODULE_NAME = "PanelHeading"
+const MODULE_NAME = "CompositionHeading"
 
-class PanelHeading extends Component {
+class CompositionHeading extends Component {
     constructor(props, context, updater) {
         const functionName = "constructor"
         console.log(MODULE_NAME, functionName + " called")
@@ -84,4 +84,4 @@ class PanelHeading extends Component {
 
 }
 
-export default PanelHeading;
+export default CompositionHeading;

@@ -21,7 +21,8 @@ class CompositionPanelContainer extends Component {
 
         this.state = {
             composition: {
-                text: ""
+                text: "",
+                title: ""
             }
         };
     }
@@ -68,7 +69,18 @@ class CompositionPanelContainer extends Component {
         console.log(MODULE_NAME, functionName + " called", event.target.name, event.target.value);
 
         var newState = Object.assign({}, this.state);
-        newState.composition.text = event.target.value;
+        switch (event.target.name) {
+            case "title-input":
+                newState.composition.title = event.target.value;
+                break;
+            case "text-input":
+                newState.composition.text = event.target.value;
+                break;
+            default:
+                console.log("ERROR: Unknown event target name", event.target.name);
+                return;
+        }
+
         this.setState(newState);
     }
 
@@ -78,7 +90,7 @@ class CompositionPanelContainer extends Component {
 
         const _this = this;
 
-        this.props.addEntry(this.state.composition.text, function (err, entry) {
+        this.props.addEntry(this.state.composition, function (err, entry) {
             if (err) {
                 console.log(MODULE_NAME, functionName, "Error: ", err);
                 return;
@@ -86,6 +98,7 @@ class CompositionPanelContainer extends Component {
 
             var newState = Object.assign({}, _this.state);
             newState.composition.text = "";
+            newState.composition.title = "";
             _this.setState(newState);
         });
     }
@@ -103,12 +116,13 @@ class CompositionPanelContainer extends Component {
 const mapDispatchToProps = (dispatch) => {
     console.log("mapDispatchToProps called", JSON.stringify(dispatch));
     return {
-        addEntry: (entryText, callback) => {
+        addEntry: (composition, callback) => {
             const functionName = "addEntry";
-            console.log(MODULE_NAME, functionName + " called", JSON.stringify(entryText));
+            console.log(MODULE_NAME, functionName + " called", JSON.stringify(composition));
 
             const newEntry = {
-                text: entryText
+                text: composition.text,
+                title: composition.title
             };
 
             post("/api/entry", newEntry, function (err, document) {

@@ -67,7 +67,7 @@ class EntriesPanel extends Component {
             const element = <span>{elem.text}</span>;
             return (
                 <div className="panel panel-default" >
-                    <EntryHeadingContainer id={elem.id} />
+                    <EntryHeadingContainer key={elem.id} element={elem} />
                     <PanelBody element={element} />
                 </div>
             );

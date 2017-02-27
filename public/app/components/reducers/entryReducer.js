@@ -17,9 +17,15 @@ var initialState = {
 var moduleName = "entryReducer";
 
 const mapDBEntrytoStoreObj = (elem) => {
+    if (elem.title === null || elem.title === undefined || elem.title.length === 0) {
+        const formattedDate = new Date(elem.timestamp).toDateString();
+        elem.title = formattedDate;
+    }
+
     return {
         id: elem._id,
         text: elem.text,
+        title: elem.title,
         timestamp: elem.timestamp
     };
 };

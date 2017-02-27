@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import CompositionHeadingContainer from '../container/CompositionHeadingContainer';
 import PanelBody from './PanelBody';
 
 import store from '../stores/store';
@@ -60,16 +59,25 @@ class CompositionPanel extends Component {
         const functionName = "render";
         console.log(MODULE_NAME, functionName + " called", this.props, this.state);
 
+        var headingElement = (
+            <div className="panel-heading">
+                <input name="title-input" type="text" className="form-control input-xlg text-semibold" placeholder="Title"
+                    value={this.props.composition.title} onChange={this.props.handleOnChange} />
+            </div>
+        );
+
         var compositionElement = (
             <div>
-                <textarea rows="5" className="form-control" placeholder="Enter your message here" value={this.props.composition.text} onChange={this.props.handleOnChange} />
-                <button type="submit" className="btn btn-primary pull-right" onClick={this.props.handleOnClick} > Submit form </button>
+                <textarea name="text-input" rows="5" className="form-control" placeholder="Enter your post here"
+                    value={this.props.composition.text} onChange={this.props.handleOnChange} />
+                <button type="submit" className="btn btn-primary pull-right"
+                    onClick={this.props.handleOnClick} > Submit form </button>
             </div>
         );
 
         return (
             <div className="panel panel-default" >
-                <CompositionHeadingContainer />
+                {headingElement}
                 <PanelBody element={compositionElement} />
             </div>
         );

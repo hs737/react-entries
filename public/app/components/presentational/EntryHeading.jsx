@@ -1,54 +1,54 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-const MODULE_NAME = "PanelHeading"
+const MODULE_NAME = "EntryHeading";
 
-class PanelHeading extends Component {
+class EntryHeading extends Component {
     constructor(props, context, updater) {
-        const functionName = "constructor"
-        console.log(MODULE_NAME, functionName + " called")
+        const functionName = "constructor";
+        console.log(MODULE_NAME, functionName + " called");
 
-        super(props, context, updater)
+        super(props, context, updater);
 
-        console.log(MODULE_NAME, functionName, "props", this.props)
+        console.log(MODULE_NAME, functionName, "props", this.props);
 
         this.state = {}
     }
 
     componentWillMount() {
-        const functionName = "componentWillMount"
-        console.log(MODULE_NAME, functionName + " called")
+        const functionName = "componentWillMount";
+        console.log(MODULE_NAME, functionName + " called");
     }
 
     componentDidMount() {
-        const functionName = "componentDidMount"
-        console.log(MODULE_NAME, functionName + " called")
+        const functionName = "componentDidMount";
+        console.log(MODULE_NAME, functionName + " called");
     }
 
     componentWillUnmount() {
-        const functionName = "componentWillUnmount"
-        console.log(MODULE_NAME, functionName + " called")
+        const functionName = "componentWillUnmount";
+        console.log(MODULE_NAME, functionName + " called");
     }
 
     componentWillReceiveProps(nextProps) {
-        const functionName = "componentWillReceiveProps"
-        console.log(MODULE_NAME, functionName + " called", nextProps)
+        const functionName = "componentWillReceiveProps";
+        console.log(MODULE_NAME, functionName + " called", nextProps);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        const functionName = "shouldComponentUpdate"
-        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
+        const functionName = "shouldComponentUpdate";
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState);
 
-        return true
+        return true;
     }
 
     componentWillUpdate(nextProps, nextState) {
-        const functionName = "componentWillUpdate"
-        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
+        const functionName = "componentWillUpdate";
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState);
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const functionName = "componentDidUpdate"
-        console.log(MODULE_NAME, functionName + " called", prevProps, prevState)
+        const functionName = "componentDidUpdate";
+        console.log(MODULE_NAME, functionName + " called", prevProps, prevState);
     }
 
     render() {
@@ -57,13 +57,13 @@ class PanelHeading extends Component {
 
         return (
             <div className="panel-heading">
-                <h6 className="panel-title">Marketing campaigns</h6>
+                <h6 className="panel-title text-semibold">{this.props.element.title}</h6>
                 <div className="heading-elements">
                     <span className="label bg-success heading-text">28 active</span>
                     <ul className="icons-list">
                         <li><a data-action="collapse"></a></li>
                         <li><a data-action="custom_edit"></a></li>
-                        <li><a data-action="custom_close" onClick={(e) => { this.props.removeEntry(this.props.id) }}></a></li>
+                        <li><a data-action="custom_close" onClick={(e) => { this.props.removeEntry(this.props.element.id) }}></a></li>
                         {/*
                         <li className="dropdown">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="icon-menu7"></i> <span className="caret"></span></a>
@@ -84,4 +84,4 @@ class PanelHeading extends Component {
 
 }
 
-export default PanelHeading;
+export default EntryHeading;

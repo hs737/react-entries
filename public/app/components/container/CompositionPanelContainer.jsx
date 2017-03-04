@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import DOMPurify from 'dompurify';
 
 import CompositionPanel from '../presentational/CompositionPanel';
 import { addEntry, updateCurrentEntry } from '../actions/actions';
@@ -16,7 +17,8 @@ class CompositionPanelContainer extends Component {
 
         console.log(MODULE_NAME, functionName, "props", this.props);
 
-        this.handleOnChange = this.handleOnChange.bind(this);
+        this.handleBodyOnChange = this.handleBodyOnChange.bind(this);
+        this.handleTitleOnChange = this.handleTitleOnChange.bind(this);
         this.handleOnClick = this.handleOnClick.bind(this);
 
         this.state = {
@@ -64,22 +66,22 @@ class CompositionPanelContainer extends Component {
         console.log(MODULE_NAME, functionName + " called", prevProps, prevState);
     }
 
-    handleOnChange(event) {
+    handleBodyOnChange(content, delta, source, editor) {
+        const functionName = "handleOnChange";
+        console.log(MODULE_NAME, functionName + " called", content, delta, source, editor);
+
+        var newState = Object.assign({}, this.state);
+        newState.composition.text = content;
+
+        this.setState(newState);
+    }
+
+    handleTitleOnChange(event) {
         const functionName = "handleOnChange";
         console.log(MODULE_NAME, functionName + " called", event.target.name, event.target.value);
 
         var newState = Object.assign({}, this.state);
-        switch (event.target.name) {
-            case "title-input":
-                newState.composition.title = event.target.value;
-                break;
-            case "text-input":
-                newState.composition.text = event.target.value;
-                break;
-            default:
-                console.log("ERROR: Unknown event target name", event.target.name);
-                return;
-        }
+        newState.composition.title = event.target.value;
 
         this.setState(newState);
     }
@@ -89,8 +91,13 @@ class CompositionPanelContainer extends Component {
         console.log(MODULE_NAME, functionName + " called", event.target.name, event.target.value);
 
         const _this = this;
+        const composedText = {
+            title: this.state.composition.title,
+            text: DOMPurify.sanitize(this.state.composition.text)
+        };
+        console.log("Composed Text:", JSON.stringify(composedText));
 
-        this.props.addEntry(this.state.composition, function (err, entry) {
+        this.props.addEntry(composedText, function (err, composedText) {
             if (err) {
                 console.log(MODULE_NAME, functionName, "Error: ", err);
                 return;
@@ -108,7 +115,9 @@ class CompositionPanelContainer extends Component {
         console.log(MODULE_NAME, functionName + " called", this.props, this.state);
 
         return (
-            <CompositionPanel handleOnChange={this.handleOnChange} handleOnClick={this.handleOnClick} {...this.state} />
+            <CompositionPanel handleTitleOnChange={this.handleTitleOnChange}
+                handleBodyOnChange={this.handleBodyOnChange}
+                handleOnClick={this.handleOnClick} {...this.state} />
         );
     }
 }

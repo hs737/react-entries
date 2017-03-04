@@ -64,7 +64,7 @@ class EntriesPanel extends Component {
 
         var entries = this.props.entries.map(elem => {
             // console.log("Element", elem);
-            const element = <span>{elem.text}</span>;
+            const element = <div dangerouslySetInnerHTML={{ __html: elem.text }} ></div>;
             return (
                 <div className="panel panel-default" >
                     <EntryHeadingContainer key={elem.id} element={elem} />

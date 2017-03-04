@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ReactQuill from 'react-quill';
 
 import PanelBody from './PanelBody';
 
@@ -62,14 +63,29 @@ class CompositionPanel extends Component {
         var headingElement = (
             <div className="panel-heading">
                 <input name="title-input" type="text" className="form-control input-xlg text-semibold" placeholder="Title"
-                    value={this.props.composition.title} onChange={this.props.handleOnChange} />
+                    value={this.props.composition.title} onChange={this.props.handleTitleOnChange} />
             </div>
         );
 
+        const quillFormats = [
+            'bold', 'italic', 'underline', 'blockquote',
+            'list', 'bullet', 'indent',
+            'link', 'image'
+        ];
+        const quillModules = {
+            toolbar: [
+                ['bold', 'italic', 'underline', 'blockquote'],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+                ['link', 'image'],
+                ['clean']
+            ]
+        };
+
         var compositionElement = (
             <div>
-                <textarea name="text-input" rows="5" className="form-control" placeholder="Enter your post here"
-                    value={this.props.composition.text} onChange={this.props.handleOnChange} />
+                <ReactQuill name="text-input" className="" placeholder="Enter your post here"
+                    value={this.props.composition.text} onChange={this.props.handleBodyOnChange} />
+
                 <button type="submit" className="btn btn-primary pull-right"
                     onClick={this.props.handleOnClick} > Submit form </button>
             </div>

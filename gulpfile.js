@@ -1,9 +1,9 @@
-const gulp = require('gulp'),
-    gp_concat = require('gulp-concat'),
-    gp_rename = require('gulp-rename'),
-    gp_uglify = require('gulp-uglify'),
-    debug = require("gulp-debug"),
-    gp_babel = require('gulp-babel');
+const gulp = require('gulp');
+const gp_concat = require('gulp-concat');
+const gp_rename = require('gulp-rename');
+const gp_uglify = require('gulp-uglify');
+const debug = require("gulp-debug");
+const gp_babel = require('gulp-babel');
 
 var srcPaths = [
     './public/app/ServerApp.{js,jsx}',

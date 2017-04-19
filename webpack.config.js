@@ -10,9 +10,15 @@ module.exports = {
         sourceMapFilename: "public/build/bundle.map"
     },
     devtool: '#source-map',
-    // plugins: [
-    //     new webpack.optimize.UglifyJsPlugin({minimize: true}),
-    // ],
+    plugins: [
+        function () {
+            this.plugin('watch-run', function (watching, callback) {
+                console.log('Begin compile at ' + new Date());
+                callback();
+            });
+        }
+        //     new webpack.optimize.UglifyJsPlugin({minimize: true}),
+    ],
     module: {
         loaders: [{
             test: /\.jsx?$/,
@@ -21,6 +27,7 @@ module.exports = {
             query: {
                 presets: ['react', 'es2015']
             }
-        }]
+        }],
+        noParse: /node_modules\/quill\/dist/
     }
 };

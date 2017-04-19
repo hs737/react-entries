@@ -67,25 +67,9 @@ class CompositionPanel extends Component {
             </div>
         );
 
-        const quillFormats = [
-            'bold', 'italic', 'underline', 'blockquote',
-            'list', 'bullet', 'indent',
-            'link', 'image'
-        ];
-        const quillModules = {
-            toolbar: [
-                ['bold', 'italic', 'underline', 'blockquote'],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-                ['link', 'image'],
-                ['clean']
-            ]
-        };
-
         var compositionElement = (
             <div>
-                <ReactQuill name="text-input" className="" placeholder="Enter your post here"
-                    value={this.props.composition.text} onChange={this.props.handleBodyOnChange} />
-
+                <ReactQuill value={this.props.composition.text} onChange={this.props.handleBodyOnChange} />
                 <button type="submit" className="btn btn-primary pull-right"
                     onClick={this.props.handleOnClick} > Submit form </button>
             </div>

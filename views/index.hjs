@@ -17,9 +17,6 @@
     <link href="assets/css/components.css" rel="stylesheet" type="text/css">
     <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="//cdn.quilljs.com/1.2.2/quill.bubble.css">
-    <link rel="stylesheet" href="//cdn.quilljs.com/1.2.2/quill.snow.css">
-
     <!-- /global stylesheets -->
 
     <!-- Core JS files -->

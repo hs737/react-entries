@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DOMPurify from 'dompurify';
+import {Editor, EditorState} from 'draft-js';
 
 import CompositionPanel from '../presentational/CompositionPanel';
 import { addEntry, updateCurrentEntry } from '../actions/actions';
@@ -23,7 +24,7 @@ class CompositionPanelContainer extends Component {
 
         this.state = {
             composition: {
-                text: "",
+                text: {editorState: EditorState.createEmpty()},
                 title: ""
             }
         };
@@ -71,7 +72,7 @@ class CompositionPanelContainer extends Component {
         console.log(MODULE_NAME, functionName + " called", content, delta, source, editor);
 
         var newState = Object.assign({}, this.state);
-        newState.composition.text = content;
+        newState.composition.text = {editorState: content};
 
         this.setState(newState);
     }

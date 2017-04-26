@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import {Editor, EditorState} from 'draft-js';
 
-import PanelBody from './PanelBody';
-import CompositionEditor from './CompositionEditor';
+const MODULE_NAME = "CompositionEditor";
 
-import store from '../stores/store';
-import { addEntry } from '../actions/actions';
+class CompositionEditor extends React.Component {
 
-const MODULE_NAME = "CompositionPanel";
-
-class CompositionPanel extends Component {
     constructor(props, context, updater) {
         const functionName = "constructor";
         console.log(MODULE_NAME, functionName + " called");
@@ -17,6 +12,10 @@ class CompositionPanel extends Component {
         super(props, context, updater);
 
         console.log(MODULE_NAME, functionName, "props", this.props);
+
+        // this.state = {editorState: EditorState.createEmpty()};
+        // this.onChange = (editorState) => this.setState({editorState});
+        // this.onChange = (editorState) => this.props.onChange({editorState});
     }
 
     componentWillMount() {
@@ -58,30 +57,16 @@ class CompositionPanel extends Component {
 
     render() {
         const functionName = "render";
-        console.log(MODULE_NAME, functionName + " called", this.props, this.state);
-
-        var headingElement = (
-            <div className="panel-heading">
-                <input name="title-input" type="text" className="form-control input-xlg text-semibold" placeholder="Title"
-                    value={this.props.composition.title} onChange={this.props.handleTitleOnChange} />
-            </div>
-        );
-
-        var compositionElement = (
-            <div>
-                <CompositionEditor value={this.props.composition.text} onChange={this.props.handleBodyOnChange} />
-                <button type="submit" className="btn btn-primary pull-right"
-                    onClick={this.props.handleOnClick} > Submit form </button>
-            </div>
-        );
+        console.log(MODULE_NAME, functionName + " called", this.props);
 
         return (
-            <div className="panel panel-default" >
-                {headingElement}
-                <PanelBody element={compositionElement} />
+            <div>
+                <Editor editorState={this.props.value.editorState} onChange={this.props.onChange} />
+                {/*<span>----</span>
+                <Editor editorState={this.state.editorState} onChange={this.onChange} />*/}
             </div>
         );
     }
 }
 
-export default CompositionPanel;
+export default CompositionEditor;

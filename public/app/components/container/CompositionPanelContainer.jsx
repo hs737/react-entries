@@ -8,6 +8,12 @@ import { addEntry, updateCurrentEntry } from '../actions/actions';
 import { post } from '../utils/APIManager';
 
 const MODULE_NAME = "CompositionPanelContainer";
+const DEFAULT_STATE = {
+    composition: {
+        text: {editorState: EditorState.createEmpty()},
+        title: ""
+    }
+};
 
 class CompositionPanelContainer extends Component {
     constructor(props, context, updater) {
@@ -22,12 +28,7 @@ class CompositionPanelContainer extends Component {
         this.handleTitleOnChange = this.handleTitleOnChange.bind(this);
         this.handleOnClick = this.handleOnClick.bind(this);
 
-        this.state = {
-            composition: {
-                text: {editorState: EditorState.createEmpty()},
-                title: ""
-            }
-        };
+        this.state = DEFAULT_STATE;
     }
 
     componentWillMount() {
@@ -104,9 +105,10 @@ class CompositionPanelContainer extends Component {
                 return;
             }
 
-            var newState = Object.assign({}, _this.state);
-            newState.composition.text = "";
-            newState.composition.title = "";
+            var newState = DEFAULT_STATE;
+            // var newState = Object.assign({}, _this.state);
+            // newState.composition.text = "";
+            // newState.composition.title = "";
             _this.setState(newState);
         });
     }

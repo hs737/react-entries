@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Editor, EditorState} from 'draft-js';
+import { Editor, EditorState, RichUtils } from 'draft-js';
 
 const MODULE_NAME = "CompositionEditor";
 
@@ -16,7 +16,21 @@ class CompositionEditor extends React.Component {
         // this.state = {editorState: EditorState.createEmpty()};
         // this.onChange = (editorState) => this.setState({editorState});
         // this.onChange = (editorState) => this.props.onChange({editorState});
+        this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
+
+    handleKeyCommand(command) {
+        const functionName = "handleKeyCommand";
+        console.log(MODULE_NAME, functionName + " called", command);
+
+        const newState = RichUtils.handleKeyCommand(this.props.value.editorState, command);
+        if (newState) {
+            this.props.onChange(newState);
+            return 'handled';
+        }
+        return 'not-handled';
+    }
+
 
     componentWillMount() {
         const functionName = "componentWillMount";
@@ -61,7 +75,11 @@ class CompositionEditor extends React.Component {
 
         return (
             <div>
-                <Editor editorState={this.props.value.editorState} onChange={this.props.onChange} />
+                <Editor
+                    editorState={this.props.value.editorState}
+                    onChange={this.props.onChange}
+                    handleKeyCommand={this.handleKeyCommand}
+                />
                 {/*<span>----</span>
                 <Editor editorState={this.state.editorState} onChange={this.onChange} />*/}
             </div>

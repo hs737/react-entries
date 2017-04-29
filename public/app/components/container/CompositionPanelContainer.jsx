@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DOMPurify from 'dompurify';
-import {Editor, EditorState} from 'draft-js';
+import { Editor, EditorState, convertToRaw } from 'draft-js';
 
 import CompositionPanel from '../presentational/CompositionPanel';
 import { addEntry, updateCurrentEntry } from '../actions/actions';
@@ -10,7 +10,7 @@ import { post } from '../utils/APIManager';
 const MODULE_NAME = "CompositionPanelContainer";
 const DEFAULT_STATE = {
     composition: {
-        text: {editorState: EditorState.createEmpty()},
+        text: { editorState: EditorState.createEmpty() },
         title: ""
     }
 };
@@ -73,7 +73,7 @@ class CompositionPanelContainer extends Component {
         console.log(MODULE_NAME, functionName + " called", content, delta, source, editor);
 
         var newState = Object.assign({}, this.state);
-        newState.composition.text = {editorState: content};
+        newState.composition.text = { editorState: content };
 
         this.setState(newState);
     }
@@ -94,8 +94,9 @@ class CompositionPanelContainer extends Component {
 
         const _this = this;
         const composedText = {
-            title: this.state.composition.title,
-            text: DOMPurify.sanitize(this.state.composition.text)
+            title: "asdf", // this.state.composition.title,
+            // text: DOMPurify.sanitize(this.state.composition.text)
+            text: convertToRaw(this.state.composition.text.editorState.getCurrentContent())
         };
         console.log("Composed Text:", JSON.stringify(composedText));
 

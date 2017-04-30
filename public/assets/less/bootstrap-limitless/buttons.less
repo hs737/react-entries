@@ -264,6 +264,13 @@
     padding-left: ((@line-height-computed - @icon-font-size + @padding-base-vertical - 1));
     padding-right: ((@line-height-computed - @icon-font-size + @padding-base-vertical - 1));
 
+    // Checkbox and radio button
+    .checker,
+    .choice {
+        margin-top: ((@icon-font-size - @checkbox-size) / 2);
+    }
+
+    // Double sized icon
     &.icon-2x {
         padding-left: (@padding-base-vertical + 1);
         padding-right: (@padding-base-vertical + 1);
@@ -318,7 +325,6 @@
 // Float button
 .btn-float {
     padding: @btn-float-padding;
-    white-space: normal;
     border-radius: @border-radius-base;
 
     // Transparent button
@@ -343,11 +349,70 @@
         display: block;
         padding-top: (@line-height-computed / 2);
         margin-bottom: -((@line-height-computed / 2) - 4);
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     // Double icon size in large button
     &.btn-float-lg i {
         font-size: (@icon-font-size * 2);
+    }
+}
+
+// Group of block buttons
+.btn-block-group {
+    .box-shadow(@shadow-depth1);
+
+    // Base
+    .btn {
+        border-radius: 0;
+        border-width: 0 0 0 1px;
+
+        // Add top border as a divider
+        + .btn {
+            border-top-width: 1px;
+        }
+    }
+
+    // Change light button border color to match panel border
+    .btn-default {
+        border-color: @panel-default-border;
+        background-color: @panel-bg;
+    }
+
+    // Remove vertical spacing between block buttons
+    .btn-block + .btn-block {
+        margin-top: 0;
+    }
+
+    // Columns
+    div[class*=col-] {
+
+        // First column
+        &:first-child {
+            .btn {
+                border-left-width: 0;
+
+                &:first-child {
+                    border-radius: @border-radius-base 0 0 0;
+                }
+                &:last-child {
+                    border-radius: 0 0 0 @border-radius-base;
+                }
+            }
+        }
+
+        // Last column
+        &:last-child {
+            .btn {
+                &:first-child {
+                    border-radius: 0 @border-radius-base 0 0;
+                }
+                &:last-child {
+                    border-radius: 0 0 @border-radius-base 0;
+                }
+            }
+        }
     }
 }
 

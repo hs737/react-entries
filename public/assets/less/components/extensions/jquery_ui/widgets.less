@@ -313,12 +313,17 @@
 	padding: (@list-spacing * 2);
 	display: none;
 	border-radius: @border-radius-base;
-	z-index: 190;
+	z-index: (@zindex-navbar - 1)!important;
 	.box-shadow(@shadow-depth2);
 
 	// Make it flexible in sidebar
 	.sidebar & {
 		min-width: 0;
+	}
+
+	// Add border option
+	.no-border & {
+		border-width: 0;
 	}
 
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -44,9 +45,12 @@
 </head>
 
 <body class="layout-boxed">
-    <div id = "app">{{{ react }}}</div>
-    <script type="text/javascript">window.__PRELOADED_STATE__ = {{{preloadedState}}}</script>
-    <script type = "text/javascript" src = "/build/bundle.js"></script>
+    <div id="app">{{{ react }}}</div>
+    <script type="text/javascript">
+        window.__PRELOADED_STATE__ = {{{ preloadedState } }}
+    </script>
+    <script type="text/javascript" src="/build/bundle.js"></script>
 
 </body>
+
 </html>

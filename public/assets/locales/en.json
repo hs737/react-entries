@@ -23,12 +23,13 @@
 
         "page_layouts": {
             "main": "Page layouts",
-            "fixed_navbar": "Fixed navbar",
-            "fixed_all": "Fixed navbar &amp; sidebar",
-            "fixed_native": "Fixed sidebar native scroll",
-            "hideable": "Hideable navbar",
-            "fixed_hideable": "Hideable &amp; fixed sidebar",
+            "fixed_main": "Fixed main navbar",
+            "fixed_secondary": "Fixed secondary navbar",
+            "hideable_main": "Hideable main navbar",
+            "hideable_secondary": "Hideable secondary navbar",
             "fixed_footer": "Fixed footer",
+            "sticky_custom": "Sticky sidebar (custom scroll)",
+            "sticky_native": "Sticky sidebar (native scroll)",
             "boxed_default": "Boxed with default sidebar",
             "boxed_mini": "Boxed with mini sidebar",
             "boxed_full": "Boxed full width"
@@ -102,7 +103,7 @@
         "form": {
             "main": "Form components",
             "basic": "Basic inputs",
-            "checkers": "Checkboxes &amp; radios",
+            "checkers": "Checkboxes & radios",
             "groups": "Input groups",
             "extended": "Extended controls",
             "labels": "Floating labels",
@@ -151,7 +152,7 @@
 
         "picker": {
             "main": "Pickers",
-            "datetime": "Date &amp; time pickers",
+            "datetime": "Date & time pickers",
             "color": "Color pickers",
             "location": "Location pickers"
         },
@@ -386,7 +387,7 @@
             "line": "Line charts",
             "bar": "Bar charts",
             "pie": "Pie charts",
-            "bubble": "Bubble &amp; scatter charts",
+            "bubble": "Bubble & scatter charts",
             "other": "Other charts"
         },
 
@@ -528,7 +529,7 @@
         },
 
         "login": {
-            "main": "Login &amp; registration",
+            "main": "Login & registration",
             "simple": "Simple login",
             "advanced": "More login info",
             "reg": "Simple registration",

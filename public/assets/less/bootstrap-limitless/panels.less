@@ -18,6 +18,32 @@
     border-width: 0;
     color: @text-color;
     .box-shadow(@shadow-depth1);
+
+    // Scrollable panel
+    &.has-scroll {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    // Panel with background pattern
+    &.has-bg-image {
+        background-image: url(../images/backgrounds/panel_bg.png);
+    }
+}
+
+
+// Flat panel
+// -------------------------
+
+.panel-flat {
+    > .panel-heading {
+
+        // Add top border if table is after panel body
+        + .table,
+        + .table-responsive {
+            border-top: 1px solid @panel-inner-border;
+        }
+    }
 }
 
 
@@ -39,11 +65,6 @@
     // Panel heading in flat panel
     &.panel-flat > .panel-heading {
         border-bottom-color: transparent;
-    }
-
-    // Panel body inherits bg color
-    > .panel-body {
-        background-color: inherit;
     }
 
     // Apply white color to panel title
@@ -123,8 +144,39 @@
 .panel-body {
     position: relative;
 
+    // Inside flat panel
     .panel-flat > .panel-heading + & {
         padding-top: 0;
+    }
+
+    // Add top border if panel has multiple bodies
+    // or table comes after body
+    // or use .has-top-border class in .panel-body container
+    + .panel-body,
+    + .table,
+    + .table-responsive,
+    &.has-top-border {
+        border-top: 1px solid @panel-inner-border;
+    }
+
+    // ... and change top border in coloured panel
+    .panel[class*=bg-] & {
+        + .panel-body,
+        + .table,
+        + .table-responsive,
+        &.has-top-border {
+            border-top-color: fade(#fff, 50%);
+        }
+    }
+
+    // Slightly darker body
+    &-accent {
+        background-color: #fcfcfc;
+
+        // Inside colored panel
+        .panel[class*=bg-] & {
+            background-color: fade(#000, 10%);
+        }
     }
 }
 
@@ -186,6 +238,19 @@
 .panel-title {
     position: relative;
     font-size: @font-size-base;
+
+    // Allow font size classes
+    &.text-size {
+        &-mini {
+            font-size: @font-size-mini;
+        }
+        &-small {
+            font-size: @font-size-small;
+        }
+        &-large {
+            font-size: @font-size-large;
+        }
+    }
 
     // Display links as a block element
     a& {

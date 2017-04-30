@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------------
 *
-*  # Team page
+*  # Chat layouts
 *
-*  Specific JS code additions for user_pages_team.html page
+*  Specific JS code additions for chat_layouts.html page
 *
 *  Version: 1.0
 *  Latest update: Aug 1, 2015
@@ -11,9 +11,7 @@
 
 $(function() {
 
-    // Initialize lightbox
-    $('[data-popup=lightbox]').fancybox({
-        padding: 3
-    });
-    
+	// Scroll to bottom of the chat on page load. Mainly for demo
+	$('.chat-list, .chat-stacked').scrollTop($(this).height());
+
 });

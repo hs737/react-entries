@@ -31,6 +31,9 @@ class CompositionEditor extends React.Component {
         return 'not-handled';
     }
 
+    _onBoldClick() {
+        this.props.onChange(RichUtils.toggleInlineStyle(this.props.value.editorState, 'BOLD'));
+    }
 
     componentWillMount() {
         const functionName = "componentWillMount";
@@ -75,6 +78,7 @@ class CompositionEditor extends React.Component {
 
         return (
             <div>
+                <button onClick={this._onBoldClick.bind(this)}>Bold</button>
                 <Editor
                     editorState={this.props.value.editorState}
                     onChange={this.props.onChange}

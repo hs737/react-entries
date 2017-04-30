@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DOMPurify from 'dompurify';
-import { Editor, EditorState, convertToRaw } from 'draft-js';
+import { Editor, EditorState } from 'draft-js';
+import { stateToHTML } from 'draft-js-export-html';
 
 import CompositionPanel from '../presentational/CompositionPanel';
 import { addEntry, updateCurrentEntry } from '../actions/actions';
 import { post } from '../utils/APIManager';
 
 const MODULE_NAME = "CompositionPanelContainer";
-const DEFAULT_STATE = {
-    composition: {
-        text: { editorState: EditorState.createEmpty() },
-        title: ""
-    }
+const getDefaultState = () => {
+    return {
+        composition: {
+            text: { editorState: EditorState.createEmpty() },
+            title: ""
+        }
+    };
 };
 
 class CompositionPanelContainer extends Component {
@@ -28,7 +31,7 @@ class CompositionPanelContainer extends Component {
         this.handleTitleOnChange = this.handleTitleOnChange.bind(this);
         this.handleOnClick = this.handleOnClick.bind(this);
 
-        this.state = DEFAULT_STATE;
+        this.state = getDefaultState();
     }
 
     componentWillMount() {
@@ -94,22 +97,25 @@ class CompositionPanelContainer extends Component {
 
         const _this = this;
         const composedText = {
-            title: "asdf", // this.state.composition.title,
+            title: this.state.composition.title,
             // text: DOMPurify.sanitize(this.state.composition.text)
-            text: convertToRaw(this.state.composition.text.editorState.getCurrentContent())
+            text: stateToHTML(this.state.composition.text.editorState.getCurrentContent())
         };
-        console.log("Composed Text:", JSON.stringify(composedText));
+        console.log("Composed Text Before Add:", JSON.stringify(composedText));
 
-        this.props.addEntry(composedText, function (err, composedText) {
+        this.props.addEntry(composedText, function (err, composedTextDocument) {
+            console.log("Composed Text After Add:", JSON.stringify(composedTextDocument));
+
             if (err) {
                 console.log(MODULE_NAME, functionName, "Error: ", err);
                 return;
             }
 
-            var newState = DEFAULT_STATE;
+            var newState = getDefaultState();
             // var newState = Object.assign({}, _this.state);
             // newState.composition.text = "";
             // newState.composition.title = "";
+            console.log(MODULE_NAME, functionName, "New State:", newState);
             _this.setState(newState);
         });
     }

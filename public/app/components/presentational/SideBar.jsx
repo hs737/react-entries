@@ -1,82 +1,54 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-var MODULE_NAME = "SideBar"
+var MODULE_NAME = "SideBar";
 
 class SideBar extends Component {
     componentWillMount() {
-        var functionName = "componentWillMount"
-        console.log(MODULE_NAME, functionName + " called")
+        var functionName = "componentWillMount";
+        console.log(MODULE_NAME, functionName + " called");
     }
 
     componentDidMount() {
-        var functionName = "componentDidMount"
-        console.log(MODULE_NAME, functionName + " called")
+        var functionName = "componentDidMount";
+        console.log(MODULE_NAME, functionName + " called");
     }
 
     componentWillUnmount() {
-        var functionName = "componentWillUnmount"
-        console.log(MODULE_NAME, functionName + " called")
+        var functionName = "componentWillUnmount";
+        console.log(MODULE_NAME, functionName + " called");
     }
 
     componentWillReceiveProps(nextProps) {
-        var functionName = "componentWillReceiveProps"
-        console.log(MODULE_NAME, functionName + " called", nextProps)
+        var functionName = "componentWillReceiveProps";
+        console.log(MODULE_NAME, functionName + " called", nextProps);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        var functionName = "shouldComponentUpdate"
-        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
+        var functionName = "shouldComponentUpdate";
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState);
 
-        return true
+        return true;
     }
 
     componentWillUpdate(nextProps, nextState) {
-        var functionName = "componentWillUpdate"
-        console.log(MODULE_NAME, functionName + " called", nextProps, nextState)
+        var functionName = "componentWillUpdate";
+        console.log(MODULE_NAME, functionName + " called", nextProps, nextState);
     }
 
     componentDidUpdate(prevProps, prevState) {
-        var functionName = "componentDidUpdate"
-        console.log(MODULE_NAME, functionName + " called", prevProps, prevState)
+        var functionName = "componentDidUpdate";
+        console.log(MODULE_NAME, functionName + " called", prevProps, prevState);
     }
 
     render() {
-        var functionName = "render"
-        console.log(MODULE_NAME, functionName + " called", this.props)
+        var functionName = "render";
+        console.log(MODULE_NAME, functionName + " called", this.props);
 
         return (
             <div className="sidebar sidebar-main sidebar-default">
-            {/* <!-- Main sidebar --> */}
-            
+                {/* <!-- Main sidebar --> */}
+
                 <div className="sidebar-content">
-
-                    {/* <!-- User menu --> */}
-                    <div className="sidebar-user-material">
-                        <div className="category-content">
-                            <div className="sidebar-user-material-content">
-                                <a href="#"><img src="assets/images/placeholder.jpg" className="img-circle img-responsive" alt="" /></a>
-                                <h6>Victoria Baker</h6>
-                                <span className="text-size-small">Santa Ana, CA</span>
-                            </div>
-                                                        
-                            <div className="sidebar-user-material-menu">
-                                <a href="#user-nav" data-toggle="collapse"><span>My account</span> <i className="caret"></i></a>
-                            </div>
-                        </div>
-                        
-                        <div className="navigation-wrapper collapse" id="user-nav">
-                            <ul className="navigation">
-                                <li><a href="#"><i className="icon-user-plus"></i> <span>My profile</span></a></li>
-                                <li><a href="#"><i className="icon-coins"></i> <span>My balance</span></a></li>
-                                <li><a href="#"><i className="icon-comment-discussion"></i> <span><span className="badge bg-teal-400 pull-right">58</span> Messages</span></a></li>
-                                <li className="divider"></li>
-                                <li><a href="#"><i className="icon-cog5"></i> <span>Account settings</span></a></li>
-                                <li><a href="#"><i className="icon-switch2"></i> <span>Logout</span></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    {/* <!-- /user menu --> */}
-
 
                     {/* <!-- Main navigation --> */}
                     <div className="sidebar-category sidebar-category-visible">
@@ -419,109 +391,6 @@ class SideBar extends Component {
                                 </li>
                                 {/* <!-- /layout --> */}
 
-                                {/* <!-- Data visualization --> */}
-                                <li className="navigation-header"><span>Data visualization</span> <i className="icon-menu" title="Data visualization"></i></li>
-                                <li>
-                                    <a href="#"><i className="icon-graph"></i> <span>Echarts library</span></a>
-                                    <ul>
-                                        <li><a href="echarts_lines_areas.html">Lines and areas</a></li>
-                                        <li><a href="echarts_columns_waterfalls.html">Columns and waterfalls</a></li>
-                                        <li><a href="echarts_bars_tornados.html">Bars and tornados</a></li>
-                                        <li><a href="echarts_scatter.html">Scatter charts</a></li>
-                                        <li><a href="echarts_pies_donuts.html">Pies and donuts</a></li>
-                                        <li><a href="echarts_funnels_chords.html">Funnels and chords</a></li>
-                                        <li><a href="echarts_candlesticks_others.html">Candlesticks and others</a></li>
-                                        <li><a href="echarts_combinations.html">Chart combinations</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#"><i className="icon-statistics"></i> <span>D3 library</span></a>
-                                    <ul>
-                                        <li><a href="d3_lines_basic.html">Simple lines</a></li>
-                                        <li><a href="d3_lines_advanced.html">Advanced lines</a></li>
-                                        <li><a href="d3_bars_basic.html">Simple bars</a></li>
-                                        <li><a href="d3_bars_advanced.html">Advanced bars</a></li>
-                                        <li><a href="d3_pies.html">Pie charts</a></li>
-                                        <li><a href="d3_circle_diagrams.html">Circle diagrams</a></li>
-                                        <li><a href="d3_tree.html">Tree layout</a></li>
-                                        <li><a href="d3_other.html">Other charts</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#"><i className="icon-stats-dots"></i> <span>Dimple library</span></a>
-                                    <ul>
-                                        <li>
-                                            <a href="#">Line charts</a>
-                                            <ul>
-                                                <li><a href="dimple_lines_horizontal.html">Horizontal orientation</a></li>
-                                                <li><a href="dimple_lines_vertical.html">Vertical orientation</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a href="#">Bar charts</a>
-                                            <ul>
-                                                <li><a href="dimple_bars_horizontal.html">Horizontal orientation</a></li>
-                                                <li><a href="dimple_bars_vertical.html">Vertical orientation</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a href="#">Area charts</a>
-                                            <ul>
-                                                <li><a href="dimple_area_horizontal.html">Horizontal orientation</a></li>
-                                                <li><a href="dimple_area_vertical.html">Vertical orientation</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a href="#">Step charts</a>
-                                            <ul>
-                                                <li><a href="dimple_step_horizontal.html">Horizontal orientation</a></li>
-                                                <li><a href="dimple_step_vertical.html">Vertical orientation</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="dimple_pies.html">Pie charts</a></li>
-                                        <li><a href="dimple_rings.html">Ring charts</a></li>
-                                        <li><a href="dimple_scatter.html">Scatter charts</a></li>
-                                        <li><a href="dimple_bubble.html">Bubble charts</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#"><i className="icon-stats-bars"></i> <span>C3 library</span></a>
-                                    <ul>
-                                        <li><a href="c3_lines_areas.html">Lines and areas</a></li>
-                                        <li><a href="c3_bars_pies.html">Bars and pies</a></li>
-                                        <li><a href="c3_advanced.html">Advanced examples</a></li>
-                                        <li><a href="c3_axis.html">Chart axis</a></li>
-                                        <li><a href="c3_grid.html">Grid options</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#"><i className="icon-google"></i> <span>Google visualization</span></a>
-                                    <ul>
-                                        <li><a href="google_lines.html">Line charts</a></li>
-                                        <li><a href="google_bars.html">Bar charts</a></li>
-                                        <li><a href="google_pies.html">Pie charts</a></li>
-                                        <li><a href="google_scatter_bubble.html">Bubble &amp; scatter charts</a></li>
-                                        <li><a href="google_other.html">Other charts</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#"><i className="icon-map5"></i> <span>Maps integration</span></a>
-                                    <ul>
-                                        <li>
-                                            <a href="#">Google maps</a>
-                                            <ul>
-                                                <li><a href="maps_google_basic.html">Basics</a></li>
-                                                <li><a href="maps_google_controls.html">Controls</a></li>
-                                                <li><a href="maps_google_markers.html">Markers</a></li>
-                                                <li><a href="maps_google_drawings.html">Map drawings</a></li>
-                                                <li><a href="maps_google_layers.html">Layers</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="maps_vector.html">Vector maps</a></li>
-                                    </ul>
-                                </li>
-                                {/* <!-- /data visualization --> */}
-
                                 {/* <!-- Extensions --> */}
                                 <li className="navigation-header"><span>Extensions</span> <i className="icon-menu" title="Extensions"></i></li>
                                 <li>
@@ -741,7 +610,7 @@ class SideBar extends Component {
 
                 </div>
 
-            {/* <!-- /main sidebar --> */}
+                {/* <!-- /main sidebar --> */}
             </div>
         )
     }

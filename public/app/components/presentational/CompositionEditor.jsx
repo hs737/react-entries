@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Editor, EditorState, RichUtils } from 'draft-js';
 
 const MODULE_NAME = "CompositionEditor";
-
+const DEFAULT_EDITOR_KEY = "testKey";
 class CompositionEditor extends React.Component {
 
     constructor(props, context, updater) {
@@ -80,6 +80,7 @@ class CompositionEditor extends React.Component {
             <div>
                 <button onClick={this._onBoldClick.bind(this)}>Bold</button>
                 <Editor
+                    editorKey={DEFAULT_EDITOR_KEY}
                     editorState={this.props.value.editorState}
                     onChange={this.props.onChange}
                     handleKeyCommand={this.handleKeyCommand}

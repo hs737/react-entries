@@ -5,7 +5,7 @@
  *  Styles for sidebar components, main navigation and sidebar itself
  *
  *  Version: 1.2
- *  Latest update: Mar 10, 2016
+ *  Latest update: Nov 25, 2015
  *
  * ---------------------------------------------------------------------------- */
 
@@ -15,23 +15,18 @@
 
 // Base
 .sidebar {
+	background-color: @sidebar-dark-bg;
 	color: #fff;
 	position: relative;
 	width: 100%;
 	display: none;
-
-	// Content
-	.sidebar-content {
-		background-color: @sidebar-dark-bg;
-		.box-shadow(@shadow-depth1);
-	}
+	.box-shadow(@shadow-depth1);
 
 	// For desktop only
 	@media (min-width: @grid-float-breakpoint) {
 		display: table-cell;
 		vertical-align: top;
-		width: (@sidebar-base-width + @grid-gutter-width);
-		padding-right: @grid-gutter-width;
+		width: @sidebar-base-width;
 	}
 
 	// Main z-index
@@ -52,8 +47,6 @@
 		@media (min-width: @grid-float-breakpoint) {
 			.sidebar-opposite-visible & {
 				display: table-cell;
-				padding-right: 0;
-				padding-left: @grid-gutter-width;
 			}
 		}
 	}
@@ -67,29 +60,26 @@
 
 // Light sidebar
 .sidebar-default {
+	background-color: @sidebar-light-bg;
 	color: @text-color;
-
-	// Content
-	.sidebar-content {
-		background-color: @sidebar-light-bg;
-	}
 }
 
 // Sidebar content
 .sidebar-content {
 	position: relative;
-	border-radius: @border-radius-base;
-	margin-bottom: @line-height-computed;
+	padding-bottom: (@line-height-computed - @navigation-padding-base-vertical);
 }
 
 
-// Sidebar control buttons
+
+// Sidebar togglers
 // ------------------------------
 
 // Toggle sidebar visibility according to the class name
 .sidebar-all-hidden .sidebar-main,
 .sidebar-all-hidden .sidebar-secondary,
 .sidebar-main-hidden .sidebar-main,
+.sidebar-detached-hidden .sidebar-detached > .sidebar,
 .sidebar-secondary-hidden .sidebar-secondary {
 	display: none;
 }
@@ -98,14 +88,15 @@
 @media (max-width: @grid-float-breakpoint-max) {
 	.sidebar-mobile-main .sidebar-main,
 	.sidebar-mobile-secondary .sidebar-secondary,
-	.sidebar-mobile-opposite .sidebar-opposite {
+	.sidebar-mobile-opposite .sidebar-opposite,
+	.sidebar-mobile-detached .sidebar-detached > .sidebar {
 		display: block;
 	}
 }
 
 
 
-// Sidebar content layout
+// Sidebar content
 // ------------------------------
 
 // Title
@@ -116,25 +107,14 @@
 	padding-right: (@content-padding-large + @content-padding-small + @icon-font-size);
 	border-bottom: 1px solid fade(#fff, 10%);
 
-	// Text
+	// Small titles
 	> span {
 		display: block;
-	}
-
-	// Small titles
-	&:not(.h5):not(.h6) > span {
-		padding-top: (@font-size-base - @font-size-mini);
+		margin-top: (@font-size-base - @font-size-mini);
 		text-transform: uppercase;
 		font-weight: 500;
 		font-size: @font-size-mini;
 		line-height: @line-height-mini;
-	}
-
-	// Section headings
-	&.h5,
-	&.h6 {
-		padding: @content-padding-large;
-		border-bottom: 0;
 	}
 
 	// Single icon
@@ -151,12 +131,6 @@
 		right: @content-padding-large;
 		top: 50%;
 		margin-top: -(@icon-font-size / 2);
-	}
-
-	// If before user block
-	+ .sidebar-user {
-		padding-top: (@content-padding-small / 2);
-		padding-bottom: (@content-padding-small / 2);
 	}
 
 	// In light sidebar
@@ -208,7 +182,7 @@
 	}
 
 	// Add top border radius if comes first
-	&:first-child .category-content {
+	.sidebar-detached &:first-child .category-content {
 		.border-top-radius(@border-radius-base);
 	}
 }
@@ -318,7 +292,7 @@
 
 
 
-// Sidebar navigation
+// Default sidebar navigation
 // ------------------------------
 
 // Basic nav
@@ -328,9 +302,8 @@
 	list-style: none;
 	position: relative;
 
-	// Remove top padding from the nav inside category content
-	.sidebar-category > .h5 + .category-content > &,
-	.sidebar-category > .h6 + .category-content > & {
+	// Add top space to the nav inside category content
+	.sidebar-user + .sidebar-category & {
 		padding-top: 0;
 	}
 
@@ -627,7 +600,6 @@
 	}
 }
 
-
 // Navigation in light sidebar
 .sidebar-default {
 	.navigation {
@@ -732,7 +704,6 @@
 		}
 	}
 }
-
 
 // Bordered navigation
 .navigation-bordered {
@@ -861,29 +832,184 @@
 // ------------------------------
 
 //
-// Sticky sidebar
+// Fixed sidebar
 //
 
-// Affix setup
+// Sidebar is hidden on navbar breakpoint
 @media (min-width: @grid-float-breakpoint) {
 
-	// Add fixed position on desktops
-	.sidebar-fixed.affix {
-		position: fixed;
-		width: @sidebar-base-width;
-		top: @line-height-computed;
-		bottom: @line-height-computed;
-		.transition(bottom ease-in-out 0.15s);
-
-		// Content
+	// Fixed sidebar
+	.sidebar-fixed {
 		.sidebar-content {
+			position: fixed;
+			width: @sidebar-base-width;
 			max-height: 100%;
-			overflow-y: auto;
+			overflow: auto;
+			top: @navbar-height;
+			bottom: @navbar-height;
+			margin-bottom: -(@navbar-height);
+		}
+
+		// In mini sidebar
+		.sidebar-xs &.sidebar-main {
+			.sidebar-content {
+				width: @sidebar-mini-width;
+			}
+		}
+
+		// In light sidebar
+		&.sidebar-default .sidebar-content {
+			width: @sidebar-base-width;
+		}
+	}
+
+	// Expanded mini sidebar
+	.sidebar-fixed-expanded {
+
+		// Works only with main sidebar
+		.sidebar-fixed.sidebar-main {
+			position: fixed;
+			display: block;
+			height: 100%;
+			z-index: (@zindex-navbar + 1);
+
+			// Sidebar content
+			.sidebar-content {
+				position: fixed;
+			}
+
+			// Mini sidebar
+			.sidebar-xs & {
+				width: @sidebar-base-width;
+			}
+		}
+
+		// Add left padding to content when expanded
+		.content-wrapper {
+			padding-left: @sidebar-mini-width;
+		}
+	}
+}
+
+// Remove top edge
+.sidebar-xs-indicator .sidebar-fixed .sidebar-content {
+	top: 0!important;
+}
+
+
+//
+// Detached sidebar
+//
+
+// Positioning
+@media (min-width: @grid-float-breakpoint) {
+
+	// If on the left side
+	.has-detached-left {
+		.container-detached {
+			float: right;
+			margin-left: -(@sidebar-base-width);
+			width: 100%;
+		}
+
+		.content-detached {
+			margin-left: (@sidebar-base-width + @grid-gutter-width);
+		}
+
+		.sidebar-detached {
+			float: left;
+		}
+	}
+
+	// If on the right side
+	.has-detached-right {
+		.container-detached {
+			float: left;
+			margin-right: -(@sidebar-base-width);
+			width: 100%;
+		}
+
+		.content-detached {
+			margin-right: (@sidebar-base-width + @grid-gutter-width);
+		}
+
+		.sidebar-detached {
+			float: right;
+
+			&.affix {
+				right: @grid-gutter-width;
+			}
+		}
+	}
+
+	// If hidden
+	.sidebar-detached-hidden {
+		.container-detached {
+			float: none;
+			margin: 0;
+		}
+
+		.content-detached {
+			margin: 0;
+		}
+
+		.sidebar-detached {
+			float: none;
+		}
+	}
+}
+
+// Basic detached sidebar
+.sidebar-detached {
+
+	// Main navigation for scrollspy 
+	.navigation.nav {
+		> .active > .hidden-ul {
+			display: block;
+		}
+
+		// Display children lists
+		@media (max-width: @grid-float-breakpoint-max) {
+			> li > .hidden-ul {
+				display: block;
+			}
+		}
+	}
+
+	// Remove fixed position on mobiles
+	&.affix {
+		position: static;
+	}
+
+	// Setup desktop view
+	@media (min-width: @grid-float-breakpoint) {
+		display: block;
+		position: relative;
+		margin-bottom: @line-height-computed;
+
+		// Display sidebar as a block element
+		> .sidebar {
+			margin-bottom: 0;
+			display: block;
+			border-radius: @border-radius-base;
+		}
+
+		// Add fixed position on desktops
+		&.affix {
+			position: fixed;
+			top: @line-height-computed;
+			bottom: @line-height-computed;
+			.transition(bottom ease-in-out 0.15s);
+
+			> .sidebar {
+				max-height: 100%;
+				overflow-y: auto;
+			}
 		}
 
 		// Avoid footer overlap
 		&.fixed-sidebar-space {
-			bottom: (@line-height-computed * 3);
+			bottom: (@line-height-computed * 4);
 
 			// If footer is navbar
 			.navbar-bottom & {
@@ -914,39 +1040,9 @@
 			top: (@navbar-height-mini + (@line-height-computed * 2));
 		}
 	}
-
-	// Mini sidebar
-	.sidebar-xs .sidebar-fixed.affix {
-		width: @sidebar-mini-width;
-	}
 }
 
-// Expanded mini sidebar
-.sidebar-fixed-expanded {
-
-	// Works only with main sidebar
-	.sidebar-main {
-		position: absolute;
-		display: block;
-		z-index: (@zindex-navbar + 1);
-
-		// Mini sidebar
-		.sidebar-xs & {
-			width: (@sidebar-base-width + @grid-gutter-width);
-		}
-	}
-
-	// Add left padding to content when expanded
-	.content-wrapper {
-		padding-left: (@sidebar-mini-width + @grid-gutter-width);
-	}
-}
-
-
-//
 // With separate categories
-//
-
 .sidebar-separate {
 
 	// Remove extra bottom padding from sidebar content container
@@ -962,33 +1058,24 @@
 
 	// Desktop view
 	@media (min-width: @grid-float-breakpoint) {
-
-		// Remove sidebar background
-		.sidebar-content {
-			background-color: transparent;
-		}
+		background-color: transparent;
 
 		// Make categories as separate widgets
 		.sidebar-category {
 			background-color: @sidebar-dark-bg;
 			border-radius: @border-radius-base;
 			margin-bottom: @line-height-computed;
-			.box-shadow(@shadow-depth1);
 		}
 
 		// In light sidebar
 		&.sidebar-default {
-
-			// Content
-			.sidebar-content {
-				background-color: transparent;
-				border: 0;
-				.box-shadow(none);
-			}
+			background-color: transparent;
+			.box-shadow(none);
 
 			// Make categories white
 			.sidebar-category {
 				background-color: @sidebar-light-bg;
+				.box-shadow(@shadow-depth1);
 			}
 		}
 	}
@@ -1005,7 +1092,7 @@
 
 		// Works only in main sidebar
 		.sidebar-main {
-			width: (@sidebar-mini-width + @grid-gutter-width);
+			width: @sidebar-mini-width;
 
 			// Categories
 			.sidebar-category {
@@ -1095,7 +1182,7 @@
 							cursor: pointer;
 							.border-right-radius(@border-radius-base);
 							.box-shadow(@shadow-depth1);
-							
+
 							// Label/badge
 							.label,
 							.badge {
@@ -1110,7 +1197,7 @@
 							display: block;
 							float: none;
 						}
-						
+
 						// Allow overflow in ripple
 						&.legitRipple {
 							overflow: visible;
@@ -1227,8 +1314,10 @@
 
 			// Sidebar user block
 			.sidebar-user {
-				padding-left: 0;
-				padding-right: 0;
+				.category-content {
+					padding-left: 0;
+					padding-right: 0;
+				}
 
 				.media-left,
 				.media-right {
@@ -1350,11 +1439,10 @@
 	// Panel group
 	.panel-group .panel {
 		border-radius: 0;
-		border-bottom: 1px solid @panel-inner-border;
-		.box-shadow(none);
+		border-width: 0 0 1px 0;
 
 		&:first-child {
-			border-top: 1px solid @panel-inner-border;
+			border-top-width: 1px;
 		}
 		& + .panel {
 			margin-top: 0;
@@ -1438,7 +1526,7 @@
 
 	// Forms
 	.form-group:last-child {
-		margin-bottom: 0;
+	  margin-bottom: 0;
 	}
 }
 
@@ -1452,7 +1540,7 @@
 	.nav-tabs {
 		border-width: 0 0 1px 0;
 
-		// Desktop view
+		// Desktop view setup
 		@media (min-width: @grid-float-breakpoint) {
 			border-width: 1px;
 
@@ -1504,27 +1592,6 @@
 				}
 			}
 		}
-
-		// Mobile view
-		@media (max-width: @grid-float-breakpoint-max) {
-			border-bottom: 1px solid fade(#fff, 10%);
-			.border-bottom-radius(0);
-			.box-shadow(none);
-		}
-	}
-
-	// Remove top padding from the first title
-	.tab-pane {
-		> .category-title {
-			&:first-child {
-				padding-top: 0;
-
-				.icons-list {
-					top: 0;
-					margin-top: @line-height-computed - @icon-font-size;
-				}
-			}
-		}
 	}
 }
 
@@ -1533,8 +1600,6 @@
 
 	// Tabs base
 	.nav-tabs {
-
-		// Desktop view
 		@media (min-width: @grid-float-breakpoint) {
 			> li {
 				> a {
@@ -1547,14 +1612,6 @@
 						color: @text-color;
 						border-bottom-color: @panel-default-border;
 					}
-				}
-
-				// Round top corners
-				&:first-child > a {
-					border-top-left-radius: @border-radius-base;
-				}
-				&:last-child > a {
-					border-top-right-radius: @border-radius-base;
 				}
 			}
 
@@ -1579,11 +1636,6 @@
 					background-color: #fafafa;
 				}
 			}
-		}
-
-		// Mobile view
-		@media (max-width: @grid-float-breakpoint-max) {
-			border-bottom-color: @panel-default-border;
 		}
 	}
 

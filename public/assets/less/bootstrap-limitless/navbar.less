@@ -19,6 +19,7 @@
     border-width: 0;
     padding-left: 0;
     padding-right: 0;
+    z-index: @zindex-navbar;
     .box-shadow(@shadow-depth1);
     
     // Desktop view
@@ -106,7 +107,7 @@
 // -------------------------
 
 .navbar-header {
-    min-width: (@sidebar-base-width + @grid-gutter-width - @content-padding-base);
+    min-width: @sidebar-base-width;
 
     // Inside nav collapse
     .navbar-collapse > & {
@@ -172,7 +173,6 @@
         margin-left: -(@navbar-padding-horizontal);
     }
 }
-
 
 
 // Fixed navbar setup

@@ -8,7 +8,7 @@ import NavBar from '../presentational/NavBar'
 import store from '../stores/store'
 import CONSTANTS from '../constants/constants'
 import actions from '../actions/actions'
-import {get, post} from '../utils/APIManager'
+import { get, post } from '../utils/APIManager'
 
 var MODULE_NAME = "Search"
 
@@ -25,7 +25,7 @@ function executeSearch(q) {
 
     var _this = this
 
-    get("/api/search", query, function(err, results) {
+    get("/api/search", query, function (err, results) {
         if (err) {
             console.log(MODULE_NAME, functionName, "Error:", err)
             return
@@ -127,8 +127,10 @@ class Search extends Component {
     }
 }
 
-var mapStateToProps = function(newStateInStore) {
-    console.log("mapStateToProps", JSON.stringify(newStateInStore))
+const mapStateToProps = function (newStateInStore) {
+    const functionName = "mapStateToProps";
+    console.log(MODULE_NAME, functionName + " called", JSON.stringify(newStateInStore));
+
     return {
         currentUser: newStateInStore.userReducer.currentUser,
         searchResults: newStateInStore.searchReducer.searchResults

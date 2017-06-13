@@ -95,7 +95,9 @@ class EntriesPanelContainer extends Component {
 }
 
 const mapStateToProps = (newStateInStore) => {
-    console.log("mapStateToProps called", JSON.stringify(newStateInStore));
+    const functionName = "mapStateToProps";
+    console.log(MODULE_NAME, functionName + " called", newStateInStore, JSON.stringify(newStateInStore));
+
     return {
         // currentUser: newStateInStore.userReducer.currentUser,
         // currentProfile: newStateInStore.profileReducer.currentProfile,
@@ -104,7 +106,8 @@ const mapStateToProps = (newStateInStore) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    console.log("mapDispatchToProps called", JSON.stringify(dispatch));
+    const functionName = "mapDispatchToProps";
+    console.log(MODULE_NAME, functionName + " called", JSON.stringify(dispatch));
     return {
         setEntries: (entries) => {
             const functionName = "setEntries";

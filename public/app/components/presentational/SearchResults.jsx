@@ -6,7 +6,7 @@ import { Link, withRouter } from 'react-router'
 
 import store from '../stores/store'
 import actions from '../actions/actions'
-import {get, post} from '../utils/APIManager'
+import { get, post } from '../utils/APIManager'
 
 var MODULE_NAME = "SearchResults"
 
@@ -33,7 +33,7 @@ class SearchResults extends Component {
             name: this.props.queryText,
             user: this.props.user._id
         }
-        post("/api/profile", params, function(err, result) {
+        post("/api/profile", params, function (err, result) {
             if (err) {
                 console.log(MODULE_NAME, functionName, "Error:", err)
                 // TODO do not call profile page if current profile isn't loaded
@@ -103,7 +103,7 @@ class SearchResults extends Component {
         } else {
             console.log("Search results for some results found")
             var _this = this
-            resultsContent = <ol>{this.props.searchResults.map(function(elem, idx) {
+            resultsContent = <ol>{this.props.searchResults.map(function (elem, idx) {
                 // return <li key={idx}><Link onClick={() => _this.getProfileData(elem)} to={"/profile/" + elem._id}>{elem.name}</Link></li>
                 return (
                     <li key={idx} className="media">

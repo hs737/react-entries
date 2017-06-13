@@ -78,7 +78,7 @@ class CompositionEditor extends React.Component {
 
         return (
             <div>
-                <button onClick={this._onBoldClick.bind(this)}>Bold</button>
+                {/*<button onClick={this._onBoldClick.bind(this)}>Bold</button>*/}
                 <Editor
                     editorKey={DEFAULT_EDITOR_KEY}
                     editorState={this.props.value.editorState}

@@ -80,5 +80,4 @@ class Entries extends Component {
     }
 }
 
-// export default connect(mapStateToProps)(Entries)
 export default Entries

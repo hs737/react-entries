@@ -63,7 +63,7 @@ class EntryHeading extends Component {
                     <ul className="icons-list">
                         <li><a data-action="collapse"></a></li>
                         <li><a data-action="custom_edit"></a></li>
-                        <li><a data-action="custom_close" onClick={(e) => { this.props.removeEntry(this.props.element.id) }}></a></li>
+                        <li><a data-action="custom_close" onClick={(e) => { this.props.removeEntry(this.props.element._id) }}></a></li>
                         {/*
                         <li className="dropdown">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="icon-menu7"></i> <span className="caret"></span></a>

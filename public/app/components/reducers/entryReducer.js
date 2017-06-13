@@ -14,24 +14,34 @@ var initialState = {
     // },
 };
 
-var moduleName = "entryReducer";
+var MODULE_NAME = "entryReducer";
 
 const mapDBEntrytoStoreObj = (elem) => {
+    const functionName = "mapDBEntrytoStoreObj";
+    console.log(MODULE_NAME, functionName + " called", elem);
+
     if (elem.title === null || elem.title === undefined || elem.title.length === 0) {
         const formattedDate = new Date(elem.timestamp).toDateString();
         elem.title = formattedDate;
     }
 
-    return {
-        id: elem._id,
-        text: elem.text,
-        title: elem.title,
-        timestamp: elem.timestamp
-    };
+    // TODO: Would ideally not tightly couple the mongoose object to the frontend
+    // However, any formatting here would also have to be replicated when loading the reducer in index.js
+    // var result = {
+    //     id: elem._id,
+    //     text: elem.text,
+    //     title: elem.title,
+    //     timestamp: elem.timestamp
+    // };
+    // console.log(MODULE_NAME, functionName, "Result", result);
+    // return result;
+
+    return elem;
 };
 
 export default function (previousState = initialState, someAction) {
-    console.log(moduleName + " called", previousState, someAction);
+    console.log(MODULE_NAME + " called", previousState, someAction);
+
     var nextState = null;
     var entriesList = null;
 
@@ -61,12 +71,13 @@ export default function (previousState = initialState, someAction) {
             const element = mapDBEntrytoStoreObj(someAction.payload);
 
             nextState = Object.assign({}, previousState);
-            entriesList = Object.assign([], nextState.entriesList).filter((elem) => elem.id !== element.id);
+            entriesList = Object.assign([], nextState.entriesList).filter((elem) => elem._id !== element._id);
             nextState.entriesList = entriesList;
 
             return nextState;
 
         default:
+            console.log('DEFAULT', someAction.type, JSON.stringify(someAction.payload));
             return previousState;
     }
 }

@@ -64,12 +64,12 @@ class EntriesPanel extends Component {
 
         var entries = this.props.entries.map(elem => {
             console.log("Element", elem);
-            console.log("Key", elem.id + "_div");
+            console.log("Key", elem._id + "_div");
             const element = <div dangerouslySetInnerHTML={{ __html: elem.text }} ></div>;
             return (
-                <div key={elem.id + "_div"} className="panel panel-default" >
-                    <EntryHeadingContainer key={elem.id + "_heading_container"} element={elem} />
-                    <PanelBody key={elem.id + "_panel_body"} element={element} />
+                <div key={elem._id + "_div"} className="panel panel-default" >
+                    <EntryHeadingContainer key={elem._id + "_heading_container"} element={elem} />
+                    <PanelBody key={elem._id + "_panel_body"} element={element} />
                 </div>
             );
         });

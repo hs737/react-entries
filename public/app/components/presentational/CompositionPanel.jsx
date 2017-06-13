@@ -70,6 +70,8 @@ class CompositionPanel extends Component {
         var compositionElement = (
             <div>
                 <CompositionEditor value={this.props.composition.text} onChange={this.props.handleBodyOnChange} />
+                <button type="submit" className="btn btn-primary pull-right"
+                    onClick={this.props.handleOnClick} > Submit form </button>
             </div>
         );
 

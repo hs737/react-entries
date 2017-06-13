@@ -161,8 +161,10 @@ class Profile extends Component {
     }
 }
 
-var mapStateToProps = function(newStateInStore) {
-    console.log("mapStateToProps", JSON.stringify(newStateInStore))
+const mapStateToProps = function(newStateInStore) {
+    const functionName = "mapStateToProps";
+    console.log(MODULE_NAME, functionName + " called", JSON.stringify(newStateInStore));
+    
     return {
         currentUser: newStateInStore.userReducer.currentUser,
         currentProfile: newStateInStore.profileReducer.currentProfile,

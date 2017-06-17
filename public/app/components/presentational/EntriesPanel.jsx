@@ -4,8 +4,7 @@ import React, { Component } from 'react';
 // import EntryText from './EntryText';
 // import Entries from './Entries';
 
-import EntryHeadingContainer from '../container/EntryHeadingContainer';
-import PanelBody from './PanelBody';
+import EntryPanel from './EntryPanel';
 
 var MODULE_NAME = "EntriesPanel";
 
@@ -64,13 +63,9 @@ class EntriesPanel extends Component {
 
         var entries = this.props.entries.map(elem => {
             console.log("Element", elem);
-            console.log("Key", elem._id + "_div");
-            const element = <div dangerouslySetInnerHTML={{ __html: elem.text }} ></div>;
+
             return (
-                <div key={elem._id + "_div"} className="panel panel-default" >
-                    <EntryHeadingContainer key={elem._id + "_heading_container"} element={elem} />
-                    <PanelBody key={elem._id + "_panel_body"} element={element} />
-                </div>
+                <EntryPanel key={elem._id + "_EntryPanel"} element={elem} />
             );
         });
 

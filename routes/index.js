@@ -1,25 +1,25 @@
-const MODULE_NAME = "index.js"
+const MODULE_NAME = "index.js";
 
-var express                 = require('express');
-var react                   = require('react')
-var reactRouter             = require('react-router')
-var reactDomServer          = require('react-dom/server')
-var promise                 = require('bluebird')
-var config                  = require('config')
+var express = require('express');
+var react = require('react');
+var reactRouter = require('react-router');
+var reactDomServer = require('react-dom/server');
+var promise = require('bluebird');
+var config = require('config');
 
-var logger                  = require('../utils/logger')(MODULE_NAME)
-var Entry                   = require('../models/entry')
-var RelationshipProfile     = require('../models/relationshipProfile')
-var User                    = require('../models/user')
+var logger = require('../utils/logger')(MODULE_NAME);
+var Entry = require('../models/entry');
+var RelationshipProfile = require('../models/relationshipProfile');
+var User = require('../models/user');
 
-var ServerApp               = require('../public/build/es5/ServerApp')
-var Main                    = require('../public/build/es5/components/Main')
-var Home                    = require('../public/build/es5/components/layout/Home')
-var PageNotFound            = require('../public/build/es5/components/layout/PageNotFound')
-var Search                  = require('../public/build/es5/components/layout/Search')
-var Profile                 = require('../public/build/es5/components/layout/Profile')
-var store                   = require('../public/build/es5/components/stores/store')
-var CONSTANTS               = require('../public/build/es5/components/constants/constants')
+var ServerApp = require('../public/build/es5/ServerApp').default;
+var Main = require('../public/build/es5/components/Main').default;
+var Home = require('../public/build/es5/components/layout/Home').default;
+var PageNotFound = require('../public/build/es5/components/layout/PageNotFound').default;
+var Search = require('../public/build/es5/components/layout/Search').default;
+var Profile = require('../public/build/es5/components/layout/Profile').default;
+var store = require('../public/build/es5/components/stores/store').default;
+var CONSTANTS = require('../public/build/es5/components/constants/constants');
 
 logger.debug("Creating controllers")
 var controllers = {
@@ -27,18 +27,20 @@ var controllers = {
     profile: promise.promisifyAll(require('../controllers/genericModelController')(RelationshipProfile)),
     search: promise.promisifyAll(require('../controllers/searchController')),
     user: promise.promisifyAll(require('../controllers/genericModelController')(User))
-}
-var routesToSkip = ['api', 'account', 'favicon.ico']
-const sessionConfig = config.get('session')
+};
+var routesToSkip = ['api', 'account', 'favicon.ico'];
+const sessionConfig = config.get('session');
 
 var router = express.Router();
-require('node-jsx').install({extension: '.js'})
+require('node-jsx').install({
+    extension: '.js'
+});
 
 function matchRoute(req, childRoutes) {
-    return function(result) {
+    return function (result) {
         var initialStatePerReducer = {
             entryReducer: {
-                entriesList: result.entries
+                entriesList: result.entries,
             },
             profileReducer: {
                 currentProfile: result.profileDetails
@@ -52,8 +54,8 @@ function matchRoute(req, childRoutes) {
             userReducer: {
                 currentUser: result.userDetails
             }
-        }
-        initialStore = store.createStore(initialStatePerReducer)
+        };
+        var initialStore = store.createStore(initialStatePerReducer);
 
         var routes = {
             path: '/',
@@ -63,36 +65,39 @@ function matchRoute(req, childRoutes) {
                 component: Home
             },
             childRoutes: childRoutes
-        }
+        };
 
-        return new Promise(function(resolve, reject){
-            reactRouter.match({ routes, location: req.url }, function(error, redirectLocation, renderProps){
-                // console.log("matchRoute", error, redirectLocation, renderProps)
+        return new Promise(function (resolve, reject) {
+            reactRouter.match({
+                routes,
+                location: req.url
+            }, function (error, redirectLocation, renderProps) {
+                console.log("matchRoute", error, redirectLocation, renderProps)
 
-                if (error){
-                    reject(error)
-                    return
+                if (error) {
+                    reject(error);
+                    return;
                 }
 
                 resolve({
                     redirectLocation: redirectLocation,
                     renderProps: renderProps,
                     initialStore: initialStore
-                })
-            })
-        })
-    }
+                });
+            });
+        });
+    };
 }
 
 function renderRoute(res) {
-    return function(result) {
-        // logger.debug("renderRoute", result)
-        if (result.redirectLocation){
+    return function (result) {
+        logger.debug("renderRoute", result)
+        if (result.redirectLocation) {
             logger.debug('ReactRouter - redirectLocation: ' + result.redirectLocation)
-            return
+            return;
         }
 
-        // logger.debug('ReactRouter - renderProps: ' + JSON.stringify(result.renderProps))
+        logger.debug('ReactRouter - renderProps: ' + JSON.stringify(result.renderProps))
         var html = reactDomServer.renderToString(react.createElement(reactRouter.RouterContext, result.renderProps))
         res.render('index', {
             title: 'Express',
@@ -100,21 +105,21 @@ function renderRoute(res) {
             preloadedState: JSON.stringify(result.initialStore.getState())
         });
 
-        return
-    }
+        return;
+    };
 }
 
-router.use(function(req, res, next) {
-    var params = req.params
-    var query = req.query
+router.use(function (req, res, next) {
+    var params = req.params;
+    var query = req.query;
 
-    logger.debug(req.path, "called", req.method)
-    logger.debug(req.path, req.method, "params", params)
-    logger.debug(req.path, req.method, "query", query)
-    logger.debug(req.path, req.method, "session", req[sessionConfig.name])
+    logger.debug(req.path, "called", req.method);
+    logger.debug(req.path, req.method, "params", params);
+    logger.debug(req.path, req.method, "query", query);
+    logger.debug(req.path, req.method, "session", req[sessionConfig.name]);
 
-    next()
-})
+    next();
+});
 
 // router.use(function(req, res, next) {
 //     logger.debug("req[sessionConfig.name].userDetails", req[sessionConfig.name].userDetails)
@@ -136,69 +141,111 @@ router.use(function(req, res, next) {
 // })
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
+    logger.debug(req.path, "called");
     promise.props({
-        userDetails: controllers['user'].readByIdAsync(req[sessionConfig.name].userId, null, false)
-    })
-    .then(matchRoute(req, [
-        {path: 'search', component: Search},
-        {path: 'profile', component: Profile},
-        {path: '*', component: PageNotFound}
-    ]))
-    .then(renderRoute(res))
-    .catch(function (err) {
-        logger.error(MODULE_NAME, err)
-        res.status(404).send({ error: err });       // TODO: Verify correct html error code
-    })
+            // userDetails: controllers.user.readByIdAsync(req[sessionConfig.name].userId, null, false),
+            entries: controllers.entry.readAsync({
+                // profile: req.params.slug
+            }, {
+                sort: {
+                    timestamp: -1
+                }
+            }, false)
+        })
+        .then(matchRoute(req, [{
+                path: 'search',
+                component: Search
+            },
+            {
+                path: 'profile',
+                component: Profile
+            },
+            {
+                path: '*',
+                component: PageNotFound
+            }
+        ]))
+        .then(renderRoute(res))
+        .catch(function (err) {
+            logger.error(MODULE_NAME, err);
+            res.status(404).send({
+                error: err
+            }); // TODO: Verify correct html error code
+        });
 });
 
-router.get('/:page', function(req, res, next) {
-    // TODO: This route has a generic path but search-specific logic. This should be abstracted out
-    logger.debug(req.path, "req.params", req.params)
+// router.get('/:page', function (req, res, next) {
+//     logger.debug(req.path, "called");
+//     // TODO: This route has a generic path but search-specific logic. This should be abstracted out
+//     logger.debug(req.path, "req.params", req.params)
 
-    if (routesToSkip.indexOf(req.params.page) >= 0){
-        next()
-        return
-    }
+//     if (routesToSkip.indexOf(req.params.page) >= 0) {
+//         next()
+//         return
+//     }
 
-    promise.props({
-        userDetails: controllers['user'].readByIdAsync(req[sessionConfig.name].userId, null, false),
-        searchResults: controllers['search'].searchAsync({text: req.query.q}, false)
-    })
-    .then(matchRoute(req, [
-        {path: 'search', component: Search},
-        {path: '*', component: PageNotFound}
-    ]))
-    .then(renderRoute(res))
-    .catch(function (err) {
-        logger.error(MODULE_NAME, err)
-        res.status(404).send({ error: err });       // TODO: Verify correct html error code
-    })
-});
+//     promise.props({
+//             userDetails: controllers['user'].readByIdAsync(req[sessionConfig.name].userId, null, false),
+//             searchResults: controllers['search'].searchAsync({
+//                 text: req.query.q
+//             }, false)
+//         })
+//         .then(matchRoute(req, [{
+//                 path: 'search',
+//                 component: Search
+//             },
+//             {
+//                 path: '*',
+//                 component: PageNotFound
+//             }
+//         ]))
+//         .then(renderRoute(res))
+//         .catch(function (err) {
+//             logger.error(MODULE_NAME, err)
+//             res.status(404).send({
+//                 error: err
+//             }); // TODO: Verify correct html error code
+//         })
+// });
 
-router.get('/:page/:slug', function(req, res, next) {
-    // TODO: This route has a generic path but profile-specific logic. This should be abstracted out
-    logger.debug(req.path, "req.params", req.params)
+// router.get('/:page/:slug', function (req, res, next) {
+//     logger.debug(req.path, "called");
+//     // TODO: This route has a generic path but profile-specific logic. This should be abstracted out
+//     logger.debug(req.path, "req.params", req.params)
 
-    if (routesToSkip.indexOf(req.params.page) >= 0){
-        next()
-        return
-    }
+//     if (routesToSkip.indexOf(req.params.page) >= 0) {
+//         next()
+//         return
+//     }
 
-    promise.props({
-        userDetails: controllers['user'].readByIdAsync(req[sessionConfig.name].userId, null, false),
-        profileDetails: controllers['profile'].readByIdAsync(req.params.slug, null, false),
-        entries: controllers['entry'].readAsync({profile: req.params.slug}, {sort: {timestamp: -1}}, false)
-    })
-    .then(matchRoute(req, [
-        {path: 'profile/:id', component: Profile},
-        {path: '*', component: PageNotFound}
-    ]))
-    .then(renderRoute(res))
-    .catch(function (err) {
-        logger.error(MODULE_NAME, err)
-        res.status(404).send({ error: err });       // TODO: Verify correct html error code
-    })
-});
+//     promise.props({
+//             userDetails: controllers['user'].readByIdAsync(req[sessionConfig.name].userId, null, false),
+//             profileDetails: controllers['profile'].readByIdAsync(req.params.slug, null, false),
+//             entries: controllers['entry'].readAsync({
+//                 profile: req.params.slug
+//             }, {
+//                 sort: {
+//                     timestamp: -1
+//                 }
+//             }, false)
+//         })
+//         .then(matchRoute(req, [{
+//                 path: 'profile/:id',
+//                 component: Profile
+//             },
+//             {
+//                 path: '*',
+//                 component: PageNotFound
+//             }
+//         ]))
+//         .then(renderRoute(res))
+//         .catch(function (err) {
+//             logger.error(MODULE_NAME, err);
+//             res.status(404).send({
+//                 error: err
+//             }); // TODO: Verify correct html error code
+//         })
+// });
 
 module.exports = router;

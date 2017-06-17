@@ -1,8 +1,16 @@
-body {
+/*body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}*/
+
+.icons-list a[data-action="custom_close"]:after {
+  content: '\e9b6';
+}
+
+.icons-list a[data-action="custom_edit"]:after {
+  content: '\270e';
 }

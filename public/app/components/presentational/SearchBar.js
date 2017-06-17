@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 
 import store from '../stores/store'
 import actions from '../actions/actions'
-import {get} from '../utils/APIManager'
+import { get } from '../utils/APIManager'
 
 var MODULE_NAME = "SearchBar"
 
@@ -71,7 +71,7 @@ class Search extends Component {
         if (this.state.searchQuery.length === 0) {
             // TODO Show user a visual error
             console.log("Attempting to search empty string. Exiting.")
-            return
+            return;
         }
 
         // TODO Handle submitting empty text

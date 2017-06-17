@@ -1,4 +1,4 @@
-const DEBUG = false
+const DEBUG = false;
 
 export default {
     debug: function() {
@@ -9,4 +9,4 @@ export default {
     error: function() {
         console.error.apply(console, arguments);
     }
-}
+};

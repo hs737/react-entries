@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 var MODULE_NAME = "PageHeader"
 
@@ -60,20 +60,35 @@ class PageHeader extends Component {
         }
 
         return (
-            <div className="page-header">
-                <div className="breadcrumb-line"><a className="breadcrumb-elements-toggle"><i className="icon-menu-open"></i></a>
+            <div className="page-header page-header-default">
+            {/* <!-- Page header --> */}
+            
+                <div className="page-header-content">
+                    <div className="page-title">
+                        <h4><i className="icon-arrow-left52 position-left"></i> <span className="text-semibold">Home</span> - Dashboard</h4>
+                    </div>
+
+                    <div className="heading-elements">
+                        <div className="heading-btn-group">
+                            <a href="#" className="btn btn-link btn-float text-size-small has-text"><i className="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                            <a href="#" className="btn btn-link btn-float text-size-small has-text"><i className="icon-calculator text-primary"></i> <span>Invoices</span></a>
+                            <a href="#" className="btn btn-link btn-float text-size-small has-text"><i className="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="breadcrumb-line">
                     <ul className="breadcrumb">
                         <li><a href="index.html"><i className="icon-home2 position-left"></i> Home</a></li>
-                        <li><a href="3_col_double.html">Starters</a></li>
-                        <li className="active">Double sidebars</li>
+                        <li className="active">Dashboard</li>
                     </ul>
 
                     <ul className="breadcrumb-elements">
-                        <li><a href="#"><i className="icon-comment-discussion position-left"></i> Link</a></li>
+                        <li><a href="#"><i className="icon-comment-discussion position-left"></i> Support</a></li>
                         <li className="dropdown">
-                            <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                                 <i className="icon-gear position-left"></i>
-                                Dropdown
+                                Settings
                                 <span className="caret"></span>
                             </a>
 
@@ -88,15 +103,7 @@ class PageHeader extends Component {
                     </ul>
                 </div>
 
-                <div className="page-header-content">
-                    <div className="page-title">
-                        <h4><i className="icon-arrow-left52 position-left"></i> <span className="text-semibold">{profileName}</span> - Double Sidebars</h4>
-                    <a className="heading-elements-toggle"><i className="icon-more"></i></a></div>
-
-                    <div className="heading-elements">
-                        <a href="#" className="btn btn-labeled btn-labeled-right bg-blue heading-btn">Button <b><i className="icon-menu7"></i></b></a>
-                    </div>
-                </div>
+            {/* <!-- /page header --> */}
             </div>
         )
     }

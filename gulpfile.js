@@ -1,21 +1,30 @@
-var gulp = require('gulp'),
-    gp_concat = require('gulp-concat'),
-    gp_rename = require('gulp-rename'),
-    gp_uglify = require('gulp-uglify'),
-    to5 = require('gulp-6to5');
+const gulp = require('gulp');
+const gp_concat = require('gulp-concat');
+const gp_rename = require('gulp-rename');
+const gp_uglify = require('gulp-uglify');
+const debug = require("gulp-debug");
+const gp_babel = require('gulp-babel');
 
-gulp.task('es6-es5', function(){
-    return gulp.src([
-                './public/app/ServerApp.js',
-                './public/app/*/**.js',
-                './public/app/*/*/**.js'
-            ]
-        )
-        .pipe(to5())
-        .pipe(gulp.dest('./public/build/es5/'));
+var srcPaths = [
+    './public/app/ServerApp.{js,jsx}',
+    './public/app/**/*.{js,jsx}',
+];
+
+gulp.task('transpile', function () {
+    return gulp.src(srcPaths)
+        .pipe(debug({
+            title: 'Input:'
+        }))
+        .pipe(gp_babel({
+            presets: ['es2015', "react"]
+        }))
+        .pipe(gulp.dest('./public/build/es5/'))
+        .pipe(debug({
+            title: 'Output:'
+        }));
 });
 
-gulp.task('build', function(){
+gulp.task('build', function () {
     return gulp.src(
             [
                 './public/js/jquery.js',
@@ -30,8 +39,8 @@ gulp.task('build', function(){
         .pipe(gulp.dest('./public/build/'));
 });
 
-gulp.task('watch', function() {
-    gulp.watch(['./public/app/ServerApp.js', './public/app/*/**.js', './public/app/*/*/**.js'], ['es6-es5']);
+gulp.task('watch', function () {
+    gulp.watch(srcPaths, ['transpile']);
 });
 
-gulp.task('default', ['es6-es5', 'build', 'watch'], function(){});
+gulp.task('default', ['transpile', 'build', 'watch'], function () {});

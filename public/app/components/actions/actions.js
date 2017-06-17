@@ -1,59 +1,82 @@
-import CONSTANTS from '../constants/constants'
+import CONSTANTS from '../constants/constants';
+import {
+    createAction
+} from 'redux-actions';
 
-export default {
-    addEntry: function(entryDetails) {
-        console.log("addEntry called", JSON.stringify(entryDetails))
-        return {
-            type: CONSTANTS.ACTIONS.ADD_ENTRY,
-            entry: entryDetails
-        }
-    },
+/* Actions governed by user interaction */
+export const addEntry = createAction(CONSTANTS.ACTIONS.ADD_ENTRY);
+export const updateCurrentEntry = createAction(CONSTANTS.ACTIONS.UPDATE_ENTRY);
+export const removeEntry = createAction(CONSTANTS.ACTIONS.REMOVE_ENTRY);
 
-    removeEntry: function(entryDetails) {
-        console.log("removeEntry called", JSON.stringify(entryDetails))
-        return {
-            type: CONSTANTS.ACTIONS.REMOVE_ENTRY,
-            entry: entryDetails
-        }
-    },
+/* Actions governed by automation */
+export const setEntries = createAction(CONSTANTS.ACTIONS.SET_ENTRIES);
 
-    getEntries: function(entriesList) {
-        console.log("getEntries called", JSON.stringify(entriesList))
-        return {
-            type: CONSTANTS.ACTIONS.GET_ENTRIES,
-            entries: entriesList
-        }
-    },
+// export const getEntries = (entries) => ({
+//     type: CONSTANTS.ACTIONS.GET_ENTRIES,
+//     payload: entries
+// });
 
-    updateCurrentProfile: function(profileDetails) {
-        console.log("updateCurrentProfile called", JSON.stringify(profileDetails))
-        return {
-            type: CONSTANTS.ACTIONS.UPDATE_CURRENT_PROFILE,
-            profileDetails: profileDetails
-        }
-    },
+// export const addEntry = (entry) => ({
+//     type: CONSTANTS.ACTIONS.ADD_ENTRY,
+//     payload: entry
+// });
 
-    updateCurrentUser: function(userDetails) {
-        console.log("updateCurrentUser called", JSON.stringify(userDetails))
-        return {
-            type: CONSTANTS.ACTIONS.UPDATE_CURRENT_USER,
-            userDetails: userDetails
-        }
-    },
+// ===============
 
-    search: function(searchResults) {
-        console.log("search called", JSON.stringify(searchResults))
-        return {
-            type: CONSTANTS.ACTIONS.SEARCH,
-            results: searchResults
-        }
-    },
+// export default {
+//     addEntry: function(entryDetails) {
+//         console.log("addEntry called", JSON.stringify(entryDetails))
+//         return {
+//             type: CONSTANTS.ACTIONS.ADD_ENTRY,
+//             entry: entryDetails
+//         }
+//     },
 
-    updateHomeComponentDisplay: function(displayEnum) {
-        console.log("updateHomeComponentDisplay called", displayEnum)
-        return {
-            type: CONSTANTS.ACTIONS.UPDATE_HOME_DISPLAY,
-            display: displayEnum
-        }
-    }
-}
+//     removeEntry: function(entryDetails) {
+//         console.log("removeEntry called", JSON.stringify(entryDetails))
+//         return {
+//             type: CONSTANTS.ACTIONS.REMOVE_ENTRY,
+//             entry: entryDetails
+//         }
+//     },
+
+//     getEntries: function(entriesList) {
+//         console.log("getEntries called", JSON.stringify(entriesList))
+//         return {
+//             type: CONSTANTS.ACTIONS.GET_ENTRIES,
+//             entries: entriesList
+//         }
+//     },
+
+//     updateCurrentProfile: function(profileDetails) {
+//         console.log("updateCurrentProfile called", JSON.stringify(profileDetails))
+//         return {
+//             type: CONSTANTS.ACTIONS.UPDATE_CURRENT_PROFILE,
+//             profileDetails: profileDetails
+//         }
+//     },
+
+//     updateCurrentUser: function(userDetails) {
+//         console.log("updateCurrentUser called", JSON.stringify(userDetails))
+//         return {
+//             type: CONSTANTS.ACTIONS.UPDATE_CURRENT_USER,
+//             userDetails: userDetails
+//         }
+//     },
+
+//     search: function(searchResults) {
+//         console.log("search called", JSON.stringify(searchResults))
+//         return {
+//             type: CONSTANTS.ACTIONS.SEARCH,
+//             results: searchResults
+//         }
+//     },
+
+//     updateHomeComponentDisplay: function(displayEnum) {
+//         console.log("updateHomeComponentDisplay called", displayEnum)
+//         return {
+//             type: CONSTANTS.ACTIONS.UPDATE_HOME_DISPLAY,
+//             display: displayEnum
+//         }
+//     }
+// }

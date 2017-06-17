@@ -14,7 +14,13 @@
 // -------------------------
 
 .thumbnail {
-    .box-shadow(0 1px 1px fade(#000, 5%));
+    border-width: 0;
+    .box-shadow(@shadow-depth1);
+
+    // Inside panel
+    .panel & {
+        .box-shadow(0 1px 1px fade(#000, 5%));
+    }
 
     // Links are block elements
     > a {
@@ -104,6 +110,7 @@
 .thumb {
     position: relative;
     display: block;
+    text-align: center;
 
     // Images
     img:not(.media-preview) {
@@ -111,6 +118,13 @@
         width: 100%;
         max-width: 100%;
         height: auto;
+    }
+
+    // Thumb with fixed size image
+    &.thumb-fixed {
+        img {
+            max-width: 240px;
+        }
     }
 
     // Add rounded corners
@@ -173,6 +187,7 @@
     // Button container
     span {
         position: absolute;
+        left: 0;
         top: 50%;
         margin-top: -((@line-height-computed / 2) + @padding-base-vertical);
         width: 100%;

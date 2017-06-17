@@ -36,7 +36,17 @@ class CompositionPanelContainer extends Component {
 
     componentWillMount() {
         const functionName = "componentWillMount";
-        console.log(MODULE_NAME, functionName + " called");
+        console.log(MODULE_NAME, functionName + " called", this.props);
+
+        if (this.props.details) {
+            console.log(MODULE_NAME, functionName, "Details found");
+
+            var newState = Object.assign({}, this.state);
+            // newState.composition.text = { editorState: content };
+            newState.composition.title = this.props.details.title;
+
+            this.setState(newState);
+        }
     }
 
     componentDidMount() {

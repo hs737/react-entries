@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 // import EntryText from './EntryText';
 // import Entries from './Entries';
 
-import EntryPanel from './EntryPanel';
+import EntryModeContainer from '../container/EntryModeContainer';
 
 var MODULE_NAME = "EntriesPanel";
 
@@ -65,7 +65,7 @@ class EntriesPanel extends Component {
             console.log("Element", elem);
 
             return (
-                <EntryPanel key={elem._id + "_EntryPanel"} element={elem} />
+                <EntryModeContainer key={elem._id + "_EntryModeContainer"} element={elem} />
             );
         });
 

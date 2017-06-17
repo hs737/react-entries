@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 
-import EntryHeadingContainer from '../container/EntryHeadingContainer';
-import PanelBody from './PanelBody';
+import EntryPanel from '../presentational/EntryPanel';
+import CompositionPanelContainer from './CompositionPanelContainer';
 
-const MODULE_NAME = "EntryPanel";
+const MODULE_NAME = "EntryModeContainer";
 
-class EntryPanel extends Component {
+const MODE = {
+    VIEW: "view",
+    EDIT: "edit"
+};
+export { MODE };
+
+class EntryModeContainer extends Component {
     constructor(props, context, updater) {
         const functionName = "constructor";
         console.log(MODULE_NAME, functionName + " called");
@@ -14,7 +20,9 @@ class EntryPanel extends Component {
 
         console.log(MODULE_NAME, functionName, "props", this.props);
 
-        this.state = {};
+        this.state = {
+            mode: MODE.EDIT
+        };
     }
 
     componentWillMount() {
@@ -56,22 +64,22 @@ class EntryPanel extends Component {
 
     render() {
         const functionName = "render";
-        console.log(MODULE_NAME, functionName + " called", this.props);
+        console.log(MODULE_NAME, functionName + " called", this.state, this.props);
 
-        const details = this.props.details;
-        const html_node = <div dangerouslySetInnerHTML={{ __html: details.text }} ></div>;
+        const elem = this.props.element;
 
-        return (
-            <div className="panel panel-default" >
-                <EntryHeadingContainer key={details._id + "_heading_container"} element={details} />
-                <PanelBody key={details._id + "_panel_body"} element={html_node} />
-            </div>
-        );
+        if (this.state.mode === MODE.VIEW) {
+            var panel = <EntryPanel details={elem} />;
+        } else if (this.state.mode === MODE.EDIT) {
+            // console.log("Elem", elem);
+            panel = <CompositionPanelContainer details={elem} />;
+        } else {
+            console.log("Error: Canot recognize mode");
+            return;
+        }
 
-        // return (
-        //     <div>EntryPanel</div>
-        // );
+        return panel;
     }
 }
 
-export default EntryPanel;
+export default EntryModeContainer;

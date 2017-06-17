@@ -57,13 +57,13 @@ class EntryHeading extends Component {
 
         return (
             <div className="panel-heading">
-                <h6 className="panel-title text-semibold">{this.props.element.title}</h6>
+                <h6 className="panel-title text-semibold">{this.props.details.title}</h6>
                 <div className="heading-elements">
                     <span className="label bg-success heading-text">28 active</span>
                     <ul className="icons-list">
                         <li><a data-action="collapse"></a></li>
                         <li><a data-action="custom_edit"></a></li>
-                        <li><a data-action="custom_close" onClick={(e) => { this.props.removeEntry(this.props.element._id) }}></a></li>
+                        <li><a data-action="custom_close" onClick={(e) => { this.props.removeEntry(this.props.details._id) }}></a></li>
                         {/*
                         <li className="dropdown">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="icon-menu7"></i> <span className="caret"></span></a>

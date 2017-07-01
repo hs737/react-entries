@@ -16,7 +16,10 @@ module.exports = {
                 console.log('Begin compile at ' + new Date());
                 callback();
             });
-        }
+        },
+        new webpack.DefinePlugin({
+            // Definitions...
+        })
         //     new webpack.optimize.UglifyJsPlugin({minimize: true}),
     ],
     module: {

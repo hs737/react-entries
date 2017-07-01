@@ -6,7 +6,7 @@ const debug = require("gulp-debug");
 const gp_babel = require('gulp-babel');
 
 var srcPaths = [
-    './public/app/ServerApp.{js,jsx}',
+    // './public/app/ServerApp.{js,jsx}',
     './public/app/**/*.{js,jsx}',
 ];
 

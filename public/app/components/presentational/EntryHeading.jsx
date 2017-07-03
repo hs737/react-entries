@@ -62,7 +62,7 @@ class EntryHeading extends Component {
                     <span className="label bg-success heading-text">28 active</span>
                     <ul className="icons-list">
                         <li><a data-action="collapse"></a></li>
-                        <li><a data-action="custom_edit"></a></li>
+                        <li><a data-action="custom_edit" onClick={this.props.onClickUpdate}></a></li>
                         <li><a data-action="custom_close" onClick={(e) => { this.props.removeEntry(this.props.details._id) }}></a></li>
                         {/*
                         <li className="dropdown">

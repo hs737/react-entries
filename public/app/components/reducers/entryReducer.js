@@ -21,7 +21,7 @@ const mapDBEntrytoStoreObj = (elem) => {
     console.log(MODULE_NAME, functionName + " called", elem);
 
     if (elem.title === null || elem.title === undefined || elem.title.length === 0) {
-        const formattedDate = new Date(elem.timestamp).toDateString();
+        const formattedDate = new Date(elem.timestamp).toString();
         elem.title = formattedDate;
     }
 

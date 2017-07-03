@@ -65,7 +65,7 @@ class EntriesPanel extends Component {
             console.log("Element", elem);
 
             return (
-                <EntryModeContainer key={elem._id + "_EntryModeContainer"} element={elem} />
+                <EntryModeContainer key={elem._id + "_EntryModeContainer"} details={elem} />
             );
         });
 

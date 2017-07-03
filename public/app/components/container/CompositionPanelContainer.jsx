@@ -10,14 +10,14 @@ import { addEntry, updateCurrentEntry } from '../actions/actions';
 import { post } from '../utils/APIManager';
 
 const MODULE_NAME = "CompositionPanelContainer";
-const getDefaultState = () => {
+const getDefaultState = (html, title) => {
     const functionName = "getDefaultState";
-    console.log(MODULE_NAME, functionName + " called");
+    console.log(MODULE_NAME, functionName + " called", html, title);
 
     return {
         composition: {
-            text: RichTextEditor.createEmptyValue(),
-            title: ""
+            text: html ? RichTextEditor.createValueFromString(html, 'html') : RichTextEditor.createEmptyValue(),
+            title: title || ""
         }
     };
 };
@@ -35,7 +35,11 @@ class CompositionPanelContainer extends Component {
         this.handleTitleOnChange = this.handleTitleOnChange.bind(this);
         this.handleOnClick = this.handleOnClick.bind(this);
 
-        this.state = getDefaultState();
+        if (this.props.details) {
+            this.state = getDefaultState(this.props.details.text, this.props.details.title);
+        } else {
+            this.state = getDefaultState();
+        }
     }
 
     componentWillMount() {

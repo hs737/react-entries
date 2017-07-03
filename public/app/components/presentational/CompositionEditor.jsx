@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 // import { Editor, EditorState, RichUtils } from 'draft-js';
 import RichTextEditor from 'react-rte';
 
@@ -16,13 +16,13 @@ class CompositionEditor extends React.Component {
 
         this.state = {
             value: RichTextEditor.createEmptyValue()
-        }
+        };
 
         // this.state = {editorState: EditorState.createEmpty()};
         // this.onChange = (editorState) => this.setState({editorState});
         // this.onChange = (editorState) => this.props.onChange({editorState});
 
-        // this.handleKeyCommand = this.handleKeyCommand.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     // handleKeyCommand(command) {
@@ -40,6 +40,18 @@ class CompositionEditor extends React.Component {
     // _onBoldClick() {
     //     this.props.onChange(RichUtils.toggleInlineStyle(this.props.value.editorState, 'BOLD'));
     // }
+
+    onChange(value) {
+        this.setState({ value });
+        if (this.props.onChange) {
+            // Send the changes up to the parent component as an HTML string.
+            // This is here to demonstrate using `.toString()` but in a real app it
+            // would be better to avoid generating a string on each change.
+            this.props.onChange(
+                value.toString('html')
+            );
+        }
+    }
 
     componentWillMount() {
         const functionName = "componentWillMount";
@@ -93,9 +105,9 @@ class CompositionEditor extends React.Component {
                 />*/}
                 {/*<span>----</span>
                 <Editor editorState={this.state.editorState} onChange={this.onChange} />*/}
-                CompositionEditor
                 <RichTextEditor
                     value={this.state.value}
+                    onChange={this.onChange}
                 />
                 {/*<RichTextEditor
                     value={this.state.value}

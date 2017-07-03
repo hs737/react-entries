@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import DOMPurify from 'dompurify';
-import { Editor, EditorState } from 'draft-js';
-import { stateToHTML } from 'draft-js-export-html';
+// import DOMPurify from 'dompurify';
+// import { Editor, EditorState } from 'draft-js';
+// import { stateToHTML } from 'draft-js-export-html';
+import RichTextEditor from 'react-rte';
 
 import CompositionPanel from '../presentational/CompositionPanel';
 import { addEntry, updateCurrentEntry } from '../actions/actions';
@@ -12,7 +13,7 @@ const MODULE_NAME = "CompositionPanelContainer";
 const getDefaultState = () => {
     return {
         composition: {
-            text: { editorState: EditorState.createEmpty() },
+            text: RichTextEditor.createEmptyValue(),
             title: ""
         }
     };
@@ -81,18 +82,18 @@ class CompositionPanelContainer extends Component {
         console.log(MODULE_NAME, functionName + " called", prevProps, prevState);
     }
 
-    handleBodyOnChange(content, delta, source, editor) {
-        const functionName = "handleOnChange";
-        console.log(MODULE_NAME, functionName + " called", content, delta, source, editor);
+    handleBodyOnChange(value) {
+        const functionName = "handleBodyOnChange";
+        console.log(MODULE_NAME, functionName + " called", value);
 
         var newState = Object.assign({}, this.state);
-        newState.composition.text = { editorState: content };
+        newState.composition.text = value;
 
         this.setState(newState);
     }
 
     handleTitleOnChange(event) {
-        const functionName = "handleOnChange";
+        const functionName = "handleTitleOnChange";
         console.log(MODULE_NAME, functionName + " called", event.target.name, event.target.value);
 
         var newState = Object.assign({}, this.state);
@@ -109,7 +110,7 @@ class CompositionPanelContainer extends Component {
         const composedText = {
             title: this.state.composition.title,
             // text: DOMPurify.sanitize(this.state.composition.text)
-            text: stateToHTML(this.state.composition.text.editorState.getCurrentContent())
+            text: this.state.composition.text
         };
         console.log("Composed Text Before Add:", JSON.stringify(composedText));
 

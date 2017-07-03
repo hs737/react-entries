@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'development') {
 var config = require('config');
 
 var indexRoutes = require('./routes/index');
-// var apiRoutes = require('./routes/api');
+var apiRoutes = require('./routes/api');
 // var accountRoutes = require('./routes/account');
 
 var app = express();
@@ -45,7 +45,7 @@ app.use(sessions({
 }));
 
 app.use('/', indexRoutes);
-// app.use('/api', apiRoutes);
+app.use('/api', apiRoutes);
 // app.use('/account', accountRoutes);
 
 // catch 404 and forward to error handler

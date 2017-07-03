@@ -11,6 +11,9 @@ import { post } from '../utils/APIManager';
 
 const MODULE_NAME = "CompositionPanelContainer";
 const getDefaultState = () => {
+    const functionName = "getDefaultState";
+    console.log(MODULE_NAME, functionName + " called");
+
     return {
         composition: {
             text: RichTextEditor.createEmptyValue(),
@@ -110,7 +113,7 @@ class CompositionPanelContainer extends Component {
         const composedText = {
             title: this.state.composition.title,
             // text: DOMPurify.sanitize(this.state.composition.text)
-            text: this.state.composition.text
+            text: this.state.composition.text.toString('html')
         };
         console.log("Composed Text Before Add:", JSON.stringify(composedText));
 

@@ -106,8 +106,8 @@ class CompositionEditor extends React.Component {
                 {/*<span>----</span>
                 <Editor editorState={this.state.editorState} onChange={this.onChange} />*/}
                 <RichTextEditor
-                    value={this.state.value}
-                    onChange={this.onChange}
+                    value={this.props.value}
+                    onChange={this.props.onChange}
                 />
                 {/*<RichTextEditor
                     value={this.state.value}

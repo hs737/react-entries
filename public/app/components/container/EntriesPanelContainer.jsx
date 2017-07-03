@@ -108,6 +108,7 @@ const mapStateToProps = (newStateInStore) => {
 const mapDispatchToProps = (dispatch) => {
     const functionName = "mapDispatchToProps";
     console.log(MODULE_NAME, functionName + " called", JSON.stringify(dispatch));
+
     return {
         setEntries: (entries) => {
             const functionName = "setEntries";

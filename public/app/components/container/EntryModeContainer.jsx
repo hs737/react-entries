@@ -21,7 +21,7 @@ class EntryModeContainer extends Component {
         console.log(MODULE_NAME, functionName, "props", this.props);
 
         this.state = {
-            mode: MODE.EDIT
+            mode: MODE.VIEW
         };
     }
 

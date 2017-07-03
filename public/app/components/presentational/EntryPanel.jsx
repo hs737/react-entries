@@ -63,7 +63,7 @@ class EntryPanel extends Component {
 
         return (
             <div className="panel panel-default" >
-                <EntryHeadingContainer key={details._id + "_heading_container"} element={details} />
+                <EntryHeadingContainer key={details._id + "_heading_container"} details={details} />
                 <PanelBody key={details._id + "_panel_body"} element={html_node} />
             </div>
         );

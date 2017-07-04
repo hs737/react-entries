@@ -165,7 +165,11 @@ class CompositionPanelContainer extends Component {
                     return;
                 }
 
-
+                if (this.props.onClickSubmit) {
+                    this.props.onClickSubmit();
+                } else {
+                    console.log("Cannot update mode of composition window.");
+                }
             });
         }
     }

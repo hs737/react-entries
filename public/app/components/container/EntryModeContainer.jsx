@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import { connect } from 'react-redux';
 
 import EntryPanel from '../presentational/EntryPanel';
 import CompositionPanelContainer from './CompositionPanelContainer';
@@ -98,7 +99,7 @@ class EntryModeContainer extends Component {
             var panel = <EntryPanel details={this.props.details} onClickUpdate={() => this.onClickToggleEntryMode(MODE.EDIT)} />;
         } else if (this.state.mode === MODE.EDIT) {
             // console.log("Elem", elem);
-            panel = <CompositionPanelContainer details={this.props.details} />;
+            panel = <CompositionPanelContainer details={this.props.details} onClickSubmit={() => this.onClickToggleEntryMode(MODE.VIEW)} />;
         } else {
             console.log(MODULE_NAME, functionName, "Error: Cannot recognize mode");
             return;
@@ -112,4 +113,16 @@ class EntryModeContainer extends Component {
     }
 }
 
+// const mapDispatchToProps = (dispatch) => {
+//     console.log("mapDispatchToProps called", JSON.stringify(dispatch));
+
+//     return {
+//         addEntry: (composition, callback) => {
+//             const functionName = "addEntry";
+//             console.log(MODULE_NAME, functionName + " called", JSON.stringify(composition));
+//         }
+//     };
+// }
+
+// export default connect(null, mapDispatchToProps)(EntryModeContainer);
 export default EntryModeContainer;

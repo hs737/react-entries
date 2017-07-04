@@ -7,22 +7,40 @@ import RichTextEditor from 'react-rte';
 
 import CompositionPanel from '../presentational/CompositionPanel';
 import { addEntry, updateCurrentEntry } from '../actions/actions';
-import { post } from '../utils/APIManager';
+import { post, put } from '../utils/APIManager';
 
 const MODULE_NAME = "CompositionPanelContainer";
-const getDefaultState = (html, title) => {
+const getDefaultState = (details) => {
     const functionName = "getDefaultState";
-    console.log(MODULE_NAME, functionName + " called", html, title);
+    console.log(MODULE_NAME, functionName + " called", details);
 
+    if (!details) {
+        return {
+            composition: {
+                text: RichTextEditor.createEmptyValue(),
+                title: ""
+            },
+            mode: MODE.NEW
+        };
+    }
+
+    let { text, title } = details;
     return {
         composition: {
-            text: html ? RichTextEditor.createValueFromString(html, 'html') : RichTextEditor.createEmptyValue(),
-            title: title || ""
-        }
+            text: RichTextEditor.createValueFromString(text, 'html'),
+            title: title
+        },
+        mode: MODE.UPDATE
     };
 };
 
+const MODE = {
+    NEW: "new",
+    UPDATE: "update"
+};
+
 class CompositionPanelContainer extends Component {
+
     constructor(props, context, updater) {
         const functionName = "constructor";
         console.log(MODULE_NAME, functionName + " called");
@@ -36,7 +54,7 @@ class CompositionPanelContainer extends Component {
         this.handleOnClick = this.handleOnClick.bind(this);
 
         if (this.props.details) {
-            this.state = getDefaultState(this.props.details.text, this.props.details.title);
+            this.state = getDefaultState(this.props.details);
         } else {
             this.state = getDefaultState();
         }
@@ -119,23 +137,37 @@ class CompositionPanelContainer extends Component {
             // text: DOMPurify.sanitize(this.state.composition.text)
             text: this.state.composition.text.toString('html')
         };
-        console.log("Composed Text Before Add:", JSON.stringify(composedText));
+        console.log("Composed Text Before:", JSON.stringify(composedText));
 
-        this.props.addEntry(composedText, function (err, composedTextDocument) {
-            console.log("Composed Text After Add:", JSON.stringify(composedTextDocument));
+        console.assert(Object.keys(MODE).find((key) => MODE[key] === this.state.mode), "Invalid mode: " + this.state.mode);
+        if (this.state.mode === MODE.NEW) {
+            this.props.addEntry(composedText, function (err, composedTextDocument) {
+                console.log("Composed Text After Add:", composedTextDocument);
 
-            if (err) {
-                console.log(MODULE_NAME, functionName, "Error: ", err);
-                return;
-            }
+                if (err) {
+                    console.log(MODULE_NAME, functionName, "Error: ", err);
+                    return;
+                }
 
-            var newState = getDefaultState();
-            // var newState = Object.assign({}, _this.state);
-            // newState.composition.text = "";
-            // newState.composition.title = "";
-            console.log(MODULE_NAME, functionName, "New State:", newState);
-            _this.setState(newState);
-        });
+                var newState = getDefaultState();
+                // var newState = Object.assign({}, _this.state);
+                // newState.composition.text = "";
+                // newState.composition.title = "";
+                console.log(MODULE_NAME, functionName, "New State:", newState);
+                _this.setState(newState);
+            });
+        } else if (this.state.mode === MODE.UPDATE) {
+            this.props.updateEntry(this.props.details._id, composedText, function (err, composedTextDocument) {
+                console.log("Composed Text After Update:", composedTextDocument);
+
+                if (err) {
+                    console.log(MODULE_NAME, functionName, "Error: ", err);
+                    return;
+                }
+
+
+            });
+        }
     }
 
     render() {
@@ -171,6 +203,27 @@ const mapDispatchToProps = (dispatch) => {
                 console.log(MODULE_NAME, functionName, "Entry created", document);
 
                 dispatch(addEntry(document.result));
+                callback(null, document);
+            });
+        },
+        updateEntry: (id, composition, callback) => {
+            const functionName = "updateEntry";
+            console.log(MODULE_NAME, functionName + " called", id, JSON.stringify(composition));
+
+            const updatedEntry = {
+                text: composition.text,
+                title: composition.title
+            };
+
+            put("/api/entry/" + id, updatedEntry, function (err, document) {
+                if (err) {
+                    console.log(MODULE_NAME, functionName, "Error: ", err);
+                    callback(err);
+                }
+
+                console.log(MODULE_NAME, functionName, "Entry updated", document);
+
+                dispatch(updateCurrentEntry(document.result));
                 callback(null, document);
             });
         }

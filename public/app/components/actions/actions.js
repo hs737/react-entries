@@ -5,7 +5,7 @@ import {
 
 /* Actions governed by user interaction */
 export const addEntry = createAction(CONSTANTS.ACTIONS.ADD_ENTRY);
-export const updateCurrentEntry = createAction(CONSTANTS.ACTIONS.UPDATE_ENTRY);
+export const updateEntry = createAction(CONSTANTS.ACTIONS.UPDATE_ENTRY);
 export const removeEntry = createAction(CONSTANTS.ACTIONS.REMOVE_ENTRY);
 
 /* Actions governed by automation */

@@ -44,6 +44,7 @@ export default function (previousState = initialState, someAction) {
 
     var nextState = null;
     var entriesList = null;
+    var element = null;
 
     switch (someAction.type) {
         case CONSTANTS.ACTIONS.ADD_ENTRY:
@@ -68,10 +69,28 @@ export default function (previousState = initialState, someAction) {
         case CONSTANTS.ACTIONS.REMOVE_ENTRY:
             console.log('REMOVE_ENTRY', someAction.type, JSON.stringify(someAction.payload));
 
-            const element = mapDBEntrytoStoreObj(someAction.payload);
+            element = mapDBEntrytoStoreObj(someAction.payload);
 
             nextState = Object.assign({}, previousState);
-            entriesList = Object.assign([], nextState.entriesList).filter((elem) => elem._id !== element._id);
+            entriesList = Object.assign([], nextState.entriesList).filter((elemItr) => elemItr._id !== element._id);
+            nextState.entriesList = entriesList;
+
+            return nextState;
+
+        case CONSTANTS.ACTIONS.UPDATE_ENTRY:
+            console.log('UPDATE_ENTRY', someAction.type, JSON.stringify(someAction.payload));
+
+            nextState = Object.assign({}, previousState);
+            entriesList = Object.assign([], nextState.entriesList);
+            element = mapDBEntrytoStoreObj(someAction.payload);
+
+            let elementToUpdateIndex = entriesList.findIndex((elemItr) => element._id = elemItr._id);
+            if (elementToUpdateIndex < 0) {
+                console.log("Error: Could not find element to update", elementToUpdateIndex, element, entriesList);
+                return nextState;
+            }
+
+            nextState.entriesList[elementToUpdateIndex] = element;
             nextState.entriesList = entriesList;
 
             return nextState;

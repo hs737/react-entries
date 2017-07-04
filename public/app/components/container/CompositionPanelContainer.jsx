@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import RichTextEditor from 'react-rte';
 
 import CompositionPanel from '../presentational/CompositionPanel';
-import { addEntry, updateCurrentEntry } from '../actions/actions';
+import { addEntry, updateEntry } from '../actions/actions';
 import { post, put } from '../utils/APIManager';
 
 const MODULE_NAME = "CompositionPanelContainer";
@@ -165,8 +165,8 @@ class CompositionPanelContainer extends Component {
                     return;
                 }
 
-                if (this.props.onClickSubmit) {
-                    this.props.onClickSubmit();
+                if (_this.props.onClickSubmit) {
+                    _this.props.onClickSubmit();
                 } else {
                     console.log("Cannot update mode of composition window.");
                 }
@@ -227,7 +227,7 @@ const mapDispatchToProps = (dispatch) => {
 
                 console.log(MODULE_NAME, functionName, "Entry updated", document);
 
-                dispatch(updateCurrentEntry(document.result));
+                dispatch(updateEntry(document.result));
                 callback(null, document);
             });
         }

@@ -84,13 +84,13 @@ export default function (previousState = initialState, someAction) {
             entriesList = Object.assign([], nextState.entriesList);
             element = mapDBEntrytoStoreObj(someAction.payload);
 
-            let elementToUpdateIndex = entriesList.findIndex((elemItr) => element._id = elemItr._id);
+            let elementToUpdateIndex = entriesList.findIndex((elemItr) => element._id === elemItr._id);
             if (elementToUpdateIndex < 0) {
                 console.log("Error: Could not find element to update", elementToUpdateIndex, element, entriesList);
                 return nextState;
             }
 
-            nextState.entriesList[elementToUpdateIndex] = element;
+            entriesList[elementToUpdateIndex] = element;
             nextState.entriesList = entriesList;
 
             return nextState;

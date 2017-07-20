@@ -43,4 +43,4 @@ gulp.task('watch', function () {
     gulp.watch(srcPaths, ['transpile']);
 });
 
-gulp.task('default', ['transpile', 'build', 'watch'], function () {});
+gulp.task('default', ['transpile', 'build'], function () {});

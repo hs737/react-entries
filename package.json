@@ -4,8 +4,12 @@
   "private": true,
   "license": "MIT",
   "description": "Basic entry project",
+  "engines": {
+    "node": "7.9.0"
+  },
   "scripts": {
     "start": "node ./bin/www",
+    "postinstall": "webpack && gulp",
     "nodemon": "nodemon bin/www --exec babel-node --presets es2015",
     "lint": "eslint app.js"
   },
@@ -35,9 +39,7 @@
     "redux-thunk": "^2.1.0",
     "serve-favicon": "~2.3.0",
     "superagent": "^2.2.0",
-    "winston": "^2.2.0"
-  },
-  "devDependencies": {
+    "winston": "^2.2.0",
     "babel": "^6.5.2",
     "babel-cli": "^6.11.4",
     "babel-core": "^6.11.4",

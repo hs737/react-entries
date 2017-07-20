@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node ./bin/www",
-    "postinstall": "webpack && gulp",
+    "postinstall": "gulp && webpack",
     "nodemon": "nodemon bin/www --exec babel-node --presets es2015",
     "lint": "eslint app.js"
   },

@@ -4,13 +4,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var sessions = require("client-sessions");
-
+var env = require('./utils/env');
 const MODULE_NAME = 'app.js';
 
 console.log(MODULE_NAME + ":: NODE_ENV: " + process.env.NODE_ENV);
-if (process.env.NODE_ENV === 'development') {
-    require('./utils/env');
-}
+env(process.env.NODE_ENV);
 
 var config = require('config');
 

@@ -4,11 +4,25 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var sessions = require("client-sessions");
-var env = require('./utils/env');
 const MODULE_NAME = 'app.js';
 
 console.log(MODULE_NAME + ":: NODE_ENV: " + process.env.NODE_ENV);
-env(process.env.NODE_ENV);
+// env(process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'development') {
+    var envVariables = require('./utils/env');
+}
+
+for (let i = 0, len = envVariables.length; i < len; i++) {
+    let key = envVariables[i].key;
+    let val = envVariables[i].value;
+
+    if (process.env.NODE_ENV === 'development') {
+        console.log("Setting environment variable", key, val);
+        process.env[key] = val;
+    } else {
+        console.log("Reading environment variable", key, process.env[key]);
+    }
+}
 
 var config = require('config');
 

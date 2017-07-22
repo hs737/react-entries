@@ -6,11 +6,19 @@ var bodyParser = require('body-parser');
 var sessions = require("client-sessions");
 
 const MODULE_NAME = 'app.js';
+const ENV_VARS = [
+    'PORT',
+    'CLIENT_SESSION_SECRET',
+    'MONGODB_URI',
+    'CLIENT_SESSION_NAME',
+    'LOG_LEVEL'
+];
 
 console.log(MODULE_NAME + ":: NODE_ENV: " + process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
-    require('./utils/env');
+    require('./utils/env')(ENV_VARS);
 }
+ENV_VARS.forEach((key) => console.log("Reading environment variable", key, process.env[key]));
 
 var config = require('config');
 

@@ -9,8 +9,8 @@ var config = require('config');
 
 var logger = require('../utils/logger')(MODULE_NAME);
 var Entry = require('../models/entry');
-var RelationshipProfile = require('../models/relationshipProfile');
-var User = require('../models/user');
+// var RelationshipProfile = require('../models/relationshipProfile');
+// var User = require('../models/user');
 
 // var ServerApp = require('../public/build/es5/ServerApp').default;
 // var Main = require('../public/build/es5/components/Main').default;
@@ -24,9 +24,9 @@ var CONSTANTS = require('../public/build/es5/components/constants/constants');
 logger.debug("Creating controllers");
 var controllers = {
     entry: promise.promisifyAll(require('../controllers/genericModelController')(Entry)),
-    profile: promise.promisifyAll(require('../controllers/genericModelController')(RelationshipProfile)),
-    search: promise.promisifyAll(require('../controllers/searchController')),
-    user: promise.promisifyAll(require('../controllers/genericModelController')(User))
+    // profile: promise.promisifyAll(require('../controllers/genericModelController')(RelationshipProfile)),
+    // search: promise.promisifyAll(require('../controllers/searchController')),
+    // user: promise.promisifyAll(require('../controllers/genericModelController')(User))
 };
 var routesToSkip = ['api', 'account', 'favicon.ico'];
 const sessionConfig = config.get('session');
